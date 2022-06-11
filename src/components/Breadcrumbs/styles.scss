@@ -1,0 +1,82 @@
+/* breadcrumbs */
+.breadcrumbs {
+  margin-bottom: 30px;
+}
+.breadcrumbs__linkPage {
+  padding: 5px 0 5px 30px;
+  display: flex;
+  align-items: center;
+}
+.breadcrumbs__linkPage span {
+  margin-left: 5px;
+}
+.breadcrumbs__linkPage a > span:last-child {
+  color: #000;
+  font-weight: 500;
+}
+.breadcrumbs__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(0, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(https://firebasestorage.googleapis.com/v0/b/shop-men.appspot.com/o/sliderHome%2Fbanner-page.jpg?alt=media&token=631c45bd-6d0e-4811-87a2-10b1e6f6e7e1);
+  width: 100%;
+  height: 247px;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  //   backdrop-filter: blue(100px);
+}
+.breadcrumbs__content-title {
+  color: #fff;
+}
+.breadcrumbs__linkPage-container > span:not(:last-child) {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.breadcrumbs__linkPage-container > span:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: rgb(0, 0, 0);
+  transition: width 0.3s linear;
+  z-index: 10;
+}
+.breadcrumbs__linkPage-container > span:not(:last-child):hover::after {
+  width: 100%;
+  will-change: width;
+}
+@media (max-width: 991px) {
+  .breadcrumbs__content {
+    background-attachment: unset;
+  }
+}
+@media (max-width: 576px) {
+  .breadcrumbs__linkPage {
+    font-size: 14px;
+    padding-left: 10px;
+  }
+  .breadcrumbs__linkPage i {
+    padding-bottom: 3px;
+  }
+}
+@media (max-width: 479px) {
+  .breadcrumbs__content {
+    height: 150px;
+  }
+  .breadcrumbs__content-title {
+    font-size: 18px;
+  }
+}
+@media (max-width: 365px) {
+  .breadcrumbs__linkPage {
+    align-items: flex-start !important;
+  }
+  .breadcrumbs__linkPage i {
+    padding-top: 2px;
+  }
+}

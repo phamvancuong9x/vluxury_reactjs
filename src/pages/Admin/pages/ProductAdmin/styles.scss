@@ -1,0 +1,21 @@
+.form-field {
+  margin-top: 34px !important;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  .input-container {
+    margin-bottom: 15px;
+  }
+}
+.MuiFormControl-root {
+  width: 100%;
+}
+.price-word {
+  margin: 5px 0 10px !important;
+
+  color: blue;
+}
+.error-price {
+  margin: 5px 0 10px !important;
+  color: rgb(234, 23, 40);
+}

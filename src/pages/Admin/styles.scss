@@ -1,0 +1,188 @@
+.header-admin {
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background-color: rgb(83, 82, 82);
+  span {
+    color: rgb(232, 214, 20);
+  }
+}
+.admin-content {
+  .row {
+    width: 100%;
+  }
+
+  display: flex;
+  justify-content: center;
+
+  margin-top: 40px;
+  button {
+    min-width: 60px;
+    border-color: #ccc !important;
+  }
+}
+.admin-menu {
+  margin-bottom: 40px;
+  li {
+    padding: 20px;
+    border-bottom: dashed 1px rgb(142, 139, 139);
+  }
+  li:nth-child(2):hover,
+  li:nth-child(3):hover,
+  li:nth-child(4):hover,
+  .tab-menu-active {
+    color: rgb(232, 214, 20) !important;
+    cursor: pointer;
+  }
+  &li:first-child {
+    border-bottom: none;
+    color: #fff;
+    background-color: rgb(73, 73, 73);
+    font-size: 20px;
+  }
+  border-radius: 10px;
+  overflow: hidden;
+  border: solid 1px rgb(142, 139, 139);
+}
+.menu-parent-admin {
+  width: 100%;
+  cursor: pointer;
+  li:first-child {
+    background-color: unset !important;
+
+    border-bottom: dashed 1px rgb(142, 139, 139) !important;
+    font-size: unset !important;
+  }
+  li:hover {
+    color: rgb(232, 214, 20) !important;
+    cursor: pointer;
+  }
+}
+
+.menu-children-admin {
+  transition: all ease 0.4s;
+  height: 0;
+}
+.menu-children-admin-active {
+  transition: all ease 0.4s;
+  height: 402px;
+  li {
+    cursor: pointer;
+  }
+}
+.admin-container {
+  position: relative;
+  margin-bottom: 60px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: solid 1px rgb(142, 139, 139);
+  min-height: 86vh;
+  .loading {
+    top: 70px;
+  }
+  .title {
+    font-size: 20px;
+    padding: 20px;
+    margin-bottom: 40px;
+    color: #fff;
+    background-color: rgb(83, 82, 82);
+  }
+}
+.admin-container-content {
+  margin: 0;
+  img {
+    padding: 15px 0;
+    min-height: 130px;
+    max-height: 250px;
+    object-fit: contain;
+  }
+  th:first-child,
+  td:first-child {
+    width: 50px;
+  }
+
+  th,
+  td {
+    text-align: center;
+    width: 120px;
+  }
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 260px;
+  }
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 260px;
+  }
+}
+.delete {
+  position: relative;
+  button {
+    min-width: 80px;
+  }
+}
+.confirm {
+  z-index: 10;
+  width: 200%;
+  position: absolute;
+  top: 20px;
+  left: -100%;
+  background-color: rgb(93, 92, 92);
+  padding-bottom: 15px;
+  .confirm-title {
+    color: #fff;
+    padding: 10px;
+  }
+  .btn-confirm {
+    display: flex;
+    justify-content: center;
+  }
+  .confirm-sellect {
+    margin-left: 15px;
+  }
+}
+
+// Modals
+.modal-modal-description {
+  justify-content: center;
+}
+.modals-image {
+  border: solid 1px #ccc;
+}
+.btn-add-image,
+.modal-save {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 20px !important;
+  button {
+    margin-left: 30px;
+  }
+}
+.image-title {
+  margin-bottom: 10px !important;
+}
+#modal-modal-description {
+  .row {
+    justify-content: center;
+  }
+}
+.modals-image {
+  max-height: 300px;
+  min-height: 300px;
+  object-fit: contain;
+}
+.modal-save {
+  position: relative;
+}
+.add-success {
+  position: absolute;
+  top: 30px;
+  margin-top: 10px !important;
+  color: rgb(53, 22, 226);
+  text-align: center;
+}
+.btn-active {
+  background-color: #000;
+  color: #fff;
+}

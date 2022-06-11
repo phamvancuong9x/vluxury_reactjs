@@ -1,6 +1,15 @@
 .slider-home {
   margin-bottom: 24px;
 }
+.slider_desktop {
+  min-height: 470px;
+}
+.banner__image > img {
+  min-height: 300px;
+}
+.textslider {
+  min-height: 0px;
+}
 a {
   display: unset;
 }
@@ -703,8 +712,7 @@ div[class="featured-products__list"]::after {
 /* section shop map */
 #home-shop-map {
   margin-top: 18px;
-  background: url(https://firebasestorage.googleapis.com/v0/b/shop-men.appspot.com/o/sliderHome%2Fcua_hang.jpg?alt=media&token=1b9e2af1-ff8b-477a-a5d8-3966dbc26baa)
-    no-repeat;
+  background: url(https://api.luxwebsite.net/cuong_image/cua_hang.jpg) no-repeat;
   width: 100%;
   height: 300px;
   background-attachment: fixed;

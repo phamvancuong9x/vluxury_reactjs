@@ -9,7 +9,7 @@ function Login({ setCheckAuth }) {
         <div className="content__title">
           <h1>Đăng Nhập</h1>
         </div>
-        <form action="">
+        <form>
           <div className="input-userName">
             <input
               className="userName"
@@ -18,24 +18,6 @@ function Login({ setCheckAuth }) {
               name="userName"
               placeholder="Tên tài khoản"
             />
-            <div className="notification-error userName-error1">
-              <i className="error-icon fas fa-exclamation-circle"></i> Vui
-              l&ograve;ng &dstrok;i&#x1EC1;n v&agrave;o tr&#x1B0;&#x1EDD;ng
-              n&agrave;y!
-            </div>
-            <div className="notification-error userName-error2">
-              <i className="error-icon fas fa-exclamation-circle"></i>Vui
-              l&ograve;ng nh&#x1EAD;p 6 k&iacute; t&#x1EF1; tr&#x1EDF;
-              l&ecirc;n!
-            </div>
-            <div className="notification-error userName-error3">
-              <i className="error-icon fas fa-exclamation-circle"></i>
-              <p>
-                {" "}
-                T&ecirc;n &dstrok;&abreve;ng nh&#x1EAD;p kh&ocirc;ng
-                &dstrok;&uacute;ng !
-              </p>
-            </div>
           </div>
           <div className="input-password">
             <input
@@ -48,22 +30,8 @@ function Login({ setCheckAuth }) {
             <div className="view-icon">
               <i className="far fa-eye-slash"></i>
             </div>
-            <div className="notification-error password-error1">
-              <i className="error-icon fas fa-exclamation-circle"></i> Vui
-              l&ograve;ng &dstrok;i&#x1EC1;n v&agrave;o tr&#x1B0;&#x1EDD;ng
-              n&agrave;y
-            </div>
-            <div className="notification-error password-error2">
-              <i className="error-icon fas fa-exclamation-circle"></i>Vui
-              l&ograve;ng nh&#x1EAD;p 6 k&iacute; t&#x1EF1; tr&#x1EDF; l&ecirc;n
-            </div>
-            <div className="notification-error password-error3">
-              <i className="error-icon fas fa-exclamation-circle"></i>
-              <p>M&#x1EAD;t kh&#x1EA9;u kh&ocirc;ng &dstrok;&uacute;ng !</p>
-            </div>
           </div>
           <a className="forget-password" href="#0">
-            {" "}
             Quên mật khẩu ?
           </a>
           <div className="big-btn"></div>

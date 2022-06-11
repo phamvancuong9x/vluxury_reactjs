@@ -16,7 +16,7 @@ function InfoUser() {
                 src={
                   UserInfo.imageUser || "assets/image/image_home/anhdaidien.jpg"
                 }
-                alt="avatar-image"
+                alt="avatar_image"
               />
             </div>
             <div className="sidebar__user-name">{UserInfo.nameUser}</div>
@@ -157,7 +157,7 @@ function InfoUser() {
                         UserInfo.imageUser ||
                         "assets/image/image_home/anhdaidien.jpg"
                       }
-                      alt="image avatar"
+                      alt="image_avatar"
                     />
                   </div>
                   <label className="btn__change-image" htmlFor="file">
@@ -180,12 +180,6 @@ function InfoUser() {
         </div>
       </div>
     </div>
-    // <div className="modal">
-    //   <div className="modal__container">
-    //     <div className="modal__icon"><i className="far fa-check-circle"></i></div>
-    //     <p className="modal__notify">Đã cập nhật thông tin</p>
-    //   </div>
-    // </div>
   );
 }
 

@@ -19,9 +19,7 @@ function HomePage() {
   useEffect(() => {
     try {
       if (!!sessionStorage.getItem("homeData")) {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
+        setLoading(false);
         return;
       }
       (async () => {

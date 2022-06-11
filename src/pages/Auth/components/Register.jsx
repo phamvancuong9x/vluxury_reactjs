@@ -1,6 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 
+function NotifyError({ text }) {
+  return (
+    <div className="notification-error userName-error1">
+      <i className="error-icon fas fa-exclamation-circle"></i>
+      {text}
+    </div>
+  );
+}
 function Register({ setCheckAuth }) {
+  const initCheckForm = {
+    userName: false,
+    password: false,
+    confirmPassword: false,
+  };
+  const [checkForm, setCheckForm] = useState(initCheckForm);
+  const [userName, setUerName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const handleSubmit = () => {
+    if (userName.match(/\w{5,255}/) === null) {
+      setCheckForm({ ...checkForm, userName: true });
+    }
+  };
+
   return (
     <div id="Register">
       <div className="container">
@@ -16,17 +39,18 @@ function Register({ setCheckAuth }) {
               type="text"
               name="userName"
               placeholder="Tên tài khoản"
+              onChange={(e) => {
+                setUerName(e.target.value);
+              }}
             />
-            <div className="notification-error userName-error1">
-              <i className="error-icon fas fa-exclamation-circle"></i> Vui
-              l&ograve;ng &dstrok;i&#x1EC1;n v&agrave;o tr&#x1B0;&#x1EDD;ng
-              n&agrave;y!
-            </div>
-            <div className="notification-error userName-error2">
-              <i className="error-icon fas fa-exclamation-circle"></i> Vui
-              l&ograve;ng nh&#x1EAD;p 6 k&iacute; t&#x1EF1; tr&#x1EDF;
-              l&ecirc;n!
-            </div>
+            {console.log(checkForm.userName)}
+            {checkForm.userName && (
+              <NotifyError
+                text={
+                  " Tên tài khoản gồm 5 kí tử trở lên và không có khoảng trắng cũng như các ký tự đặc biệt !"
+                }
+              />
+            )}
           </div>
           <div className="input-password">
             <input
@@ -35,20 +59,20 @@ function Register({ setCheckAuth }) {
               type="password"
               name="password "
               placeholder="Mật khẩu"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
             <div className="view-icon">
               <i className="far fa-eye-slash"></i>
             </div>
-            <div className="notification-error password-error1">
-              <i className="error-icon fas fa-exclamation-circle"></i> Vui
-              l&ograve;ng &dstrok;i&#x1EC1;n v&agrave;o tr&#x1B0;&#x1EDD;ng
-              n&agrave;y!
-            </div>
-            <div className="notification-error password-error2">
-              <i className="error-icon fas fa-exclamation-circle"></i>Vui
-              l&ograve;ng nh&#x1EAD;p 6 k&iacute; t&#x1EF1; tr&#x1EDF;
-              l&ecirc;n!
-            </div>
+            {checkForm.password && (
+              <NotifyError
+                text={
+                  "Ký tự đầu tiên của mật khẩu phải là một chữ cái, nó phải chứa ít nhất 4 ký tự và không quá 15 ký tự và không được sử dụng các ký tự khác ngoài chữ cái, số và dấu gạch dưới!"
+                }
+              />
+            )}
           </div>
           <div className="input-password-confirm">
             <input
@@ -56,24 +80,25 @@ function Register({ setCheckAuth }) {
               type="password"
               name="confirmPassword"
               placeholder="Xác nhận mật khẩu"
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+              }}
             />
             <div className="view-icon-confirm">
               <i className="far fa-eye-slash"></i>
             </div>
-            <div className="notification-error confirm-password-error1">
-              <i className="error-icon fas fa-exclamation-circle"></i> Vui
-              l&ograve;ng &dstrok;i&#x1EC1;n v&agrave;o tr&#x1B0;&#x1EDD;ng
-              n&agrave;y!
-            </div>
-            <div className="notification-error confirm-password-error2">
-              <i className="error-icon fas fa-exclamation-circle"></i>
-              M&#x1EAD;t kh&#x1EA9;u nh&#x1EAD;p l&#x1EA1;i kh&ocirc;ng
-              kh&#x1EDB;p v&#x1EDB;i nhau!
-            </div>
+            {checkForm.userName && (
+              <NotifyError text={"Mật khẩu nhập lại không khớp với nhau !"} />
+            )}
           </div>
           <div className="big-btn"></div>
           <div className="btn__bgColor"></div>
-          <input className="btn btn__register" type="button" value="ĐĂNG KÍ" />
+          <input
+            className="btn btn__register"
+            type="button"
+            value="ĐĂNG KÍ"
+            onClick={handleSubmit}
+          />
         </form>
 
         <div

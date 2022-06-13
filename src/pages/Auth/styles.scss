@@ -33,6 +33,7 @@ label {
   background-color: #fff;
   border-radius: 10px;
   padding: 60px 20px;
+  margin-bottom: 5px;
 }
 .container__content {
   /* padding: 40px 40px; */
@@ -274,4 +275,19 @@ label {
 }
 .firebaseui-list-item:first-child {
   margin-right: 15px;
+}
+.error_input_border {
+  border: 2px solid #9c2020 !important;
+}
+@media (min-width: 1024px) {
+  .notification-error {
+    top: 0px;
+    left: 367px;
+    background-color: #fff;
+  }
+  .notification-error::after {
+    top: 11px;
+    left: -7px;
+    border-width: 0px 0px 1px 1px;
+  }
 }

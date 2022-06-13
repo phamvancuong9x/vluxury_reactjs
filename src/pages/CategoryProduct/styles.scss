@@ -3,9 +3,9 @@ img {
   max-width: calc(100% + 2px);
   object-fit: cover;
 }
-.display-flex-center {
+.no_product {
   display: flex;
-  align-items: center;
+  margin-top: 50px;
   justify-content: center;
 }
 #category-products-list {

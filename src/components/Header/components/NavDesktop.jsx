@@ -17,12 +17,14 @@ function HeaderUser() {
   const dispatch = useDispatch();
   const handleLogout = () => {
     sessionStorage.setItem("stateLogin", "false");
+    sessionStorage.setItem("userInfo", null);
     const action = setAuth(false);
     dispatch(action);
     firebase.auth().signOut();
-    // setTimeout(() => {
-    //   location.assign("/login");
-    // }, 350);
+
+    setTimeout(() => {
+      window.location.assign("/login");
+    }, 400);
   };
   return (
     <>

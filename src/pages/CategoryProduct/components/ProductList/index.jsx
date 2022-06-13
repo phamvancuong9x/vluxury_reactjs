@@ -43,8 +43,8 @@ function ProductList({ filters, priceRange }) {
       })}
 
       {productList?.length == 0 && (
-        <li className="display-flex-center" style={{ minHeight: "50vh" }}>
-          <h3>Không có sản phẩm</h3>
+        <li className="no_product" style={{ minHeight: "50vh" }}>
+          <h3>Không có sản phẩm phù hợp !</h3>
         </li>
       )}
     </ul>

@@ -1,7 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import accountApi from "../../../api/userApi";
+import { ViewPassWord } from "./Register";
 import SignInGoogleFaceBook from "./SignInGoogleFacebook";
 
-function Login({ setCheckAuth }) {
+export function isCheckAccount(accountList, userName, password) {
+  const account = accountList.filter((accountItem) => {
+    return accountItem.name === userName && accountItem.password === password;
+  });
+
+  if (account.length === 0) {
+    return { checkAccount: false, account };
+  }
+  return { checkAccount: true, account };
+}
+function Login({ setCheckAuth, setCheckLogin }) {
+  const [viewPassWord, setViewPassWord] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLogin = () => {
+    (async () => {
+      const accountList = await accountApi.getAll();
+
+      setCheckLogin(!isCheckAccount(accountList, userName, password));
+      if (isCheckAccount(accountList, userName, password).checkAccount) {
+        const accounts = isCheckAccount(accountList, userName, password)
+          .account[0];
+
+        sessionStorage.setItem("stateLogin", true);
+        const userInfo = {
+          id: accounts.id,
+          nameUser: accounts.name,
+          email: accounts.email,
+        };
+        sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+        window.location.assign("/");
+      }
+    })();
+  };
   return (
     <div id="login">
       <div className="container">
@@ -17,19 +52,22 @@ function Login({ setCheckAuth }) {
               type="text"
               name="userName"
               placeholder="Tên tài khoản"
+              onChange={(e) => setUserName(e.target.value)}
             />
           </div>
           <div className="input-password">
             <input
               className="password"
               id="password-login"
-              type="password"
+              type={viewPassWord ? "password" : "text"}
               name="password "
               placeholder="Mật khẩu "
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="view-icon">
-              <i className="far fa-eye-slash"></i>
-            </div>
+            <ViewPassWord
+              viewPassWord={viewPassWord}
+              setViewPassWord={setViewPassWord}
+            />
           </div>
           <a className="forget-password" href="#0">
             Quên mật khẩu ?
@@ -37,7 +75,12 @@ function Login({ setCheckAuth }) {
           <div className="big-btn"></div>
           <div className="btn__bgColor"></div>
           <a className="link-home-input" href="#">
-            <input className="btn btn__login" type="button" value="ĐĂNG NHẬP" />
+            <input
+              className="btn btn__login"
+              type="button"
+              value="ĐĂNG NHẬP"
+              onClick={handleLogin}
+            />
           </a>
         </form>
         <div className="social__container">

@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import accountApi from "../../../api/userApi";
+import { Error } from "../../../components/Alert";
+import { isCheckAccount } from "./Login";
 
 function NotifyError({ text }) {
   return (
@@ -8,20 +11,107 @@ function NotifyError({ text }) {
     </div>
   );
 }
-function Register({ setCheckAuth }) {
+
+export function ViewPassWord({ viewPassWord, setViewPassWord }) {
+  const handleViewPassWord = () => {
+    setViewPassWord(!viewPassWord);
+  };
+  return (
+    <div className="view-icon" onClick={handleViewPassWord}>
+      {viewPassWord && <i className="far fa-eye-slash"></i>}
+      {!viewPassWord && <i className="fa-solid fa-eye"></i>}
+    </div>
+  );
+}
+function Register({ setCheckAuth, setCheckRegister }) {
   const initCheckForm = {
     userName: false,
     password: false,
     confirmPassword: false,
   };
   const [checkForm, setCheckForm] = useState(initCheckForm);
-  const [userName, setUerName] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const handleSubmit = () => {
-    if (userName.match(/\w{5,255}/) === null) {
-      setCheckForm({ ...checkForm, userName: true });
+  const [checkSubmit, setCheckSubmit] = useState(false);
+  const [viewPassWord, setViewPassWord] = useState(false);
+  const [viewConfirmPassWord, setViewConfirmPassWord] = useState(false);
+  const [registerError, setRegisterError] = useState(false);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setRegisterError(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [registerError]);
+
+  const checkError = (checkTitle, checkFormKey, regex) => {
+    if (checkTitle.match(regex) === null) {
+      setCheckForm((checkForm) => ({ ...checkForm, [checkFormKey]: true }));
+    } else {
+      setCheckForm((checkForm) => ({ ...checkForm, [checkFormKey]: false }));
     }
+  };
+  const checkConfirmPassword = (confirmPassword, password) => {
+    if (confirmPassword !== password || confirmPassword === "") {
+      setCheckForm((checkForm) => ({ ...checkForm, confirmPassword: true }));
+    } else {
+      setCheckForm((checkForm) => ({ ...checkForm, confirmPassword: false }));
+    }
+  };
+
+  const handleChangeUserName = (e) => {
+    setUserName(e.target.value);
+    if (!checkSubmit) return;
+    checkError(e.target.value, "userName", /\w{5,255}/);
+  };
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+    if (!checkSubmit) return;
+    checkError(e.target.value, "password", /^[a-zA-Z]\w{3,14}$/);
+    checkConfirmPassword(confirmPassword, e.target.value);
+  };
+  const handleChangeConfirmPassword = (e) => {
+    setConfirmPassword(e.target.value);
+    if (!checkSubmit) return;
+    checkConfirmPassword(e.target.value, password);
+  };
+  const handleSubmit = (e) => {
+    setCheckSubmit(true);
+    checkError(userName, "userName", /\w{5,255}/);
+    checkError(password, "password", /^[a-zA-Z]\w{3,14}$/);
+    checkConfirmPassword(confirmPassword, password);
+    (async () => {
+      const accountList = await accountApi.getAll();
+      if (
+        !isCheckAccount(accountList, userName, password) &&
+        !checkForm.userName &&
+        !checkForm.password &&
+        !checkForm.confirmPassword &&
+        userName !== "" &&
+        password !== "" &&
+        confirmPassword !== ""
+      ) {
+        (async () => {
+          await accountApi.add({ name: userName, password: password });
+          setCheckRegister(true);
+          setCheckAuth("Đăng Nhập");
+        })();
+      } else if (
+        isCheckAccount(accountList, userName, password) &&
+        !checkForm.userName &&
+        !checkForm.password &&
+        !checkForm.confirmPassword &&
+        userName !== "" &&
+        password !== "" &&
+        confirmPassword !== ""
+      ) {
+        setRegisterError(true);
+      }
+    })();
   };
 
   return (
@@ -34,16 +124,16 @@ function Register({ setCheckAuth }) {
         <form action="">
           <div className="input-userName">
             <input
-              className="userName"
+              className={
+                !checkForm.userName ? "userName" : "userName error_input_border"
+              }
               id="userName-resgiter"
               type="text"
               name="userName"
               placeholder="Tên tài khoản"
-              onChange={(e) => {
-                setUerName(e.target.value);
-              }}
+              onChange={(e) => handleChangeUserName(e)}
             />
-            {console.log(checkForm.userName)}
+
             {checkForm.userName && (
               <NotifyError
                 text={
@@ -54,19 +144,22 @@ function Register({ setCheckAuth }) {
           </div>
           <div className="input-password">
             <input
-              className="password"
+              className={
+                !checkForm.password ? "password" : "password error_input_border"
+              }
               id="password-resgiter"
-              type="password"
+              type={viewPassWord ? "password" : "text"}
               name="password "
               placeholder="Mật khẩu"
               onChange={(e) => {
-                setPassword(e.target.value);
+                handleChangePassword(e);
               }}
             />
-            <div className="view-icon">
-              <i className="far fa-eye-slash"></i>
-            </div>
-            {checkForm.password && (
+            <ViewPassWord
+              viewPassWord={viewPassWord}
+              setViewPassWord={setViewPassWord}
+            />
+            {checkForm.password && !checkForm.userName && (
               <NotifyError
                 text={
                   "Ký tự đầu tiên của mật khẩu phải là một chữ cái, nó phải chứa ít nhất 4 ký tự và không quá 15 ký tự và không được sử dụng các ký tự khác ngoài chữ cái, số và dấu gạch dưới!"
@@ -77,22 +170,28 @@ function Register({ setCheckAuth }) {
           <div className="input-password-confirm">
             <input
               id="confirmPassword"
-              type="password"
+              type={viewConfirmPassWord ? "password" : "text"}
+              className={
+                !checkForm.confirmPassword
+                  ? "password"
+                  : "password error_input_border"
+              }
               name="confirmPassword"
               placeholder="Xác nhận mật khẩu"
               onChange={(e) => {
-                setConfirmPassword(e.target.value);
+                handleChangeConfirmPassword(e);
               }}
             />
-            <div className="view-icon-confirm">
-              <i className="far fa-eye-slash"></i>
-            </div>
-            {checkForm.userName && (
+
+            <ViewPassWord
+              viewPassWord={viewConfirmPassWord}
+              setViewPassWord={setViewConfirmPassWord}
+            />
+            {!checkForm.password && checkForm.confirmPassword && (
               <NotifyError text={"Mật khẩu nhập lại không khớp với nhau !"} />
             )}
           </div>
-          <div className="big-btn"></div>
-          <div className="btn__bgColor"></div>
+
           <input
             className="btn btn__register"
             type="button"
@@ -107,6 +206,9 @@ function Register({ setCheckAuth }) {
         >
           <span className="link-convert-html pagesLogIn-link">Đăng Nhập</span>
         </div>
+      </div>
+      <div className={registerError ? "alert active-alert" : "alert"}>
+        <Error text="Đăng kí thất bại .Tài khoản đã tồn tại !" />
       </div>
     </div>
   );

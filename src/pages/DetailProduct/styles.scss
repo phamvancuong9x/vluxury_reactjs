@@ -70,6 +70,12 @@ img {
 section.detailProduct {
   margin-bottom: 34px;
 }
+.detail_content {
+  .tab__btn {
+    margin-bottom: 30px !important;
+  }
+}
+
 .detailProduct .image img:hover,
 #sizeSpecification .image img:hover {
   transform: none;

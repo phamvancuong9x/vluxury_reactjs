@@ -3,6 +3,17 @@ import accountApi from "../../../api/userApi";
 import { Error } from "../../../components/Alert";
 import { isCheckAccount } from "./Login";
 
+export function isCheckAccountName(accountList, userName) {
+  const account = accountList.filter((accountItem) => {
+    return accountItem.name === userName;
+  });
+
+  if (account.length === 0) {
+    return false;
+  }
+  return true;
+}
+
 function NotifyError({ text }) {
   return (
     <div className="notification-error userName-error1">
@@ -42,7 +53,6 @@ function Register({ setCheckAuth, setCheckRegister }) {
     const id = setTimeout(() => {
       setRegisterError(false);
     }, 3000);
-
     return () => {
       clearTimeout(id);
     };
@@ -87,7 +97,7 @@ function Register({ setCheckAuth, setCheckRegister }) {
     (async () => {
       const accountList = await accountApi.getAll();
       if (
-        !isCheckAccount(accountList, userName, password) &&
+        !isCheckAccountName(accountList, userName) &&
         !checkForm.userName &&
         !checkForm.password &&
         !checkForm.confirmPassword &&
@@ -95,13 +105,14 @@ function Register({ setCheckAuth, setCheckRegister }) {
         password !== "" &&
         confirmPassword !== ""
       ) {
+        setRegisterError(false);
         (async () => {
           await accountApi.add({ name: userName, password: password });
           setCheckRegister(true);
           setCheckAuth("Đăng Nhập");
         })();
       } else if (
-        isCheckAccount(accountList, userName, password) &&
+        isCheckAccountName(accountList, userName) &&
         !checkForm.userName &&
         !checkForm.password &&
         !checkForm.confirmPassword &&

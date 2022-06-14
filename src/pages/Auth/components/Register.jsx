@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import accountApi from "../../../api/userApi";
 import { Error } from "../../../components/Alert";
 import { isCheckAccount } from "./Login";
+import { NotifyError } from "./NotifyError";
+import { ViewPassWord } from "./ViewPassWord";
 
 export function isCheckAccountName(accountList, userName) {
   const account = accountList.filter((accountItem) => {
@@ -14,26 +16,6 @@ export function isCheckAccountName(accountList, userName) {
   return true;
 }
 
-function NotifyError({ text }) {
-  return (
-    <div className="notification-error userName-error1">
-      <i className="error-icon fas fa-exclamation-circle"></i>
-      {text}
-    </div>
-  );
-}
-
-export function ViewPassWord({ viewPassWord, setViewPassWord }) {
-  const handleViewPassWord = () => {
-    setViewPassWord(!viewPassWord);
-  };
-  return (
-    <div className="view-icon" onClick={handleViewPassWord}>
-      {viewPassWord && <i className="far fa-eye-slash"></i>}
-      {!viewPassWord && <i className="fa-solid fa-eye"></i>}
-    </div>
-  );
-}
 function Register({ setCheckAuth, setCheckRegister }) {
   const initCheckForm = {
     userName: false,

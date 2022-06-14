@@ -80,6 +80,19 @@ function DetailProductInfo({ product }) {
     setCheckCart(false);
   }, [size]);
 
+  useEffect(() => {
+    const id1 = setTimeout(() => {
+      setLoadingBtn(false);
+    }, 400);
+    const id2 = setTimeout(() => {
+      setSuccessAddCart(false);
+    }, 3000);
+    return () => {
+      clearTimeout(id1);
+      clearTimeout(id2);
+    };
+  }, [loadingBtn]);
+
   const handleAddToCart = () => {
     if (loadingBtn) return;
     const productInfo = {
@@ -91,35 +104,20 @@ function DetailProductInfo({ product }) {
       quantity,
       size,
     };
-
     setCheckCart(false);
     setSuccessAddCart(false);
     setLoadingBtn(true);
     if (checkProductCart(cartProductArray, productInfo)) {
       setCheckCart(true);
-      setTimeout(() => {
-        setLoadingBtn(false);
-      }, 400);
-      setTimeout(() => {
-        setCheckCart(false);
-      }, 3000);
       return;
     }
-
     const action = addCart(productInfo);
     dispatch(action);
-
     localStorage.setItem(
       "cart",
       JSON.stringify([...cartProductArray, productInfo])
     );
-    setTimeout(() => {
-      setLoadingBtn(false);
-      setSuccessAddCart(true);
-    }, 400);
-    setTimeout(() => {
-      setSuccessAddCart(false);
-    }, 3000);
+    setSuccessAddCart(true);
   };
   return (
     <>

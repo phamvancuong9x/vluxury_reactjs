@@ -52,6 +52,7 @@ function SignInGoogleFaceBook() {
           const email = await user.email;
           const userInfo = { id, nameUser, imageUser, email };
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+          localStorage.setItem("cart", "[]");
           window.location.assign("/");
         }
       });

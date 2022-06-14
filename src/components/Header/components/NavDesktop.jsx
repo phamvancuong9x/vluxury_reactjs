@@ -16,15 +16,15 @@ function HeaderUser() {
 
   const dispatch = useDispatch();
   const handleLogout = () => {
-    sessionStorage.setItem("stateLogin", "false");
-    sessionStorage.setItem("userInfo", null);
+    firebase.auth().signOut();
     const action = setAuth(false);
     dispatch(action);
-    firebase.auth().signOut();
-
+    sessionStorage.setItem("stateLogin", "false");
+    sessionStorage.setItem("userInfo", null);
+    localStorage.setItem("cart", "[]");
     setTimeout(() => {
       window.location.assign("/login");
-    }, 400);
+    }, 600);
   };
   return (
     <>

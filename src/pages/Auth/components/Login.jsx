@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import accountApi from "../../../api/userApi";
-import { ViewPassWord } from "./Register";
+import { NotifyError } from "./NotifyError";
+
 import SignInGoogleFaceBook from "./SignInGoogleFacebook";
+import { ViewPassWord } from "./ViewPassWord";
 
 export function isCheckAccount(accountList, userName, password) {
   const account = accountList.filter((accountItem) => {
@@ -13,20 +15,32 @@ export function isCheckAccount(accountList, userName, password) {
   }
   return { checkAccount: true, account };
 }
-function Login({ setCheckAuth, setCheckLogin }) {
+function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
   const [viewPassWord, setViewPassWord] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [checkSubmitLogIn, setCheckSubmitLogin] = useState(false);
+  const [showError, setShowError] = useState(false);
   const handleLogin = () => {
+    setCheckSubmitLogin(true);
     (async () => {
       const accountList = await accountApi.getAll();
+      const isCheckLogin = isCheckAccount(
+        accountList,
+        userName,
+        password
+      ).checkAccount;
+      setCheckLogin(!isCheckLogin);
+      if (!isCheckLogin) {
+        setShowError(true);
+      }
 
-      setCheckLogin(!isCheckAccount(accountList, userName, password));
       if (isCheckAccount(accountList, userName, password).checkAccount) {
         const accounts = isCheckAccount(accountList, userName, password)
           .account[0];
 
         sessionStorage.setItem("stateLogin", true);
+        localStorage.setItem("cart", "[]");
         const userInfo = {
           id: accounts.id,
           nameUser: accounts.name,
@@ -47,17 +61,24 @@ function Login({ setCheckAuth, setCheckLogin }) {
         <form>
           <div className="input-userName">
             <input
-              className="userName"
+              className={
+                !showError ? "userName" : "userName error_input_border"
+              }
               id="userName-login"
               type="text"
               name="userName"
               placeholder="Tên tài khoản"
               onChange={(e) => setUserName(e.target.value)}
             />
+            {showError && checkSubmitLogIn && (
+              <NotifyError text={" Vui lòng kiểm tra lại tên tài khoản !"} />
+            )}
           </div>
           <div className="input-password">
             <input
-              className="password"
+              className={
+                !showError ? "password" : "password error_input_border"
+              }
               id="password-login"
               type={viewPassWord ? "password" : "text"}
               name="password "
@@ -68,6 +89,9 @@ function Login({ setCheckAuth, setCheckLogin }) {
               viewPassWord={viewPassWord}
               setViewPassWord={setViewPassWord}
             />
+            {showError && checkSubmitLogIn && (
+              <NotifyError text={" Vui lòng kiểm tra lại mật khẩu!"} />
+            )}
           </div>
           <a className="forget-password" href="#0">
             Quên mật khẩu ?

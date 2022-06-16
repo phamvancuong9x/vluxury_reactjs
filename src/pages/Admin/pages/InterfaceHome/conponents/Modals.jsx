@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import homeApi from "../../../../../api/homeApi";
 import Image from "../../../../../components/Image";
 import BtnLoading from "../../../components/BtnLoading";
@@ -37,6 +37,15 @@ function Modals({ tabsData, tabs, isChange, setIsChange }) {
   const [urlImage, setUrlImage] = useState({ url1: null, url2: null });
   const [urlFirebase1, setUrlFirebase1] = useState();
   const [urlFirebase2, setUrlFirebase2] = useState();
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setLoadingConfirm(false);
+    }, 2500);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [loadingConfirm]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -72,9 +81,6 @@ function Modals({ tabsData, tabs, isChange, setIsChange }) {
     const storage = getStorage();
     getUrlFirebase(files.file1, storage);
     getUrlFirebase(files.file2, storage);
-    setTimeout(() => {
-      setLoadingConfirm(false);
-    }, 2500);
   };
   const handleUploadImage = async () => {
     setLoadingUpload(true);

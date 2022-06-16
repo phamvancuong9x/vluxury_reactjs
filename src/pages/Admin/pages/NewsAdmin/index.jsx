@@ -8,15 +8,19 @@ import "./styles.scss";
 function NewsAdmin({ tab, isChange, setIsChange }) {
   const [newsList, setNewsList] = useState();
   const [loading, setLoading] = useState(true);
+  let id;
   useEffect(() => {
     try {
       (async () => {
         const list = await newApi.get();
         setNewsList(list);
-        setTimeout(() => {
+        id = setTimeout(() => {
           setLoading(false);
         }, 1000);
       })();
+      return () => {
+        clearTimeout(id);
+      };
     } catch (error) {
       console.log(error);
     }

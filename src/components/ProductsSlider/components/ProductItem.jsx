@@ -1,6 +1,4 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import LazyLoad from "react-lazyload";
 function ProductItem({ product }) {
   return (
     <Link
@@ -9,14 +7,9 @@ function ProductItem({ product }) {
       data-id={product.id}
     >
       <div className="featured-products__image">
-        <LazyLoad height={400} offset={400}>
-          <img
-            src={`${product.imageProduct[1]}`}
-            alt="featured-products image"
-          />
-        </LazyLoad>
+        <img src={`${product.imageProduct[1]}`} alt="featured-products_image" />
 
-        {product.discount_sale != "null" ? (
+        {product.discount_sale !== "null" ? (
           <div className="discount">{product.discount_sale}</div>
         ) : undefined}
       </div>

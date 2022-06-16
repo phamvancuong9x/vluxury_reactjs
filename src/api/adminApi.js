@@ -1,11 +1,8 @@
 import axiosClient from "./axiosClient";
 
 const adminApi = {
-    
-  
-
   update(data) {
-    const url = `/categoryProduct/${id}`;
+    const url = `/categoryProduct/`;
     return axiosClient.patch(url, data);
   },
   remove(id) {

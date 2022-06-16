@@ -1,12 +1,12 @@
 import axiosClient from "./axiosClient";
 
 const newApi = {
-  async getAll(params) {
+  async getAll(token1, token2) {
     const url1 = "/news";
     const url2 =
       "/categoryProduct?isSale=false&typeProduct=vest&_limit=4&_page=2";
-    const newsList = await axiosClient.get(url1, { params });
-    const productList = await axiosClient.get(url2);
+    const newsList = await axiosClient.get(url1, token1);
+    const productList = await axiosClient.get(url2, token2);
     return {
       newsList,
       productList,

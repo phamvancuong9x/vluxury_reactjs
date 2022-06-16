@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import categoryApi from "../../api/categoryApi";
@@ -13,14 +14,17 @@ function DetailProduct() {
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState();
   const [isPage, setIsPage] = useState(true);
-  const IdTimeout = useRef();
+
   useEffect(() => {
     setLoading(true);
+    const ourRequest = axios.CancelToken.source();
     (async () => {
       try {
-        const product = await categoryApi.get(params.idProduct);
+        const product = await categoryApi.get(params.idProduct, {
+          cancelToken: ourRequest.token,
+        });
         setProduct(product);
-        IdTimeout.current = setTimeout(() => {
+        setTimeout(() => {
           setLoading(false);
         }, 200);
       } catch (error) {
@@ -29,7 +33,7 @@ function DetailProduct() {
       }
     })();
     return () => {
-      clearTimeout(IdTimeout.current);
+      ourRequest.cancel(); // <-- 3rd step
     };
   }, [params.idProduct]);
   return (

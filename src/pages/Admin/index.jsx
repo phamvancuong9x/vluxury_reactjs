@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import homeApi from "../../api/homeApi";
 import AdminContainer from "./components/AdminContainer";
 import { tabsTypeProduct } from "./components/data";
@@ -9,12 +10,23 @@ import ProductAdmin from "./pages/ProductAdmin";
 import "./styles.scss";
 
 function HeaderAdmin() {
+  const handleClick = () => {
+    sessionStorage.setItem("admin", "false");
+    setTimeout(() => {
+      window.location.assign("/login");
+    }, 300);
+  };
   return (
     <nav className="header-admin">
       <p>
         Xin chào <span>Admin</span>
       </p>
-      <a href="https://vluxury-reactjs-fashionss.vercel.app/">Trang chủ</a>
+      <p>
+        <Link to="/">Trang chủ</Link>
+        <span className="btn_log-out" onClick={handleClick}>
+          Đăng Xuất
+        </span>
+      </p>
     </nav>
   );
 }
@@ -89,6 +101,7 @@ function AdminContent() {
   const [homeData, setHomeData] = useState({});
   const [isChange, setIsChange] = useState(false);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     try {
       (async () => {
@@ -156,10 +169,26 @@ function AdminContent() {
 }
 
 function Admin() {
+  const isCheckAdmin = JSON.parse(sessionStorage.getItem("admin") || false);
+
   return (
     <>
-      <HeaderAdmin />
-      <AdminContent />
+      {!isCheckAdmin && (
+        <h5 className="Info_login">
+          Vui lòng đăng nhập bằng tài khoản admin !
+          <br />
+          <Link className="btn_login" to={"/login"}>
+            ĐĂNG NHẬP
+          </Link>
+        </h5>
+      )}
+      {isCheckAdmin && (
+        <>
+          {" "}
+          <HeaderAdmin />
+          <AdminContent />
+        </>
+      )}
     </>
   );
 }

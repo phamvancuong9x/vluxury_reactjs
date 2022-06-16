@@ -1,4 +1,5 @@
 import { Pagination } from "@mui/material";
+import axios from "axios";
 import queryString from "query-string";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -35,11 +36,13 @@ function CategoryProduct() {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
     (async () => {
       try {
         const productsArray = await categoryApi.getAll({
           ...newParams,
           ...priceRange,
+          signal: controller.signal,
         });
         setTotalPage(Math.ceil(productsArray.length / 12));
         setFilters({
@@ -48,10 +51,14 @@ function CategoryProduct() {
           ...sortProduct,
           _page: params._page || 1,
           _limit: 12,
+          signal: controller.signal,
         });
       } catch (error) {
         console.log("Failed to fetch product list ", error);
       }
+      return () => {
+        controller.abort(); // <-- 3rd step
+      };
     })();
   }, [
     params.typeProduct,

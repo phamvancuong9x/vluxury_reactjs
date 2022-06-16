@@ -15,12 +15,42 @@ export function isCheckAccount(accountList, userName, password) {
   }
   return { checkAccount: true, account };
 }
+export function isCheckUserNamePassWord(accountList, userName, password) {
+  const isUserName = accountList.filter((accountItem) => {
+    return accountItem.name === userName;
+  });
+  const isPassWord = accountList.filter((accountItem) => {
+    return accountItem.password === password;
+  });
+
+  if (isUserName.length !== 0 && isPassWord.length === 0) {
+    return { isUserName: true, isPassWord: false };
+  } else if (isUserName.length === 0 && isPassWord.length !== 0) {
+    return { isUserName: false, isPassWord: true };
+  }
+  return { isUserName: false, isPassWord: false };
+}
 function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
   const [viewPassWord, setViewPassWord] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [checkSubmitLogIn, setCheckSubmitLogin] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [checkAccountAdmin, setCheckAccountAdmin] = useState(false);
+  const [checkAccount, setCheckAccount] = useState({
+    isUserName: true,
+    isPassWord: true,
+  });
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setCheckAccount({
+        isUserName: true,
+        isPassWord: true,
+      });
+    }, 3000);
+    return () => {
+      clearTimeout(id);
+    };
+  }, [checkAccount]);
   const handleLogin = () => {
     setCheckSubmitLogin(true);
     (async () => {
@@ -30,12 +60,21 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
         userName,
         password
       ).checkAccount;
+      const account = isCheckAccount(accountList, userName, password).account;
+
+      if (isCheckLogin && account[0].name === "admin") {
+        sessionStorage.setItem("admin", "true");
+        window.location.assign("/admin");
+        return;
+      }
       setCheckLogin(!isCheckLogin);
       if (!isCheckLogin) {
-        setShowError(true);
+        setCheckAccount(
+          isCheckUserNamePassWord(accountList, userName, password)
+        );
       }
 
-      if (isCheckAccount(accountList, userName, password).checkAccount) {
+      if (isCheckLogin) {
         const accounts = isCheckAccount(accountList, userName, password)
           .account[0];
 
@@ -62,7 +101,9 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
           <div className="input-userName">
             <input
               className={
-                !showError ? "userName" : "userName error_input_border"
+                checkAccount.isUserName
+                  ? "userName"
+                  : "userName error_input_border"
               }
               id="userName-login"
               type="text"
@@ -70,14 +111,17 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
               placeholder="Tên tài khoản"
               onChange={(e) => setUserName(e.target.value)}
             />
-            {showError && checkSubmitLogIn && (
-              <NotifyError text={" Vui lòng kiểm tra lại tên tài khoản !"} />
+
+            {!checkAccount?.isUserName && checkSubmitLogIn && (
+              <NotifyError text={"Tài khoản nhập vào không đúng !"} />
             )}
           </div>
           <div className="input-password">
             <input
               className={
-                !showError ? "password" : "password error_input_border"
+                checkAccount.isPassWord
+                  ? "password"
+                  : "password error_input_border"
               }
               id="password-login"
               type={viewPassWord ? "password" : "text"}
@@ -89,8 +133,8 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
               viewPassWord={viewPassWord}
               setViewPassWord={setViewPassWord}
             />
-            {showError && checkSubmitLogIn && (
-              <NotifyError text={" Vui lòng kiểm tra lại mật khẩu!"} />
+            {!checkAccount?.isPassWord && checkSubmitLogIn && (
+              <NotifyError text={"Mật khẩu nhập vào không đúng!"} />
             )}
           </div>
           <a className="forget-password" href="#0">

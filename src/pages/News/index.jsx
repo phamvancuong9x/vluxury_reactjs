@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
 import newApi from "../../api/newsApi";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Loading from "../../components/Loading";
@@ -15,11 +16,20 @@ function News() {
   const [productList, setProductList] = useState(productLists || []);
 
   const [loading, setLoading] = useState(!newsLists || false);
+  const controller = useRef(new AbortController());
   useEffect(() => {
     if (!!sessionStorage.getItem("news")) return;
+
     (async () => {
       try {
-        const { newsList, productList } = await newApi.getAll();
+        const { newsList, productList } = await newApi.getAll(
+          {
+            signal: controller.current.signal,
+          },
+          {
+            signal: controller.current.signal,
+          }
+        );
         const newsListReverse = newsList.reverse();
         setNewsList(newsListReverse);
         setProductList(productList);
@@ -30,12 +40,15 @@ function News() {
             productLists: productList,
           })
         );
-        setTimeout(() => {
-          setLoading(false);
-        }, 800);
+        // setTimeout(() => {
+        //   setLoading(false);
+        // }, 800);
       } catch (error) {
         console.log(error);
       }
+      return () => {
+        controller.current.abort();
+      };
     })();
   }, []);
 

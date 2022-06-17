@@ -45,13 +45,13 @@ function SignInGoogleFaceBook() {
         setIsSignedIn(!!user);
         if (user) {
           sessionStorage.setItem("stateLogin", "true");
-          console.log(user);
           const id = await user.uid;
           const nameUser = await user.displayName;
           const imageUser = await user.photoURL;
           const email = await user.email;
           const userInfo = { id, nameUser, imageUser, email };
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+          sessionStorage.setItem("showInfoLogin", true);
           localStorage.setItem("cart", "[]");
           window.location.assign("/");
         }

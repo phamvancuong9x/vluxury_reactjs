@@ -64,6 +64,7 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
 
       if (isCheckLogin && account[0].name === "admin") {
         sessionStorage.setItem("admin", "true");
+        sessionStorage.setItem("showInfoLogin", true);
         window.location.assign("/admin");
         return;
       }
@@ -79,6 +80,7 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
           .account[0];
 
         sessionStorage.setItem("stateLogin", true);
+        sessionStorage.setItem("showInfoLogin", true);
         localStorage.setItem("cart", "[]");
         const userInfo = {
           id: accounts.id,

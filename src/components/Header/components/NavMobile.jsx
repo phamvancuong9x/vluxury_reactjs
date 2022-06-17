@@ -1,6 +1,8 @@
 import React, { memo, useState } from "react";
 import { Link } from "react-router-dom";
+import { HeaderUser } from "./HeaderUser";
 import { productSubMenu } from "./productSubMenu";
+import { SearchInput } from "./SearchInput";
 
 function MenuProduct() {
   const [showMenuProduct, setShowMenuProduct] = useState(false);
@@ -40,45 +42,6 @@ function MenuProduct() {
   );
 }
 
-function DesignOwnProduct() {
-  const [showDesignOwnProduct, setShowDesignOwnProduct] = useState(false);
-  const handleShowDesignOwnProduct = () => {
-    setShowDesignOwnProduct(!showDesignOwnProduct);
-  };
-  return (
-    <li
-      className={
-        showDesignOwnProduct
-          ? "nav-mobile__center-item nav-mobile__parent-menu "
-          : "nav-mobile__center-item nav-mobile__parent-menu nav-mobile__parent-menu-iconPlus"
-      }
-    >
-      <div className="nav-mobile__parent-menu-title nav-mobile__parent-menu-design">
-        Thiết kế riêng
-        <i
-          className="fa-solid fa-minus"
-          onClick={handleShowDesignOwnProduct}
-        ></i>
-      </div>
-
-      <ul
-        className={
-          showDesignOwnProduct
-            ? "nav-mobile__sub-menu nav-mobile__menuDesignProduct-activity"
-            : "nav-mobile__sub-menu"
-        }
-      >
-        <li className="nav-mobile__sub-item">
-          <Link to="/custom-design-shirt"> Áo sơ mi riêng</Link>
-        </li>
-        <li className="nav-mobile__sub-item">
-          <Link to="custom-design-vest"> Bộ SUIT riêng</Link>
-        </li>
-      </ul>
-    </li>
-  );
-}
-
 function MenuBar({ showMenuBar, setShowMenuBar }) {
   const handleCloseMenuBar = () => {
     setShowMenuBar(!showMenuBar);
@@ -99,15 +62,9 @@ function MenuBar({ showMenuBar, setShowMenuBar }) {
         {/* </div> */}
       </div>
       <label className="nav-mobile__search" htmlFor="nav-mobile__input-search">
-        <input
-          className="nav-mobile__input"
-          id="nav-mobile__input-search"
-          type="text"
-          placeholder="Tìm sản phẩm..."
-        />
-        <a className="nav-mobile__link-search" style={{ display: "block" }}>
-          <i className="fas fa-search"></i>
-        </a>
+        <div className={" showSubMenu"}>
+          <SearchInput />
+        </div>
       </label>
       <ul className="nav-mobile__center-list">
         <li
@@ -119,7 +76,6 @@ function MenuBar({ showMenuBar, setShowMenuBar }) {
         </li>
 
         <MenuProduct />
-        {/* <DesignOwnProduct /> */}
 
         <li className="nav-mobile__center-item">
           <Link to="/news"> Tin Tức </Link>
@@ -127,46 +83,7 @@ function MenuBar({ showMenuBar, setShowMenuBar }) {
         <li className="nav-mobile__center-item">
           <Link to="/map">Cửa Hàng</Link>
         </li>
-        <li className="nav-mobile__center-item nav-mobile-login">
-          <Link to="/login">
-            <i className="fas fa-user"></i>
-            <span>Đăng nhập</span>
-          </Link>
-        </li>
-        <li className="header-mobile__user nav-mobile__center-item">
-          <div className="header-mobile__user-info">
-            <div className="header-mobile__user-image">
-              <img
-                src="../assets/image/image_home/anhdaidien.jpg"
-                alt="user image"
-              />
-            </div>
-          </div>
-          <div className="header-mobile__user-content header-user-container">
-            <div
-              style={{
-                paddingBottom: "5px",
-                borderBottom: "1px solid #ccc",
-              }}
-            >
-              <div className="header-mobile__user-name"></div>
-              <i className="fa-solid fa-minus"></i>
-            </div>
-            <ul className="header-mobile__user-list">
-              <li className="header-mobile__user-item">
-                <Link to="/user">
-                  <span>Tài khoản của tôi</span>
-                </Link>
-              </li>
-              <li className="header-mobile__user-item">
-                <span>Đơn mua</span>
-              </li>
-              <li className="header-mobile__user-item header__user-logout">
-                <span>Đăng xuất</span>
-              </li>
-            </ul>
-          </div>
-        </li>
+        <HeaderUser text={"Đăng nhập"} />
       </ul>
     </div>
   );

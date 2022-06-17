@@ -1,86 +1,12 @@
-import firebase from "firebase/compat/app";
-import React, { memo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { memo, useState } from "react";
 import { Link } from "react-router-dom";
-import { setAuth } from "../../../actions/auth";
-import { config } from "../../../pages/Auth/components/SignInGoogleFacebook";
+import { HeaderUser } from "./HeaderUser";
 import { productSubMenu } from "./productSubMenu";
-
-firebase.initializeApp(config);
-
-function HeaderUser() {
-  const UserInfo = useSelector((state) => state.users);
-  const imageUser = UserInfo.imageUser;
-  const nameUser = UserInfo.nameUser;
-  const stateLogin = useSelector((state) => state.login);
-
-  const dispatch = useDispatch();
-  const handleLogout = () => {
-    firebase.auth().signOut();
-    const action = setAuth(false);
-    dispatch(action);
-    sessionStorage.setItem("stateLogin", "false");
-    sessionStorage.setItem("userInfo", null);
-    localStorage.setItem("cart", "[]");
-    setTimeout(() => {
-      window.location.assign("/login");
-    }, 600);
-  };
-  return (
-    <>
-      {!stateLogin && (
-        <li className="nav__right-item nav__header-user">
-          <Link className="user-login" to="/login">
-            <i className="fas fa-user"></i>
-          </Link>
-        </li>
-      )}
-      {stateLogin && (
-        <li className="header__user">
-          <div className="header__user-info">
-            <div className="header__user-image">
-              <img
-                src={imageUser || "../assets/image/image_home/anhdaidien.jpg"}
-                alt="user_image"
-              />
-            </div>
-          </div>
-          <ul className="header__user-list">
-            <li
-              style={{ paddingBottom: "5px", borderBottom: "1px solid #ccc" }}
-            >
-              <div className="header__user-name"> {nameUser}</div>
-            </li>
-            <li className="header__user-item">
-              <Link to="/info-user">
-                <span>Tài khoản của tôi</span>
-              </Link>
-            </li>
-            <li
-              className="header__user-item header__user-logout"
-              onClick={handleLogout}
-            >
-              <span>Đăng xuất</span>
-            </li>
-          </ul>
-        </li>
-      )}
-    </>
-  );
-}
+import { SearchInput } from "./SearchInput";
 
 function NavDesktop({ total }) {
   const [showSearch, setShowSearch] = useState(false);
-  const [valueSearch, setValueSearch] = useState("");
-  // const [value, setValue] = useState("");
 
-  const handleKeyPress = (e) => {
-    if (e.charCode === 13) {
-      if (e.target.value.trim() === "") return;
-
-      window.location.assign(`/search?title_like=${valueSearch}`);
-    }
-  };
   const handleShowSearch = () => {
     setShowSearch(!showSearch);
   };
@@ -119,7 +45,6 @@ function NavDesktop({ total }) {
             </ul>
           </li>
           <li className="nav__center-item">
-            {" "}
             <Link to="/news">Tin Tức</Link>
           </li>
           <li className="nav__center-item">
@@ -136,22 +61,7 @@ function NavDesktop({ total }) {
             <div
               className={showSearch ? "nav__search showSubMenu" : "nav__search"}
             >
-              <input
-                className="nav__input"
-                id="nav__input-search"
-                type="text"
-                value={valueSearch}
-                placeholder="Tìm sản phẩm..."
-                onKeyPress={handleKeyPress}
-                onChange={(e) => setValueSearch(e.target.value)}
-              />
-              <Link
-                className="nav__link-search"
-                to={`/search?title_like=${valueSearch}`}
-                onClick={(e) => valueSearch.trim() === "" && e.preventDefault()}
-              >
-                <i className="fas fa-search"></i>
-              </Link>
+              <SearchInput />
             </div>
           </label>
         </li>

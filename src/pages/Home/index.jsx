@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import homeApi from "../../api/homeApi";
+import { Success } from "../../components/Alert";
 import Loading from "../../components/Loading";
 import Banner from "./components/Banner";
 import CollectionList from "./components/CollectionList";
@@ -16,6 +17,7 @@ function HomePage() {
     {};
   const [homeData, setHomeData] = useState(initHomeDate);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     try {
       if (!!sessionStorage.getItem("homeData")) {
@@ -30,7 +32,7 @@ function HomePage() {
 
         setTimeout(() => {
           setLoading(false);
-        }, 5000);
+        }, 200);
       })();
     } catch (error) {
       console.log(error);

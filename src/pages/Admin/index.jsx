@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import homeApi from "../../api/homeApi";
+import ShowInfoLogin from "../../components/ShowInfoLogin";
 import AdminContainer from "./components/AdminContainer";
 import { tabsTypeProduct } from "./components/data";
 import InterfaceHome from "./pages/InterfaceHome";
@@ -13,7 +14,7 @@ function HeaderAdmin() {
   const handleClick = () => {
     sessionStorage.setItem("admin", "false");
     setTimeout(() => {
-      window.location.assign("/login");
+      window.location.replace("/login");
     }, 300);
   };
   return (
@@ -27,6 +28,7 @@ function HeaderAdmin() {
           Đăng Xuất
         </span>
       </p>
+      <ShowInfoLogin />
     </nav>
   );
 }

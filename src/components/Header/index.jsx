@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
+import { Success } from "../Alert";
+import ShowInfoLogin from "../ShowInfoLogin";
 import HeaderSlider from "./components/HeaderSlider";
 import NavDesktop from "./components/NavDesktop";
 import NavMobile from "./components/NavMobile";
@@ -14,6 +16,7 @@ const Header = () => {
       <HeaderSlider />
       <NavDesktop total={total} />
       <NavMobile total={total} />
+      <ShowInfoLogin />
     </header>
   );
 };

@@ -1,12 +1,8 @@
+//  DetailProduct page  css
+.Checkout__page__css {
+  color: #000;
+}
 /* section detailProduct */
-img {
-  /* fix lỗi ảnh phụ kiện thừa viền bên phải do minify*/
-  max-width: calc(100% + 2px);
-  object-fit: cover;
-}
-.image {
-  overflow: hidden;
-}
 .padding-left-40 {
   padding-left: 40px;
   list-style-type: circle;

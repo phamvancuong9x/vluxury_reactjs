@@ -37,6 +37,7 @@ function Modals({ tabsData, tabs, isChange, setIsChange }) {
   const [urlImage, setUrlImage] = useState({ url1: null, url2: null });
   const [urlFirebase1, setUrlFirebase1] = useState();
   const [urlFirebase2, setUrlFirebase2] = useState();
+
   useEffect(() => {
     const id = setTimeout(() => {
       setLoadingConfirm(false);

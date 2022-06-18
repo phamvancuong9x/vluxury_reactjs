@@ -1,4 +1,8 @@
-/*initialPrice  */
+// component Header css
+.component_Header_css {
+  color: #000;
+}
+
 header {
   position: sticky !important;
   top: 0;
@@ -45,10 +49,6 @@ header {
   z-index: 20;
   animation: header__effect 0.5s ease;
 }
-/* animation */
-// .textslider {
-//   --animate-duration: 1.5s;
-// }
 .slider-header {
   background-color: #000;
   color: #fff;

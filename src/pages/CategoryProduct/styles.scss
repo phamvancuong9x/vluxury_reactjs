@@ -1,8 +1,8 @@
-img {
-  /* fix lỗi ảnh phụ kiện thắt lưng thừa viền bên phải minify */
-  max-width: calc(100% + 2px);
-  object-fit: cover;
+.CategoryProduct_page_css {
+  //vi trí css
+  color: #000;
 }
+
 .no_product {
   display: flex;
   margin-top: 50px;
@@ -14,11 +14,9 @@ img {
 .category-main nav {
   justify-content: center;
   box-shadow: none;
+  margin-bottom: 5px;
 }
 
-a {
-  display: inline-block;
-}
 .category-main {
   min-height: 70vh;
 }

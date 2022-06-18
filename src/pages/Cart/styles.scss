@@ -1,6 +1,19 @@
+// Cart page css
+.Cart__page__css {
+  color: #000;
+}
 .modal__cart-table {
   max-height: none !important;
   /* overflow: visible; */
+
+  .confirm {
+    width: 192%;
+    top: 50%;
+    transform: translateY(-50%);
+    button {
+      width: 60px;
+    }
+  }
 }
 h2 {
   font-weight: 600;
@@ -125,6 +138,7 @@ td {
   th,
   td {
     width: 100px;
+    position: relative;
   }
 }
 
@@ -319,9 +333,7 @@ tr td:nth-child(4) {
   .modal__mobile-cart .image {
     padding: 10px;
   }
-  // .btn-update-to-cart {
-  //   display: none;
-  // }
+
   .headerQuantity {
     display: none;
   }
@@ -350,6 +362,14 @@ tr td:nth-child(4) {
 @media (max-width: 1023px) {
   .modal__checkout-actions {
     padding-bottom: 30px;
+  }
+}
+@media (max-width: 767px) {
+  .modal__cart-table .confirm {
+    width: 220px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
   }
 }
 @media (max-width: 576px) {

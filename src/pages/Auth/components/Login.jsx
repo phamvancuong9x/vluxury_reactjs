@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import accountApi from "../../../api/userApi";
+import { LoadingBtn } from "../../../components/Loading";
 import { NotifyError } from "./NotifyError";
 
 import SignInGoogleFaceBook from "./SignInGoogleFacebook";
@@ -31,18 +32,17 @@ export function isCheckUserNamePassWord(accountList, userName, password) {
   return { isUserName: false, isPassWord: false };
 }
 function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
+  const [loadingBtn, setLoading] = useState(false);
   const [viewPassWord, setViewPassWord] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [checkSubmitLogIn, setCheckSubmitLogin] = useState(false);
-  const [checkAccountAdmin, setCheckAccountAdmin] = useState(false);
   const userNameLoginRef = useRef();
   const [checkAccount, setCheckAccount] = useState({
     isUserName: true,
     isPassWord: true,
   });
   useEffect(() => {
-    console.log(checkAccount);
     userNameLoginRef?.current.focus();
     const id = setTimeout(() => {
       setCheckAccount({
@@ -54,10 +54,10 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
       clearTimeout(id);
     };
   }, [checkAccount.isUserName, checkAccount.isUserName]);
-  console.log(checkAccount);
+
   const handleLogin = () => {
     setCheckSubmitLogin(true);
-
+    setLoading(true);
     (async () => {
       const accountList = await accountApi.getAll();
       const isCheckLogin = isCheckAccount(
@@ -78,6 +78,7 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
         setCheckAccount(
           isCheckUserNamePassWord(accountList, userName, password)
         );
+        setLoading(false);
       }
 
       if (isCheckLogin) {
@@ -93,6 +94,7 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
           email: accounts.email,
         };
         sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
+        setLoading(false);
         window.location.assign("/");
       }
     })();
@@ -158,14 +160,22 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
           </a>
           <div className="big-btn"></div>
           <div className="btn__bgColor"></div>
-          <a className="link-home-input" href="#">
-            <input
-              className="btn btn__login"
-              type="button"
-              value="ĐĂNG NHẬP"
-              onClick={handleLogin}
-            />
-          </a>
+          <div className="link-home-input">
+            {loadingBtn && (
+              <div className="btn btn__login btn__login-loading">
+                <LoadingBtn />
+              </div>
+            )}
+
+            {!loadingBtn && (
+              <input
+                className="btn btn__login"
+                type="button"
+                value="ĐĂNG NHẬP"
+                onClick={handleLogin}
+              />
+            )}
+          </div>
         </form>
         <div className="social__container">
           <SignInGoogleFaceBook />

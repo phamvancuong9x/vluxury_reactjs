@@ -112,6 +112,10 @@ label {
   transition: all 0.3s;
   padding: 9px;
 }
+.btn__login-loading,
+.btn__register-loading {
+  height: 44px;
+}
 .btn:hover {
   background-color: #333;
   color: #fff;

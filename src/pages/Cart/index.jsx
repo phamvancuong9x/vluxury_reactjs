@@ -12,7 +12,7 @@ function Cart() {
     (state) => state.Cart.showNotifyDeleteProduct
   );
 
-  if (ProductCartList.length == 0) {
+  if (ProductCartList.length === 0) {
     localStorage.setItem("cart", "[]");
   }
   return (
@@ -20,7 +20,7 @@ function Cart() {
       <Breadcrumbs title={"Giỏ hàng"} />
       <div className="container">
         <h2>Giỏ hàng</h2>
-        {ProductCartList.length == 0 ? (
+        {ProductCartList.length === 0 ? (
           <CartEmpty />
         ) : (
           <CartContent ProductCartList={ProductCartList} />

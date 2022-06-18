@@ -231,7 +231,8 @@ tr td:nth-child(4) {
   justify-content: flex-end;
   flex-wrap: wrap;
 }
-.btn-update-to-cart {
+.btn-update-to-cart,
+.btn-loading-cart {
   padding: 12px 10px;
   background: #e6e6e6;
   border-radius: 2px;
@@ -242,6 +243,12 @@ tr td:nth-child(4) {
   margin-top: 15px;
   cursor: pointer;
   transition: linear 0.2s;
+}
+.btn-loading-cart {
+  background: #000000;
+  width: 157px;
+  height: 45px;
+  padding: 7px 10px;
 }
 .btn-update-to-cart:hover {
   background-color: #000;

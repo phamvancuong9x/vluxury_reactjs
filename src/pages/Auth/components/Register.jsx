@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import accountApi from "../../../api/userApi";
 import { Error } from "../../../components/Alert";
+import { LoadingBtn } from "../../../components/Loading";
 import { NotifyError } from "./NotifyError";
 import { ViewPassWord } from "./ViewPassWord";
 
@@ -21,6 +22,7 @@ function Register({ setCheckAuth, setCheckRegister }) {
     password: false,
     confirmPassword: false,
   };
+  const [loadingBtn, setLoading] = useState(false);
   const [checkForm, setCheckForm] = useState(initCheckForm);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -72,6 +74,7 @@ function Register({ setCheckAuth, setCheckRegister }) {
     checkConfirmPassword(e.target.value, password);
   };
   const handleSubmit = (e) => {
+    setLoading(true);
     setCheckSubmit(true);
     checkError(userName, "userName", /\w{5,255}/);
     checkError(password, "password", /^[a-zA-Z]\w{3,14}$/);
@@ -88,6 +91,7 @@ function Register({ setCheckAuth, setCheckRegister }) {
         confirmPassword !== ""
       ) {
         setRegisterError(false);
+
         (async () => {
           await accountApi.add({ name: userName, password: password });
           setCheckRegister(true);
@@ -104,6 +108,7 @@ function Register({ setCheckAuth, setCheckRegister }) {
       ) {
         setRegisterError(true);
       }
+      setLoading(false);
     })();
   };
   const handleKeyPress = (e) => {
@@ -194,13 +199,19 @@ function Register({ setCheckAuth, setCheckRegister }) {
               <NotifyError text={"Mật khẩu nhập lại không khớp với nhau !"} />
             )}
           </div>
-
-          <input
-            className="btn btn__register"
-            type="button"
-            value="ĐĂNG KÍ"
-            onClick={handleSubmit}
-          />
+          {loadingBtn && (
+            <div className="btn btn__register btn__register-loading">
+              <LoadingBtn />
+            </div>
+          )}
+          {!loadingBtn && (
+            <input
+              className="btn btn__register"
+              type="button"
+              value="ĐĂNG KÍ"
+              onClick={handleSubmit}
+            />
+          )}
         </form>
 
         <div

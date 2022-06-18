@@ -169,10 +169,7 @@ function DetailProductInfo({ product }) {
             <div className="detailProduct__status">Còn hàng</div>
           </div>
           <div className="detailProduct__btn">
-            <div
-              className="btn btn__add-to-cart add_cart_sever showModal"
-              onClick={handleAddToCart}
-            >
+            <div className="btn btn__add-to-cart " onClick={handleAddToCart}>
               {loadingBtn && <LoadingBtn />}
               {!loadingBtn && (
                 <>

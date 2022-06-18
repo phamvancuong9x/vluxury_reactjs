@@ -1,11 +1,7 @@
 import { CheckoutAction } from "./CheckoutAction";
 import { ProductCartItem } from "./ProductCartItem";
 
-export function CartContent({
-  ProductCartList,
-  idShowConfirm,
-  setIdShowConfirm,
-}) {
+export function CartContent({ ProductCartList }) {
   return (
     <div className="modal_content">
       <div className="modal__cart-table">
@@ -22,14 +18,7 @@ export function CartContent({
           </thead>
           <tbody id="product-cart-list">
             {ProductCartList.map((product, i) => {
-              return (
-                <ProductCartItem
-                  product={product}
-                  key={i}
-                  idShowConfirm={idShowConfirm}
-                  setIdShowConfirm={setIdShowConfirm}
-                />
-              );
+              return <ProductCartItem product={product} key={i} />;
             })}
           </tbody>
         </table>

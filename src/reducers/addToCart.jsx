@@ -1,3 +1,6 @@
+import { addQuantityProductCart } from "../pages/DetailProduct/components/DetailProductInfo/addQuanityProductCart";
+import { checkProductCart } from "../pages/DetailProduct/components/DetailProductInfo/checkProductCart";
+
 const initCart =
   (!!localStorage.getItem("cart") &&
     JSON.parse(localStorage.getItem("cart"))) ||
@@ -6,8 +9,13 @@ const initCart =
 const addToCart = (state = initCart, action) => {
   switch (action.type) {
     case "ADD_TO_CART": {
-      const newCartProduct = [...state, action.payload];
-      return newCartProduct;
+      console.log(checkProductCart(state, action.payload));
+      if (checkProductCart(state, action.payload)) {
+        return addQuantityProductCart(state, action.payload);
+      } else {
+        const newCartProduct = [...state, action.payload];
+        return newCartProduct;
+      }
     }
     case "CHANGE_QUANTITY_PRODUCT_CART": {
       const newCartProduct = state.map((product) => {

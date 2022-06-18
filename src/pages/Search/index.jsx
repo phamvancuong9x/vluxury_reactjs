@@ -17,13 +17,12 @@ function Search() {
     _page: 1,
     _limit: 12,
   });
-
   useEffect(() => {
     setLoadingSearch(true);
     (async () => {
       try {
         const productsArray = await categoryApi.getAll(filters);
-
+        setFilters({ ...filters, ...params });
         setProductList(productsArray);
         setLoadingSearch(false);
       } catch (error) {

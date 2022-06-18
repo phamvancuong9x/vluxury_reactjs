@@ -1,38 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { totalTimeCurrent, totalTimeEnd } from "./constanst";
 
-function totalTimeCurrent() {
-  let now = new Date(); // Lấy thời gian hiện tại
-  let date = now.getDate(); // Lấy ngày từ thời gian hiện tại
-  let hours = now.getHours();
-  let minutes = now.getMinutes();
-  let seconds = now.getSeconds();
-  const totalSeconds = date * 24 * 3600 + hours * 3600 + minutes * 60 + seconds;
-  return totalSeconds;
-}
-function totalTimeEnd(timeCurrent, dateSaleStart, totalDateSale) {
-  const totalTime = (dateSaleStart + totalDateSale) * 24 * 3600 - timeCurrent;
-  if (totalTime <= 0)
-    return {
-      date: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-    };
-  const date = Math.floor(totalTime / (3600 * 24));
-  const hours = Math.floor((totalTime - date * 3600 * 24) / 3600);
-  const minutes = Math.floor(
-    (totalTime - date * 3600 * 24 - hours * 3600) / 60
-  );
-  const seconds = totalTime - date * 3600 * 24 - hours * 3600 - minutes * 60;
-  return {
-    date,
-    hours,
-    minutes,
-    seconds,
-  };
-}
-function TimeSale({ DateSaleStart, totalDateSale }) {
+function TimeSale() {
   const initTimeSale = totalTimeEnd(totalTimeCurrent(), 29, 2);
   const [timeSale, setTimeSale] = useState(initTimeSale);
   const IdTimeout = useRef();
@@ -98,8 +68,8 @@ function Banner({ bannerSale }) {
     >
       <Link to="/category-product?isSale=true">
         <div className="banner__image">
-          <img src={bannerSale[0].image_slider_desktop} alt="image-banner" />
-          <img src={bannerSale[0].image_slider_mobile} alt="image-banner" />
+          <img src={bannerSale[0].image_slider_desktop} alt="image_banner" />
+          <img src={bannerSale[0].image_slider_mobile} alt="image_banner" />
         </div>
         <TimeSale />
       </Link>

@@ -72,12 +72,10 @@ function DetailProductInfo({ product }) {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState("48");
   const [successAddCart, setSuccessAddCart] = useState(false);
-  const [checkCart, setCheckCart] = useState(false);
   const cartProductArray = useSelector((state) => state.add_cart);
   const dispatch = useDispatch();
   useEffect(() => {
     setSuccessAddCart(false);
-    setCheckCart(false);
   }, [size]);
 
   useEffect(() => {
@@ -104,13 +102,9 @@ function DetailProductInfo({ product }) {
       quantity,
       size,
     };
-    setCheckCart(false);
     setSuccessAddCart(false);
     setLoadingBtn(true);
-    if (checkProductCart(cartProductArray, productInfo)) {
-      setCheckCart(true);
-      return;
-    }
+
     const action = addCart(productInfo);
     dispatch(action);
     localStorage.setItem(
@@ -199,13 +193,6 @@ function DetailProductInfo({ product }) {
           text={"Thêm sản phẩm vào giỏ hàng thành công !"}
           linkHref={"/cart"}
           linkText={"Đến Giỏ Hàng"}
-        />
-      </div>
-
-      <div className={checkCart ? "alert active-alert" : "alert"}>
-        <Error
-          text={"Sản phẩm đã có trong giỏ hàng ."}
-          textStrong={"Vui lòng kiểm tra lại !"}
         />
       </div>
     </>

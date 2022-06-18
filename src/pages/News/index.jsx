@@ -40,9 +40,9 @@ function News() {
             productLists: productList,
           })
         );
-        // setTimeout(() => {
-        //   setLoading(false);
-        // }, 800);
+        setTimeout(() => {
+          setLoading(false);
+        }, 800);
       } catch (error) {
         console.log(error);
       }

@@ -59,3 +59,8 @@
   color: #333;
   text-decoration: line-through;
 }
+@media (min-width: 1200px) {
+  .featured-products__image {
+    // min-height: 396px;
+  }
+}

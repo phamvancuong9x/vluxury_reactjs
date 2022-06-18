@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import accountApi from "../../../api/userApi";
 import { Error } from "../../../components/Alert";
-import { isCheckAccount } from "./Login";
 import { NotifyError } from "./NotifyError";
 import { ViewPassWord } from "./ViewPassWord";
 
@@ -30,8 +29,9 @@ function Register({ setCheckAuth, setCheckRegister }) {
   const [viewPassWord, setViewPassWord] = useState(false);
   const [viewConfirmPassWord, setViewConfirmPassWord] = useState(false);
   const [registerError, setRegisterError] = useState(false);
-
+  const userNameRegisterRef = useRef();
   useEffect(() => {
+    userNameRegisterRef?.current.focus();
     const id = setTimeout(() => {
       setRegisterError(false);
     }, 3000);
@@ -106,6 +106,12 @@ function Register({ setCheckAuth, setCheckRegister }) {
       }
     })();
   };
+  const handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      if (e.target.value.trim() === "") return;
+      handleSubmit();
+    }
+  };
 
   return (
     <div id="Register">
@@ -117,6 +123,7 @@ function Register({ setCheckAuth, setCheckRegister }) {
         <form action="">
           <div className="input-userName">
             <input
+              ref={userNameRegisterRef}
               className={
                 !checkForm.userName ? "userName" : "userName error_input_border"
               }
@@ -125,6 +132,7 @@ function Register({ setCheckAuth, setCheckRegister }) {
               name="userName"
               placeholder="Tên tài khoản"
               onChange={(e) => handleChangeUserName(e)}
+              onKeyPress={handleKeyPress}
             />
 
             {checkForm.userName && (
@@ -141,12 +149,13 @@ function Register({ setCheckAuth, setCheckRegister }) {
                 !checkForm.password ? "password" : "password error_input_border"
               }
               id="password-resgiter"
-              type={viewPassWord ? "password" : "text"}
+              type={!viewPassWord ? "password" : "text"}
               name="password "
               placeholder="Mật khẩu"
               onChange={(e) => {
                 handleChangePassword(e);
               }}
+              onKeyPress={handleKeyPress}
             />
             <ViewPassWord
               viewPassWord={viewPassWord}
@@ -163,7 +172,7 @@ function Register({ setCheckAuth, setCheckRegister }) {
           <div className="input-password-confirm">
             <input
               id="confirmPassword"
-              type={viewConfirmPassWord ? "password" : "text"}
+              type={!viewConfirmPassWord ? "password" : "text"}
               className={
                 !checkForm.confirmPassword
                   ? "password"
@@ -174,6 +183,7 @@ function Register({ setCheckAuth, setCheckRegister }) {
               onChange={(e) => {
                 handleChangeConfirmPassword(e);
               }}
+              onKeyPress={handleKeyPress}
             />
 
             <ViewPassWord

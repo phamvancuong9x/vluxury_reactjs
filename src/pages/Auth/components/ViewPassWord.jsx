@@ -4,8 +4,8 @@ export function ViewPassWord({ viewPassWord, setViewPassWord }) {
   };
   return (
     <div className="view-icon" onClick={handleViewPassWord}>
-      {viewPassWord && <i className="far fa-eye-slash"></i>}
-      {!viewPassWord && <i className="fa-solid fa-eye"></i>}
+      {!viewPassWord && <i className="far fa-eye-slash"></i>}
+      {viewPassWord && <i className="fa-solid fa-eye"></i>}
     </div>
   );
 }

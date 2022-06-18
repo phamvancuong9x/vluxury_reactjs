@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import accountApi from "../../../api/userApi";
 import { NotifyError } from "./NotifyError";
 
@@ -36,11 +36,14 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
   const [password, setPassword] = useState("");
   const [checkSubmitLogIn, setCheckSubmitLogin] = useState(false);
   const [checkAccountAdmin, setCheckAccountAdmin] = useState(false);
+  const userNameLoginRef = useRef();
   const [checkAccount, setCheckAccount] = useState({
     isUserName: true,
     isPassWord: true,
   });
   useEffect(() => {
+    console.log(checkAccount);
+    userNameLoginRef?.current.focus();
     const id = setTimeout(() => {
       setCheckAccount({
         isUserName: true,
@@ -50,9 +53,11 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
     return () => {
       clearTimeout(id);
     };
-  }, [checkAccount]);
+  }, [checkAccount.isUserName, checkAccount.isUserName]);
+  console.log(checkAccount);
   const handleLogin = () => {
     setCheckSubmitLogin(true);
+
     (async () => {
       const accountList = await accountApi.getAll();
       const isCheckLogin = isCheckAccount(
@@ -92,6 +97,12 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
       }
     })();
   };
+  const handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      if (e.target.value.trim() === "") return;
+      handleLogin();
+    }
+  };
   return (
     <div id="login">
       <div className="container">
@@ -107,11 +118,13 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
                   ? "userName"
                   : "userName error_input_border"
               }
+              ref={userNameLoginRef}
               id="userName-login"
               type="text"
               name="userName"
               placeholder="Tên tài khoản"
               onChange={(e) => setUserName(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
 
             {!checkAccount?.isUserName && checkSubmitLogIn && (
@@ -126,10 +139,11 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
                   : "password error_input_border"
               }
               id="password-login"
-              type={viewPassWord ? "password" : "text"}
+              type={!viewPassWord ? "password" : "text"}
               name="password "
               placeholder="Mật khẩu "
               onChange={(e) => setPassword(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
             <ViewPassWord
               viewPassWord={viewPassWord}

@@ -6,6 +6,7 @@ import { addCart } from "../../../../actions/addToCart";
 import { Error, Success } from "../../../../components/Alert";
 import { LoadingBtn } from "../../../../components/Loading";
 import ProductQuantityInput from "../ProductQuantityInput";
+import { addQuantityProductCart } from "./addQuanityProductCart";
 import { checkProductCart } from "./checkProductCart";
 
 const BoxSupportInFoArray = [
@@ -107,10 +108,14 @@ function DetailProductInfo({ product }) {
 
     const action = addCart(productInfo);
     dispatch(action);
-    localStorage.setItem(
-      "cart",
-      JSON.stringify([...cartProductArray, productInfo])
-    );
+    let newCartProduct;
+    if (checkProductCart(cartProductArray, productInfo)) {
+      newCartProduct = addQuantityProductCart(cartProductArray, productInfo);
+    } else {
+      newCartProduct = [...cartProductArray, productInfo];
+    }
+
+    localStorage.setItem("cart", JSON.stringify(newCartProduct));
     setSuccessAddCart(true);
   };
   return (

@@ -30,6 +30,7 @@
 }
 .featured-products__image img {
   transition: 0.4s linear;
+  transform: scale(1.015);
 }
 .featured-products__item:hover .featured-products__name {
   font-weight: 600;

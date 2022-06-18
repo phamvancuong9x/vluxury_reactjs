@@ -115,6 +115,7 @@ section.detailProduct {
 }
 .detailProduct__image-right img {
   max-height: 600px;
+  transform: scale(1.015) !important;
 }
 .detailProduct__info {
   padding-left: 40px;

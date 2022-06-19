@@ -8,28 +8,20 @@ import SellingProducts from "./components/SellingProducts";
 import "./styles.scss";
 
 function News() {
-  const { newsLists, productLists } =
-    (!!sessionStorage.getItem("news") &&
-      JSON.parse(sessionStorage.getItem("news"))) ||
-    {};
+  const { newsLists, productLists } = JSON.parse(
+    sessionStorage.getItem("news") || "{}"
+  );
+
   const [newsList, setNewsList] = useState(newsLists || []);
   const [productList, setProductList] = useState(productLists || []);
 
   const [loading, setLoading] = useState(!newsLists || false);
-  const controller = useRef(new AbortController());
   useEffect(() => {
     if (!!sessionStorage.getItem("news")) return;
 
     (async () => {
       try {
-        const { newsList, productList } = await newApi.getAll(
-          {
-            signal: controller.current.signal,
-          },
-          {
-            signal: controller.current.signal,
-          }
-        );
+        const { newsList, productList } = await newApi.getAll();
         const newsListReverse = newsList.reverse();
         setNewsList(newsListReverse);
         setProductList(productList);
@@ -46,9 +38,6 @@ function News() {
       } catch (error) {
         console.log(error);
       }
-      return () => {
-        controller.current.abort();
-      };
     })();
   }, []);
 

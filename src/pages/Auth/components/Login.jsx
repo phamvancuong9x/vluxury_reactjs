@@ -32,7 +32,6 @@ export function isCheckUserNamePassWord(accountList, userName, password) {
   return { isUserName: false, isPassWord: false };
 }
 function Login({ switchPage, setCheckAuth, setCheckLogin }) {
-  console.log(switchPage);
   const [loadingBtn, setLoading] = useState(false);
   const [viewPassWord, setViewPassWord] = useState(false);
   const [userName, setUserName] = useState("");

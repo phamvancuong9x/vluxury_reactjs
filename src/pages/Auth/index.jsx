@@ -12,7 +12,6 @@ function Auth() {
   const switchPageRef = useRef();
   switchPageRef.current = sessionStorage.getItem("switchPage") || null;
 
-  // sessionStorage.setItem("switchPage", "null");
   const [switchPage, setSwitchPage] = useState(switchPageRef.current);
   console.log(switchPage);
   useEffect(() => {

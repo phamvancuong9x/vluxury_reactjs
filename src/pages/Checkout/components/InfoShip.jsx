@@ -1,62 +1,16 @@
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import provincesApi from "../../../api/provincesApi";
 import infoShipSlice from "../../../redux/slice/infoShipSlice";
+import { InfoShipAddressSelect } from "./InfoShipAddressSelect";
 
 export function InfoShip({ setShowContent }) {
   const ckeckLogin = JSON.parse(sessionStorage.getItem("stateLogin") || false);
-  console.log(ckeckLogin);
-  const [provincesList, setProvincesList] = useState([]);
-  const [districtList, setDistrictList] = useState([]);
-  const [wardsList, setWardsList] = useState([]);
-  const [districtParams, setDistrictParams] = useState();
-  const [wardsParams, setWardsParams] = useState();
   const infoShip = useSelector((state) => state.infoShips);
+
   const handleClick = () => {
     sessionStorage.setItem("switchPage", "/checkout");
   };
   const dispatch = useDispatch();
-  useEffect(() => {
-    (async () => {
-      try {
-        const provincesList = await provincesApi.getAll("/?depth=1");
-        setProvincesList(provincesList);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
-  useEffect(() => {
-    setDistrictList([]);
-    setWardsList([]);
-    if (!districtParams) return;
-    (async () => {
-      try {
-        const DistrictList = await provincesApi.getAll(
-          `p/${districtParams}?depth=2`
-        );
-        setDistrictList(DistrictList.districts);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [districtParams]);
-  useEffect(() => {
-    setWardsList([]);
-
-    if (!districtParams || !wardsParams || wardsParams == "default") return;
-    (async () => {
-      try {
-        const WardsList = await provincesApi.getAll(`d/${wardsParams}?depth=2`);
-        setWardsList(WardsList.wards);
-      } catch (error) {}
-    })();
-  }, [wardsParams]);
-
-  const handleGetProvinces = (e) => {
-    setDistrictParams(e.target.value);
-  };
 
   return (
     <section className="info-ship">
@@ -139,55 +93,7 @@ export function InfoShip({ setShowContent }) {
             }
           />
         </div>
-        <div className="info-ship__address">
-          <div className="row">
-            <div className="col-12 col-sm-4">
-              <select
-                className="provinces"
-                onChange={(e) => handleGetProvinces(e)}
-              >
-                <option value="default"> Chọn Tỉnh Thành</option>
-                {provincesList?.map((province, i) => {
-                  return (
-                    <option value={province.code} key={i}>
-                      {" "}
-                      {province.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            <div className="col-12 col-sm-4">
-              <select
-                className="district"
-                onChange={(e) => setWardsParams(e.target.value)}
-              >
-                <option value="default"> Chọn Quận/Huyện</option>
-                {districtList?.map((district, i) => {
-                  return (
-                    <option value={district.code} key={i}>
-                      {" "}
-                      {district.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-            <div className="col-12 col-sm-4">
-              <select className="wards">
-                <option value="default"> Chọn Xã </option>
-                {wardsList?.map((wards, i) => {
-                  return (
-                    <option value={wards.code} key={i}>
-                      {" "}
-                      {wards.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div>
-        </div>
+        <InfoShipAddressSelect />
       </div>
       <div className="info-ship__footer">
         <Link to="/cart" title="title">

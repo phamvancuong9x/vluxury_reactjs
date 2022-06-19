@@ -30,3 +30,4 @@ export const payMethodArray = [
     defaultChecked: false,
   },
 ];
+export const tabs = ["infoShip", "payMethod", "modalActive"];

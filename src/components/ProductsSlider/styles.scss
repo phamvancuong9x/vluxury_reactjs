@@ -15,6 +15,7 @@
   position: relative;
   top: 0;
   left: 0;
+  min-height: 240px;
 }
 .featured-products__name {
   margin: 10px 0 10px 0;
@@ -63,7 +64,22 @@
   text-decoration: line-through;
 }
 @media (min-width: 1200px) {
-  .featured-products__image {
-    // min-height: 396px;
+  .category-main .featured-products__image {
+    min-height: 396px;
+  }
+}
+@media (min-width: 1024px) {
+  .category-main .featured-products__image {
+    min-height: 324px;
+  }
+}
+@media (min-width: 768px) {
+  .category-main .featured-products__image {
+    min-height: 365px;
+  }
+}
+@media (min-width: 768px) {
+  .category-main .featured-products__image {
+    min-height: 365px;
   }
 }

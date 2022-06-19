@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
-import { deleteAllProduct } from "../../../actions/addToCart";
-import { setInfoShip } from "../../../actions/infoShip";
+import addToCartSlice from "../../../redux/slice/addToCartSlice";
+import infoShipSlice from "../../../redux/slice/infoShipSlice";
+
 import { payMethodArray } from "./constant";
 import { InputMethod } from "./InputMethod";
 
@@ -8,8 +9,8 @@ export function PayMeThod({ setShowContent, total_price }) {
   const dispatch = useDispatch();
 
   const handleBuyProduct = () => {
-    dispatch(setInfoShip({ totalPrice: total_price }));
-    const action = deleteAllProduct();
+    dispatch(infoShipSlice.actions.changeInfoShip({ totalPrice: total_price }));
+    const action = addToCartSlice.actions.DELETE_All_PRODUCT();
     dispatch(action);
     setShowContent("modalActive");
     localStorage.setItem("cart", "[]");

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { changeQuantity } from "../../../actions/addToCart";
+import addToCartSlice from "../../../redux/slice/addToCartSlice";
 
 export function QuanTityProduct({ product }) {
   const [quantity, setQuantity] = useState(product.quantity);
@@ -19,7 +19,11 @@ export function QuanTityProduct({ product }) {
     setQuantity(+e.target.value);
   };
   useEffect(() => {
-    const action = changeQuantity(product.id, product.size, quantity);
+    const action = addToCartSlice.actions.CHANGE_QUANTITY_PRODUCT_CART({
+      id: product.id,
+      size: product.size,
+      quantity,
+    });
     dispatch(action);
   }, [quantity]);
 

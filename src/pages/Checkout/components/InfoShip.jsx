@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setInfoShip } from "../../../actions/infoShip";
 import provincesApi from "../../../api/provincesApi";
+import infoShipSlice from "../../../redux/slice/infoShipSlice";
 
 export function InfoShip({ setShowContent }) {
-  const ckeckLogin = sessionStorage.getItem("");
+  const ckeckLogin = JSON.parse(sessionStorage.getItem("stateLogin") || false);
+  console.log(ckeckLogin);
   const [provincesList, setProvincesList] = useState([]);
   const [districtList, setDistrictList] = useState([]);
   const [wardsList, setWardsList] = useState([]);
   const [districtParams, setDistrictParams] = useState();
   const [wardsParams, setWardsParams] = useState();
   const infoShip = useSelector((state) => state.infoShips);
-
+  const handleClick = () => {
+    sessionStorage.setItem("switchPage", "/checkout");
+  };
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
@@ -58,10 +61,15 @@ export function InfoShip({ setShowContent }) {
   return (
     <section className="info-ship">
       <div className="info-ship__title"> Thông tin vận chuyển</div>
-      {ckeckLogin && (
+      {!ckeckLogin && (
         <div className="linkToLoginPage">
           Bạn đã có tài khoản?
-          <Link to="/login" title="title">
+          <Link
+            to="/login"
+            className="link-login-checkout"
+            title="title"
+            onClick={handleClick}
+          >
             Đăng nhập
           </Link>
         </div>
@@ -72,7 +80,11 @@ export function InfoShip({ setShowContent }) {
           value={infoShip.nameUser}
           placeholder="Họ và tên"
           id="name"
-          onChange={(e) => dispatch(setInfoShip({ nameUser: e.target.value }))}
+          onChange={(e) =>
+            dispatch(
+              infoShipSlice.actions.changeInfoShip({ nameUser: e.target.value })
+            )
+          }
         />
         <div className="info-contact">
           <div className="row">
@@ -85,7 +97,11 @@ export function InfoShip({ setShowContent }) {
                 placeholder="Email"
                 required
                 onChange={(e) =>
-                  dispatch(setInfoShip({ email: e.target.value }))
+                  dispatch(
+                    infoShipSlice.actions.changeInfoShip({
+                      email: e.target.value,
+                    })
+                  )
                 }
               />
             </div>
@@ -98,7 +114,11 @@ export function InfoShip({ setShowContent }) {
                 maxLength="15"
                 value={infoShip.phone}
                 onChange={(e) =>
-                  dispatch(setInfoShip({ phone: e.target.value }))
+                  dispatch(
+                    infoShipSlice.actions.changeInfoShip({
+                      phone: e.target.value,
+                    })
+                  )
                 }
               />
             </div>
@@ -110,7 +130,13 @@ export function InfoShip({ setShowContent }) {
             value={infoShip.address}
             placeholder="Địa chỉ"
             id="address"
-            onChange={(e) => dispatch(setInfoShip({ address: e.target.value }))}
+            onChange={(e) =>
+              dispatch(
+                infoShipSlice.actions.changeInfoShip({
+                  address: e.target.value,
+                })
+              )
+            }
           />
         </div>
         <div className="info-ship__address">

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addCart } from "../../../../actions/addToCart";
 import { Error, Success } from "../../../../components/Alert";
 import { LoadingBtn } from "../../../../components/Loading";
+import addToCartSlice from "../../../../redux/slice/addToCartSlice";
 import ProductQuantityInput from "../ProductQuantityInput";
 import { addQuantityProductCart } from "./addQuanityProductCart";
 import { checkProductCart } from "./checkProductCart";
@@ -106,7 +106,7 @@ function DetailProductInfo({ product }) {
     setSuccessAddCart(false);
     setLoadingBtn(true);
 
-    const action = addCart(productInfo);
+    const action = addToCartSlice.actions.ADD_TO_CART(productInfo);
     dispatch(action);
     let newCartProduct;
     if (checkProductCart(cartProductArray, productInfo)) {

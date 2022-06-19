@@ -1,10 +1,9 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebase from "firebase/compat/app";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setAuth } from "../../../actions/auth";
 import { config } from "../../../pages/Auth/components/SignInGoogleFacebook";
+import authSlice from "../../../redux/slice/authSlice";
 firebase.initializeApp(config);
 
 const auth = getAuth();
@@ -23,14 +22,14 @@ onAuthStateChanged(auth, (user) => {
 
 export function HeaderUser({ text }) {
   const UserInfo = useSelector((state) => state.users);
-  const imageUser = UserInfo.imageUser;
-  const nameUser = UserInfo.nameUser;
+  const imageUser = UserInfo?.imageUser;
+  const nameUser = UserInfo?.nameUser;
   const stateLogin = useSelector((state) => state.login);
 
   const dispatch = useDispatch();
   const handleLogout = () => {
     firebase.auth().signOut();
-    const action = setAuth(false);
+    const action = authSlice.actions.login(false);
     dispatch(action);
     sessionStorage.setItem("stateLogin", "false");
     sessionStorage.setItem("userInfo", null);

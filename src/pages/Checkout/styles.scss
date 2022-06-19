@@ -1,13 +1,16 @@
 //
 .Checkout__page__css {
   //vi trí css
-  color: #000;
+}
+.link-login-checkout {
+  margin-left: 10px;
+  color: #338dbc !important;
 }
 .checkout input,
 .checkout select {
   width: 100%;
   padding: 10px 18px;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
   background: #ffffff;
   border: 1px solid #cbcbcb;
   box-sizing: border-box;

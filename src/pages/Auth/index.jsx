@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Error, Success } from "../../components/Alert";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Login from "./components/Login";
@@ -9,7 +9,12 @@ function Auth() {
   const [checkAuth, setCheckAuth] = useState("Đăng Nhập");
   const [checkRegister, setCheckRegister] = useState(false);
   const [checkLogin, setCheckLogin] = useState(false);
+  const switchPageRef = useRef();
+  switchPageRef.current = sessionStorage.getItem("switchPage") || null;
 
+  // sessionStorage.setItem("switchPage", "null");
+  const [switchPage, setSwitchPage] = useState(switchPageRef.current);
+  console.log(switchPage);
   useEffect(() => {
     const id = setTimeout(() => {
       setCheckRegister(false);
@@ -28,6 +33,7 @@ function Auth() {
           setCheckAuth={setCheckAuth}
           setCheckLogin={setCheckLogin}
           checkLogin={checkLogin}
+          switchPage={switchPage}
         />
       )}
 

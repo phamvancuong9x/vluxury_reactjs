@@ -31,7 +31,8 @@ export function isCheckUserNamePassWord(accountList, userName, password) {
   }
   return { isUserName: false, isPassWord: false };
 }
-function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
+function Login({ switchPage, setCheckAuth, setCheckLogin }) {
+  console.log(switchPage);
   const [loadingBtn, setLoading] = useState(false);
   const [viewPassWord, setViewPassWord] = useState(false);
   const [userName, setUserName] = useState("");
@@ -53,7 +54,7 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
     return () => {
       clearTimeout(id);
     };
-  }, [checkAccount.isUserName, checkAccount.isUserName]);
+  }, [checkAccount.isUserName, checkAccount.isPassWord]);
 
   const handleLogin = () => {
     setCheckSubmitLogin(true);
@@ -87,7 +88,10 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
 
         sessionStorage.setItem("stateLogin", true);
         sessionStorage.setItem("showInfoLogin", true);
-        localStorage.setItem("cart", "[]");
+        // if (switchPage === null) {
+        //   localStorage.setItem("cart", "[]");
+        // }
+
         const userInfo = {
           id: accounts.id,
           nameUser: accounts.name,
@@ -95,7 +99,11 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
         };
         sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
         setLoading(false);
-        window.location.assign("/");
+        if (switchPage !== null) {
+          window.location.assign(`${switchPage}`);
+        } else {
+          window.location.assign("/");
+        }
       }
     })();
   };
@@ -178,7 +186,7 @@ function Login({ checkLogin, setCheckAuth, setCheckLogin }) {
           </div>
         </form>
         <div className="social__container">
-          <SignInGoogleFaceBook />
+          <SignInGoogleFaceBook switchPage={switchPage} />
         </div>
         <div className="create-account" onClick={() => setCheckAuth("Đăng Kí")}>
           <span className="link-convert-html create-account-link">Đăng kí</span>

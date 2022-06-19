@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setInfoShip } from "../../../actions/infoShip";
+import infoShipSlice from "../../../redux/slice/infoShipSlice";
 
 export function InputMethod({ payMethod, defaultChecked }) {
   const dispatch = useDispatch();
@@ -10,7 +10,11 @@ export function InputMethod({ payMethod, defaultChecked }) {
         name="pay"
         value={payMethod?.nameMethod || ""}
         defaultChecked
-        onChange={(e) => dispatch(setInfoShip({ payMethod: e.target.value }))}
+        onChange={(e) =>
+          dispatch(
+            infoShipSlice.actions.changeInfoShip({ payMethod: e.target.value })
+          )
+        }
       />
     );
   }
@@ -19,7 +23,11 @@ export function InputMethod({ payMethod, defaultChecked }) {
       type="radio"
       name="pay"
       value={payMethod?.nameMethod || ""}
-      onChange={(e) => dispatch(setInfoShip({ payMethod: e.target.value }))}
+      onChange={(e) =>
+        dispatch(
+          infoShipSlice.actions.changeInfoShip({ payMethod: e.target.value })
+        )
+      }
     />
   );
 }

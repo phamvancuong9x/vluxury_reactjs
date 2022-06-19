@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteProduct } from "../../../actions/addToCart";
-import {
-  setIdShowConfirm,
-  setShowNotifyDeleteProduct,
-} from "../../../actions/cart";
-
 import { Confirm } from "../../Admin/components/Confirm";
 import { useSelector } from "react-redux";
+import addToCartSlice from "../../../redux/slice/addToCartSlice";
+import cartSlice from "../../../redux/slice/cartSlice";
+
 export function CartRemove({ product }) {
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const idShowConfirm = useSelector((state) => state.Cart.idShowConfirm);
@@ -15,22 +12,36 @@ export function CartRemove({ product }) {
 
   const handleConfirmYes = () => {
     setShowConfirmDelete(false);
-    const action = deleteProduct(product.id, product.size);
+    const action = addToCartSlice.actions.DELETE_PRODUCT({
+      id: product.id,
+      size: product.size,
+    });
     dispatch(action);
-    dispatch(setShowNotifyDeleteProduct(true));
+    dispatch(cartSlice.actions.showNotifyDelete(true));
 
     setTimeout(() => {
-      dispatch(setShowNotifyDeleteProduct(false));
+      dispatch(cartSlice.actions.showNotifyDelete(false));
     }, 1000);
   };
   const handleConfirmNo = () => {
+    dispatch(cartSlice.action.showConfirmDelete(false));
     setShowConfirmDelete(false);
-    dispatch(setIdShowConfirm({ ...idShowConfirm, id: null, size: null }));
+    dispatch(
+      cartSlice.actions.IdShowConfirm({
+        ...idShowConfirm,
+        id: null,
+        size: null,
+      })
+    );
   };
   const handleShowConfirm = () => {
-    dispatch(setShowNotifyDeleteProduct(false));
+    dispatch(cartSlice.actions.showNotifyDelete(false));
     dispatch(
-      setIdShowConfirm({ ...idShowConfirm, id: product.id, size: product.size })
+      cartSlice.actions.IdShowConfirm({
+        ...idShowConfirm,
+        id: product.id,
+        size: product.size,
+      })
     );
     setShowConfirmDelete(true);
   };
@@ -41,8 +52,8 @@ export function CartRemove({ product }) {
       </div>
 
       {showConfirmDelete &&
-        idShowConfirm?.id == product.id &&
-        idShowConfirm?.size == product.size && (
+        idShowConfirm?.id === product.id &&
+        idShowConfirm?.size === product.size && (
           <Confirm
             id={product.id}
             handleConfirmYes={handleConfirmYes}

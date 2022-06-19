@@ -34,7 +34,7 @@ const uiConfig = {
   },
 };
 
-function SignInGoogleFaceBook() {
+function SignInGoogleFaceBook({ switchPage }) {
   const [isSignedIn, setIsSignedIn] = useState(false); // Local signed-in state.
   const auth = getAuth();
   // Listen to the Firebase Auth state and set the local state.
@@ -52,8 +52,14 @@ function SignInGoogleFaceBook() {
           const userInfo = { id, nameUser, imageUser, email };
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
           sessionStorage.setItem("showInfoLogin", true);
-          localStorage.setItem("cart", "[]");
-          window.location.assign("/");
+          if (switchPage === null) {
+            localStorage.setItem("cart", "[]");
+          }
+          if (switchPage !== null) {
+            window.location.assign(`${switchPage}`);
+          } else {
+            window.location.assign("/");
+          }
         }
       });
     return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.

@@ -56,7 +56,7 @@ function SignInGoogleFaceBook({ switchPage }) {
             localStorage.setItem("cart", "[]");
           }
           if (switchPage !== null) {
-            window.location.assign(`${switchPage}`);
+            window.location.assign(`/${switchPage}`);
           } else {
             window.location.assign("/");
           }

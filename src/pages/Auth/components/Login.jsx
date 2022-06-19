@@ -99,7 +99,7 @@ function Login({ switchPage, setCheckAuth, setCheckLogin }) {
         sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
         setLoading(false);
         if (switchPage != null) {
-          window.location.assign(`${switchPage}`);
+          window.location.assign(`/${switchPage}`);
         } else {
           window.location.assign("/");
         }

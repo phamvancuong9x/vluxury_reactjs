@@ -10,11 +10,8 @@ function Auth() {
   const [checkRegister, setCheckRegister] = useState(false);
   const [checkLogin, setCheckLogin] = useState(false);
   const switchPageRef = useRef();
-  switchPageRef.current =
-    JSON.parse(sessionStorage.getItem("switchPage") || "null") || null;
-
+  switchPageRef.current = sessionStorage.getItem("switchPage") || "null";
   const [switchPage, setSwitchPage] = useState(switchPageRef.current);
-  console.log(switchPage);
   useEffect(() => {
     const id = setTimeout(() => {
       setCheckRegister(false);

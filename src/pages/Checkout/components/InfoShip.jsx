@@ -8,7 +8,7 @@ export function InfoShip({ setShowContent }) {
   const infoShip = useSelector((state) => state.infoShips);
 
   const handleClick = () => {
-    sessionStorage.setItem("switchPage", "/checkout");
+    sessionStorage.setItem("switchPage", "checkout");
   };
   const dispatch = useDispatch();
 

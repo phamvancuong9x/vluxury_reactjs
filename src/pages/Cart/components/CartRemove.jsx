@@ -24,15 +24,7 @@ export function CartRemove({ product }) {
     }, 1000);
   };
   const handleConfirmNo = () => {
-    dispatch(cartSlice.action.showConfirmDelete(false));
     setShowConfirmDelete(false);
-    dispatch(
-      cartSlice.actions.IdShowConfirm({
-        ...idShowConfirm,
-        id: null,
-        size: null,
-      })
-    );
   };
   const handleShowConfirm = () => {
     dispatch(cartSlice.actions.showNotifyDelete(false));

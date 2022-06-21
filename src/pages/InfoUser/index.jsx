@@ -142,38 +142,11 @@ function InfoUser() {
                     </div>
                   </div>
                   <div className="data-item row">
-                    <div className="col-lg-4"></div>
-                    <div className="col-lg-8">
+                    <div className="col-lg-12">
                       <div className="btn__save">Lưu</div>
                     </div>
                   </div>
                 </form>
-              </div>
-              <div className="col-md-4">
-                <div className="change-avatar">
-                  <div className="change-avatar__image">
-                    <img
-                      src={
-                        UserInfo.imageUser ||
-                        "assets/image/image_home/anhdaidien.jpg"
-                      }
-                      alt="image_avatar"
-                    />
-                  </div>
-                  <label className="btn__change-image" htmlFor="file">
-                    <span>Chọn ảnh</span>
-                  </label>
-                  <input
-                    id="file"
-                    type="file"
-                    name=""
-                    style={{ display: "none" }}
-                  />
-                  <div className="input__describer">
-                    <p>Kích thước tối thiểu 150x150px.</p>
-                    <p>Định dạng jpg hoặc png.</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

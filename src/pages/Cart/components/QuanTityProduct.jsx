@@ -42,14 +42,12 @@ export function QuanTityProduct({ product }) {
         className="icon-minus-modal icon-quantity-modal"
         onClick={handleDecrease}
       >
-        {" "}
         <i className="fas fa-minus"></i>
       </span>
       <span
         className="icon-plus-modal icon-quantity-modal"
         onClick={handleIncrease}
       >
-        {" "}
         <i className="fas fa-plus"></i>
       </span>
     </div>

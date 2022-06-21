@@ -17,8 +17,13 @@ export function CartContent({ ProductCartList }) {
             </tr>
           </thead>
           <tbody id="product-cart-list">
-            {ProductCartList.map((product, i) => {
-              return <ProductCartItem product={product} key={i} />;
+            {ProductCartList.map((product) => {
+              return (
+                <ProductCartItem
+                  product={product}
+                  key={`${product.size}${product.id}`}
+                />
+              );
             })}
           </tbody>
         </table>

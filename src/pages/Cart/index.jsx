@@ -7,6 +7,7 @@ import "./styles.scss";
 
 function Cart() {
   const ProductCartList = useSelector((state) => state.add_cart);
+
   const showNotifyDeleteProduct = useSelector(
     (state) => state.Cart.showNotifyDeleteProduct
   );

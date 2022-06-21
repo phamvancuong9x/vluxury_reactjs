@@ -24,13 +24,15 @@ const addToCartSlice = createSlice({
       });
     },
     DELETE_PRODUCT: (state, action) => {
-      return state.filter((product) => {
+      const cartList = state.filter((product) => {
         return (
           product.id !== action.payload.id ||
           (product.id === action.payload.id &&
             product.size !== action.payload.size)
         );
       });
+
+      return cartList;
     },
     DELETE_All_PRODUCT: (state, action) => {
       return [];

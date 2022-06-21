@@ -96,7 +96,7 @@ export function InfoShip({ setShowContent }) {
         <InfoShipAddressSelect />
       </div>
       <div className="info-ship__footer">
-        <Link to="/cart" title="title">
+        <Link to="/cart" className="switch_to_cart" title="title">
           Giỏ hàng
         </Link>
         <div

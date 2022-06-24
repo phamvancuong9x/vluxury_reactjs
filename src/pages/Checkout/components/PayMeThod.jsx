@@ -1,11 +1,14 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import addToCartSlice from "../../../redux/slice/addToCartSlice";
 import infoShipSlice from "../../../redux/slice/infoShipSlice";
-
-import { payMethodArray } from "./constant";
+import getTimeCurrent from "../../Admin/components/getTimeCurrent";
+import { WriteUserData, payMethodArray } from "./constant";
 import { InputMethod } from "./InputMethod";
 
 export function PayMeThod({ setShowContent, total_price }) {
+  const NumberCode = Math.floor(Math.random() * 10000);
+  const InfoShip = useSelector((state) => state.infoShips);
+  const cart = useSelector((state) => state.add_cart);
   const dispatch = useDispatch();
 
   const handleBuyProduct = () => {
@@ -13,6 +16,14 @@ export function PayMeThod({ setShowContent, total_price }) {
     const action = addToCartSlice.actions.DELETE_All_PRODUCT();
     dispatch(action);
     setShowContent("modalActive");
+    const newInfoShip = { ...InfoShip, totalPrice: total_price };
+    WriteUserData(NumberCode, {
+      id: NumberCode,
+
+      InfoShip: newInfoShip,
+      cart,
+      timeOrder: getTimeCurrent(),
+    });
     localStorage.setItem("cart", "[]");
   };
   return (

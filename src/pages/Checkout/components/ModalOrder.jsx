@@ -24,7 +24,7 @@ export function ModalOrder({ showContent }) {
                   <p>
                     Mã đơn hàng :
                     <span className="number-code-orders">
-                      {`#${NumberCode}`}
+                      {`${NumberCode}`}
                     </span>
                   </p>
                   <p>Cám ơn bạn đã mua hàng!</p>

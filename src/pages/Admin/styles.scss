@@ -2,6 +2,76 @@
 .Admin__page__css {
   color: #000;
 }
+.notify_admin {
+  user-select: none;
+  position: relative;
+  top: 0;
+  color: #fff !important;
+  .notify_icon {
+    position: relative;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: 99;
+    padding: 5px;
+  }
+  .notify_show {
+    position: absolute;
+    top: -2px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: rgb(232, 214, 20);
+    border-radius: 50%;
+  }
+
+  .menu_notify {
+    display: none;
+    width: 300px;
+    > p {
+      padding: 20px 0;
+      text-align: center;
+    }
+    position: absolute;
+    top: 100%;
+    right: -20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #000;
+    z-index: 20;
+
+    .notify-menu {
+      background-color: rgb(247, 246, 246);
+      min-height: 150px;
+      padding: 0 20px;
+
+      .notify-item {
+        padding: 20px 0;
+      }
+      ::before {
+        content: "";
+        position: absolute;
+        top: -17px;
+        right: 15px;
+        border-width: 10px 15px;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
+      }
+      .notify_quantity {
+        margin: 0 10px;
+        font-size: 17px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.menu-notify-show {
+  display: block !important;
+  transform-origin: calc(100% - 30px) top;
+  animation: header__notify-growth ease-in 0.2s;
+  will-change: opacity, transform;
+}
 .header-admin {
   padding: 0 20px;
   display: flex;
@@ -40,6 +110,11 @@
     border-color: #ccc !important;
   }
 }
+.header-admin {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
 .admin-menu {
   margin-bottom: 40px;
   li {
@@ -53,7 +128,7 @@
     color: rgb(232, 214, 20) !important;
     cursor: pointer;
   }
-  &li:first-child {
+  > li:first-child {
     border-bottom: none;
     color: #fff;
     background-color: rgb(73, 73, 73);
@@ -203,4 +278,15 @@
 .btn-active {
   background-color: #000;
   color: #fff;
+}
+
+@keyframes header__notify-growth {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

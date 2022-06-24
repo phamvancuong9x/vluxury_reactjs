@@ -31,7 +31,6 @@ const addToCartSlice = createSlice({
             product.size !== action.payload.size)
         );
       });
-
       return cartList;
     },
     DELETE_All_PRODUCT: (state, action) => {

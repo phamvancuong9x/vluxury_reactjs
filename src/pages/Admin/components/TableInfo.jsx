@@ -8,6 +8,9 @@ import BtnLoading from "./BtnLoading";
 import { Confirm } from "./Confirm";
 
 function TableInfo({ type, Data, isChange, setIsChange, children }) {
+  const newData = Data?.filter((data, i) => {
+    return i < 8;
+  });
   const [idShowConfirm, setIdShowConfirm] = useState();
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
@@ -59,7 +62,7 @@ function TableInfo({ type, Data, isChange, setIsChange, children }) {
           </tr>
         </thead>
         <tbody>
-          {Data.map((dataItem) => {
+          {newData.map((dataItem) => {
             return (
               <tr key={dataItem.id}>
                 <td>{dataItem.id}</td>

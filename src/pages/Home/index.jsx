@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { getDatabase, onValue, ref } from "firebase/database";
+import { useEffect, useState } from "react";
 import homeApi from "../../api/homeApi";
-import { Success } from "../../components/Alert";
 import Loading from "../../components/Loading";
 import Banner from "./components/Banner";
 import CollectionList from "./components/CollectionList";

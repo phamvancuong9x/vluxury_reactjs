@@ -14,6 +14,17 @@ const infoShipSlice = createSlice({
     changeInfoShip: (state, action) => {
       return { ...state, ...action.payload };
     },
+    resetInfoShip: (state, action) => {
+      return {
+        ...state,
+        nameUser: userInfo?.nameUser || "",
+        email: userInfo?.email || "",
+        phone: userInfo?.phone || "",
+        address: "",
+        payMethod: "Thanh toán khi giao hàng (COD)",
+        totalPrice: "",
+      };
+    },
   },
 });
 export default infoShipSlice;

@@ -117,7 +117,7 @@ function ModalOrder({ orderItem }) {
         Xem đơn hàng
       </Button>
       <Button color="primary" variant="outlined" onClick={handleShowConfirm}>
-        Xóa
+        Hủy đơn hàng
       </Button>
       {console.log(showConfirm && idShowConfirm === orderItem.id)}
       {showConfirm && idShowConfirm === orderItem.id && (
@@ -178,10 +178,18 @@ function ModalOrder({ orderItem }) {
             >
               Danh sách sản phẩm :
             </Typography>
-            <OrderTableProduct
-              className="btn_confirm_order"
-              cart={orderItem.cart}
-            />
+            <Typography
+              className="table_container"
+              id="modal-modal-title"
+              variant="div"
+              component="div"
+            >
+              <OrderTableProduct
+                className="btn_confirm_order"
+                cart={orderItem.cart}
+              />
+            </Typography>
+
             <Typography
               className="row "
               id="modal-modal-title"
@@ -189,7 +197,7 @@ function ModalOrder({ orderItem }) {
               component="div"
             >
               <Button
-                className="col-4 "
+                className="col-4 btn-confirm-order"
                 variant="outlined"
                 onClick={handleConfirmOrder}
               >
@@ -200,7 +208,7 @@ function ModalOrder({ orderItem }) {
                 variant="outlined"
                 onClick={handleClose}
               >
-                Hủy
+                Bỏ qua
               </Button>
             </Typography>
           </Typography>

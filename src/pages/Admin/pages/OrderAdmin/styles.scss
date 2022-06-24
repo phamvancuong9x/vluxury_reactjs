@@ -60,4 +60,9 @@
   margin-top: 20px !important;
   padding: 10px 0 !important;
   margin-left: 15px !important;
+  max-height: 45px;
+}
+.table_container {
+  max-height: 200px !important;
+  overflow-y: auto;
 }

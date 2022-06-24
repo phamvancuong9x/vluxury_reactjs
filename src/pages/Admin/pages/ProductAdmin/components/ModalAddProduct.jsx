@@ -14,6 +14,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import React, { useState } from "react";
 import categoryApi from "../../../../../api/categoryApi";
 import Image from "../../../../../components/Image";
+import alertSlice from "../../../../../redux/slice/alertSlice";
 import BtnLoading from "../../../components/BtnLoading";
 import {
   DocTienBangChu,
@@ -21,6 +22,7 @@ import {
 } from "../../../components/constant";
 import { tabsTypeProduct } from "../../../components/data";
 import getTimeCurrent from "../../../components/getTimeCurrent";
+import { useDispatch } from "react-redux";
 
 // Initialize Firebase
 
@@ -61,6 +63,7 @@ function SelectTypeProduct({ typeProduct, setTypeProduct }) {
     </FormControl>
   );
 }
+
 function TextAreaNew({ titleText, placeholder, onChange }) {
   return (
     <Typography component={"div"} className="col-4">
@@ -89,7 +92,7 @@ function ModalAddProduct({ isChange, setIsChange }) {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [typeProduct, setTypeProduct] = useState("vest");
-
+  const dispatch = useDispatch();
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setProductPrice("");
@@ -138,6 +141,15 @@ function ModalAddProduct({ isChange, setIsChange }) {
     setLoadingUpload(false);
     setCheckUpload(true);
     setIsChange(!isChange);
+    setTimeout(() => {
+      handleClose();
+      dispatch(
+        alertSlice.actions.changeAlert({
+          showAlert: true,
+          alertContent: "Thêm thành công",
+        })
+      );
+    }, 1000);
   };
 
   const handlePreviewAvatar = (e, i) => {
@@ -259,11 +271,6 @@ function ModalAddProduct({ isChange, setIsChange }) {
                     Uploads
                   </Button>
                 )}
-              {checkUpload && (
-                <Typography component={"p"} className="add-success">
-                  Thêm Thành công !
-                </Typography>
-              )}
             </Typography>
           </Typography>
         </Box>

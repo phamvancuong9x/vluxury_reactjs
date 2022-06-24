@@ -7,8 +7,10 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import React, { useState } from "react";
 import newApi from "../../../../../api/newsApi";
 import Image from "../../../../../components/Image";
+import alertSlice from "../../../../../redux/slice/alertSlice";
 import BtnLoading from "../../../components/BtnLoading";
 import getTimeCurrent from "../../../components/getTimeCurrent";
+import { useDispatch } from "react-redux";
 
 // Initialize Firebase
 
@@ -41,6 +43,7 @@ function TextAreaNew({ titleText, placeholder, onChange }) {
 }
 
 function ModalNews({ isChange, setIsChange }) {
+  const dispatch = useDispatch();
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [loadingConfirm, setLoadingConfirm] = useState(false);
   const [checkUpload, setCheckUpload] = useState(false);
@@ -91,6 +94,16 @@ function ModalNews({ isChange, setIsChange }) {
     setLoadingUpload(false);
     setCheckUpload(true);
     setIsChange(!isChange);
+
+    if (!loadingConfirm) {
+      handleClose();
+      dispatch(
+        alertSlice.actions.changeAlert({
+          showAlert: true,
+          alertContent: "Thêm thành công",
+        })
+      );
+    }
   };
 
   const handlePreviewAvatar = (e, i) => {
@@ -181,11 +194,6 @@ function ModalNews({ isChange, setIsChange }) {
                     Uploads
                   </Button>
                 )}
-              {checkUpload && (
-                <Typography component={"p"} className="add-success">
-                  Thêm Thành công !
-                </Typography>
-              )}
             </Typography>
           </Typography>
         </Box>

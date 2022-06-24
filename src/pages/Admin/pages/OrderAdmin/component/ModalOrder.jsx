@@ -2,6 +2,7 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import adminSlice from "../../../../../redux/slice/adminSlice";
+import alertSlice from "../../../../../redux/slice/alertSlice";
 import {
   DeleteData,
   WriteOrderCannel,
@@ -96,6 +97,12 @@ function ModalOrder({ orderItem }) {
   const handleConfirmOrder = () => {
     WriteOrderConfirm(orderItem.id, orderItem);
     handleDeleteOrder();
+    dispatch(
+      alertSlice.actions.changeAlert({
+        showAlert: true,
+        alertContent: "Thêm thành công",
+      })
+    );
   };
 
   const handleShowConfirm = () => {
@@ -119,7 +126,7 @@ function ModalOrder({ orderItem }) {
       <Button color="primary" variant="outlined" onClick={handleShowConfirm}>
         Hủy đơn hàng
       </Button>
-      {console.log(showConfirm && idShowConfirm === orderItem.id)}
+
       {showConfirm && idShowConfirm === orderItem.id && (
         <Confirm
           id={orderItem.id}

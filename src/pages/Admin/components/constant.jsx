@@ -1,3 +1,9 @@
+export function getListProduct(Data) {
+  const newData = Data?.filter((data, i) => {
+    return i < 8;
+  });
+  return newData;
+}
 // hàm chuyển giá tiền từ dạng số dang dạng chuỗi có đấu phảy;
 export function stringToNumberMoney(numberMoney) {
   const stringMoneyStart = numberMoney.toString();

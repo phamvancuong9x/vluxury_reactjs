@@ -7,9 +7,10 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import homeApi from "../../../../../api/homeApi";
 import Image from "../../../../../components/Image";
+import alertSlice from "../../../../../redux/slice/alertSlice";
 import BtnLoading from "../../../components/BtnLoading";
 import getTimeCurrent from "../../../components/getTimeCurrent";
-
+import { useDispatch } from "react-redux";
 // Initialize Firebase
 
 const style = {
@@ -25,6 +26,8 @@ const style = {
 };
 
 function Modals({ tabsData, tabs, isChange, setIsChange }) {
+  const dispatch = useDispatch();
+
   const [loadingUpload, setLoadingUpload] = useState(false);
   const [loadingConfirm, setLoadingConfirm] = useState(false);
   const [checkUpload, setCheckUpload] = useState(false);
@@ -55,7 +58,6 @@ function Modals({ tabsData, tabs, isChange, setIsChange }) {
     setUrlFirebase2(null);
     if (loadingUpload) return;
     setLoadingConfirm(false);
-
     setOpen(false);
     setUrlImage({ url1: null, url2: null });
     setFiles({
@@ -63,7 +65,7 @@ function Modals({ tabsData, tabs, isChange, setIsChange }) {
       file2: null,
     });
   };
-  function getUrlFirebase(file, storage) {
+  const getUrlFirebase = (file, storage) => {
     const storageRef = ref(storage, file?.name);
 
     uploadBytes(storageRef, file).then((snapshot) => {
@@ -75,7 +77,7 @@ function Modals({ tabsData, tabs, isChange, setIsChange }) {
         }
       });
     });
-  }
+  };
   const handleConfirm = () => {
     setLoadingConfirm(true);
     // const files = file.current.file[0];
@@ -98,6 +100,15 @@ function Modals({ tabsData, tabs, isChange, setIsChange }) {
     setLoadingUpload(false);
     setCheckUpload(true);
     setIsChange(!isChange);
+    setTimeout(() => {
+      handleClose();
+      dispatch(
+        alertSlice.actions.changeAlert({
+          showAlert: true,
+          alertContent: "Thêm thành công",
+        })
+      );
+    }, 1000);
   };
 
   const handlePreviewAvatar = (e, i) => {
@@ -188,11 +199,6 @@ function Modals({ tabsData, tabs, isChange, setIsChange }) {
                       Uploads
                     </Button>
                   )}
-                {checkUpload && (
-                  <Typography component={"p"} className="add-success">
-                    Thêm Thành công !
-                  </Typography>
-                )}
               </Typography>
             </Typography>
           </Typography>

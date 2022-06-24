@@ -6,20 +6,33 @@ import newApi from "../../../api/newsApi";
 import Image from "../../../components/Image";
 import BtnLoading from "./BtnLoading";
 import { Confirm } from "./Confirm";
+import { getListProduct } from "./constant";
+import { useDispatch } from "react-redux";
+import alertSlice from "../../../redux/slice/alertSlice";
 
 function TableInfo({ type, Data, isChange, setIsChange, children }) {
-  const newData = Data?.filter((data, i) => {
-    return i < 8;
-  });
+  const newData = getListProduct(Data);
   const [idShowConfirm, setIdShowConfirm] = useState();
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
+  const dispatch = useDispatch();
+
   if (!Data) return <></>;
   const handleConfirmYes = (e, id) => {
     e.stopPropagation();
     setBtnLoading(true);
     setShowConfirmDelete(false);
     handleDelete(id);
+    if (!btnLoading) {
+      setTimeout(() => {
+        dispatch(
+          alertSlice.actions.changeAlert({
+            showAlert: true,
+            alertContent: "Xóa thành công",
+          })
+        );
+      }, 700);
+    }
   };
   const handleConfirmNo = (e) => {
     e.stopPropagation();

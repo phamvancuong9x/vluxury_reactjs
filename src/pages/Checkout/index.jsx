@@ -12,7 +12,6 @@ import "./styles.scss";
 
 function Checkout() {
   const [showContent, setShowContent] = useState(tabs[0]);
-
   const ProductListCart = useSelector((state) => state.add_cart);
   const total_price = stringToNumberMoney(totalPrice(ProductListCart));
   return (

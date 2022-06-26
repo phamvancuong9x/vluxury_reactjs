@@ -1,58 +1,19 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import adminSlice from "../../../../../redux/slice/adminSlice";
 import alertSlice from "../../../../../redux/slice/alertSlice";
 import {
   DeleteData,
-  WriteOrderCannel,
   WriteOrderConfirm,
 } from "../../../../Checkout/components/constant";
-import { Confirm } from "../../../components/Confirm";
+import getTimeCurrent from "../../../components/getTimeCurrent";
+import { OrderTableProduct } from "./OrderTableProduct";
 
-function TypographyCustom({ tagName, text = false, children }) {
-  return (
-    <Typography variant={tagName} component={tagName}>
-      {text}
-      {children}
-    </Typography>
-  );
-}
-export function OrderTableProduct({ cart }) {
-  return (
-    <TypographyCustom tagName="table">
-      <TypographyCustom tagName="thead">
-        <TypographyCustom tagName="tr">
-          <TypographyCustom tagName="th" text="STT" />
-          <TypographyCustom tagName="th" text="Tên sản phẩm" />
-          <TypographyCustom tagName="th" text="Số lượng" />
-          <TypographyCustom tagName="th" text="Giá" />
-        </TypographyCustom>
-      </TypographyCustom>
-      <TypographyCustom tagName="tbody">
-        {cart?.map((cartItem, i) => {
-          return (
-            <TypographyCustom tagName="tr" key={i}>
-              <TypographyCustom tagName="td" text={i + 1} />
-              <TypographyCustom tagName="td" text={cartItem.nameProduct} />
-              <TypographyCustom tagName="td" text={cartItem.quantity} />
-              <TypographyCustom tagName="td" text={cartItem.price_product} />
-            </TypographyCustom>
-          );
-        })}
-      </TypographyCustom>
-    </TypographyCustom>
-  );
-}
 function ModalOrderItem({ text, value }) {
   return (
     <>
-      <Typography
-        className="col-4 modal_title"
-        id="modal-modal-title"
-        variant="p"
-        component="p"
-      >
+      <Typography className="col-4 modal_title" variant="p" component="p">
         {text}
       </Typography>
       <Typography className="col-8" variant="p" component="p">
@@ -61,7 +22,8 @@ function ModalOrderItem({ text, value }) {
     </>
   );
 }
-function ModalOrder({ orderItem }) {
+
+function ModalOrder({ orderItem, confirm = true }) {
   const style = {
     position: "absolute",
     top: "50%",
@@ -73,8 +35,7 @@ function ModalOrder({ orderItem }) {
     boxShadow: 24,
     p: 4,
   };
-  const [idShowConfirm, setIdShowConfirm] = useState();
-  const [showConfirm, setShowConfirm] = useState(false);
+  const time = new Date();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -83,9 +44,13 @@ function ModalOrder({ orderItem }) {
 
   if (!orderItem) return <></>;
 
-  const handleDeleteOrder = () => {
+  const handleConfirmOrder = () => {
+    handleClose();
     DeleteData("/orderShow/", orderItem.id);
-    DeleteData("/order/", orderItem.id);
+    WriteOrderConfirm(time.getTime(), {
+      ...orderItem,
+      timeOrder: getTimeCurrent(),
+    });
     let newOrderList = orderList.filter((data) => {
       return data.id !== orderItem.id;
     });
@@ -93,47 +58,20 @@ function ModalOrder({ orderItem }) {
       newOrderList = null;
     }
     dispatch(adminSlice.actions.changeOrderList(newOrderList));
-  };
-  const handleConfirmOrder = () => {
-    WriteOrderConfirm(orderItem.id, orderItem);
-    handleDeleteOrder();
     dispatch(
       alertSlice.actions.changeAlert({
         showAlert: true,
-        alertContent: "Thêm thành công",
+        alertContent: "Xác nhận thành công",
       })
     );
   };
 
-  const handleShowConfirm = () => {
-    setIdShowConfirm(orderItem.id);
-    setShowConfirm(true);
-  };
-  const handleConfirmYes = () => {
-    setShowConfirm(false);
-    WriteOrderCannel(orderItem.id, orderItem);
-    handleDeleteOrder();
-  };
-  const handleConfirmNo = () => {
-    setShowConfirm(false);
-  };
-
   return (
     <div className="ModalDetailOrder">
-      <Button color="primary" variant="outlined" onClick={handleOpen}>
+      <Button color="primary" variant="contained" onClick={handleOpen}>
         Xem đơn hàng
       </Button>
-      <Button color="primary" variant="outlined" onClick={handleShowConfirm}>
-        Hủy đơn hàng
-      </Button>
 
-      {showConfirm && idShowConfirm === orderItem.id && (
-        <Confirm
-          id={orderItem.id}
-          handleConfirmYes={handleConfirmYes}
-          handleConfirmNo={handleConfirmNo}
-        />
-      )}
       <Modal
         open={open}
         onClose={handleClose}
@@ -156,6 +94,8 @@ function ModalOrder({ orderItem }) {
             variant="div"
             component="div"
           >
+            {" "}
+            <ModalOrderItem text={"Mã đơn hàng : "} value={orderItem.id} />
             <ModalOrderItem
               text={"Họ Tên : "}
               value={orderItem.InfoShip.nameUser}
@@ -176,10 +116,8 @@ function ModalOrder({ orderItem }) {
               text={"Tổng hóa đơn : "}
               value={orderItem.InfoShip.totalPrice}
             />
-
             <Typography
               className="col-12 modal_title"
-              id="modal-modal-title"
               variant="h6"
               component="h6"
             >
@@ -187,7 +125,6 @@ function ModalOrder({ orderItem }) {
             </Typography>
             <Typography
               className="table_container"
-              id="modal-modal-title"
               variant="div"
               component="div"
             >
@@ -196,28 +133,24 @@ function ModalOrder({ orderItem }) {
                 cart={orderItem.cart}
               />
             </Typography>
-
-            <Typography
-              className="row "
-              id="modal-modal-title"
-              variant="div"
-              component="div"
-            >
-              <Button
-                className="col-4 btn-confirm-order"
-                variant="outlined"
-                onClick={handleConfirmOrder}
-              >
-                Xác nhận đơn hàng
-              </Button>
-              <Button
-                className="col-3 btn-confirm-order"
-                variant="outlined"
-                onClick={handleClose}
-              >
-                Bỏ qua
-              </Button>
-            </Typography>
+            {confirm && (
+              <Typography className="row " variant="div" component="div">
+                <Button
+                  className="col-4 btn-confirm-order"
+                  variant="contained"
+                  onClick={handleConfirmOrder}
+                >
+                  Xác nhận đơn hàng
+                </Button>
+                <Button
+                  className="col-3 btn-confirm-order"
+                  variant="outlined"
+                  onClick={handleClose}
+                >
+                  Bỏ qua
+                </Button>
+              </Typography>
+            )}
           </Typography>
         </Box>
       </Modal>

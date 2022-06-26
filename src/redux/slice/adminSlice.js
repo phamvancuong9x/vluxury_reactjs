@@ -7,21 +7,19 @@ const adminSlice = createSlice({
     orderList: null,
     idShowOrderConfirm: false,
     showOrderConfirm: null,
+    reasonCannel: "",
   },
   reducers: {
     changeQuantityOrder: (state, action) => {
       return { ...state, newOrderQuantity: action.payload };
     },
     changeOrderList: (state, action) => {
-      console.log(action.payload);
       return { ...state, orderList: action.payload };
     },
     changeIdShowOrderConfirm: (state, action) => {
-      console.log(action.payload);
       return { ...state, idShowOrderConfirm: action.payload };
     },
     changeShowOrderConfirm: (state, action) => {
-      console.log(action.payload);
       return { ...state, showOrderConfirm: action.payload };
     },
   },

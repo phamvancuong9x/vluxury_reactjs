@@ -6,20 +6,22 @@ import { WriteUserData, payMethodArray } from "./constant";
 import { InputMethod } from "./InputMethod";
 
 export function PayMeThod({ setShowContent, total_price }) {
-  const NumberCode = Math.floor(Math.random() * 10000);
+  const time = new Date();
+  const id = time.getTime();
   const InfoShip = useSelector((state) => state.infoShips);
   const cart = useSelector((state) => state.add_cart);
   const dispatch = useDispatch();
-
+  console.log(id);
   const handleBuyProduct = () => {
-    dispatch(infoShipSlice.actions.changeInfoShip({ totalPrice: total_price }));
+    dispatch(
+      infoShipSlice.actions.changeInfoShip({ id, totalPrice: total_price })
+    );
     const action = addToCartSlice.actions.DELETE_All_PRODUCT();
     dispatch(action);
     setShowContent("modalActive");
     const newInfoShip = { ...InfoShip, totalPrice: total_price };
-    WriteUserData(NumberCode, {
-      id: NumberCode,
-
+    WriteUserData(id, {
+      id,
       InfoShip: newInfoShip,
       cart,
       timeOrder: getTimeCurrent(),

@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export function ModalOrder({ showContent }) {
-  const NumberCode = Math.floor(Math.random() * 10000);
   const infoShip = useSelector((state) => state.infoShips);
   return (
     <div
@@ -23,9 +22,7 @@ export function ModalOrder({ showContent }) {
                   <p>Đặt hàng thành công</p>
                   <p>
                     Mã đơn hàng :
-                    <span className="number-code-orders">
-                      {`${NumberCode}`}
-                    </span>
+                    <span className="number-code-orders">{infoShip.id}</span>
                   </p>
                   <p>Cám ơn bạn đã mua hàng!</p>
                 </div>

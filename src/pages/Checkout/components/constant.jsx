@@ -53,3 +53,7 @@ export function WriteOrderConfirm(id, data) {
 export function DeleteData(linkHref, id) {
   remove(ref(db, linkHref + id));
 }
+// xoa du lieu
+export function DeleteDataAll(linkHref) {
+  remove(ref(db, linkHref));
+}

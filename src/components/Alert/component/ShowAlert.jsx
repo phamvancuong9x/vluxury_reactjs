@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Success } from "..";
 import alertSlice from "../../../redux/slice/alertSlice";
-function ShowAlertSucces() {
+function ShowAlertSuccess() {
   const showAlert = useSelector((state) => state.alert.showAlert);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,4 +23,4 @@ function ShowAlertSucces() {
   );
 }
 
-export default ShowAlertSucces;
+export default ShowAlertSuccess;

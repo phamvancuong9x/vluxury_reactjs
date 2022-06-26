@@ -9,37 +9,15 @@ function HeaderAdmin() {
   const quantityOrder = useSelector((state) => state.admin.newOrderQuantity);
   const [showNotify, setShowNotify] = useState(false);
   const dispatch = useDispatch();
-  const [data, setData] = useState();
+
   useEffect(() => {
     onValue(ref(db, "order/"), (snapshot) => {
-      const data2 = snapshot.val();
-      if (!data2) return;
-      setData(Object?.values(data2)?.reverse());
+      const data = snapshot.val();
+      if (!data) return;
+      dispatch(adminSlice.actions.changeQuantityOrder(data?.length));
     });
   }, []);
 
-  useEffect(() => {
-    onValue(ref(db, "orderShow/"), (snapshot) => {
-      const data1 = snapshot.val();
-      if (!data1 && !data) {
-        console.log(data, data1);
-        return;
-      } else if (data && !data1) {
-        dispatch(adminSlice.actions.changeQuantityOrder(data?.length));
-        console.log(data, data1);
-      } else if (
-        data?.length &&
-        data?.length - Object.values(data1).length !== NaN
-      ) {
-        console.log(data, data1);
-        dispatch(
-          adminSlice.actions.changeQuantityOrder(
-            data?.length - Object.values(data1).length
-          )
-        );
-      }
-    });
-  }, [data]);
   const handleClick = () => {
     sessionStorage.setItem("admin", "false");
     setTimeout(() => {

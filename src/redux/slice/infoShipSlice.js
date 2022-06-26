@@ -3,6 +3,7 @@ const userInfo = JSON.parse(sessionStorage.getItem("userInfo") || "{}");
 const infoShipSlice = createSlice({
   name: "infoShip",
   initialState: {
+    id: "",
     nameUser: userInfo?.nameUser || "",
     email: userInfo?.email || "",
     phone: userInfo?.phone || "",
@@ -17,6 +18,7 @@ const infoShipSlice = createSlice({
     resetInfoShip: (state, action) => {
       return {
         ...state,
+        id: "",
         nameUser: userInfo?.nameUser || "",
         email: userInfo?.email || "",
         phone: userInfo?.phone || "",

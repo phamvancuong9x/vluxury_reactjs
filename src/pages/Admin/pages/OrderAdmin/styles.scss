@@ -2,6 +2,10 @@
   margin-bottom: 20px;
   margin-left: 20px;
 }
+#modal-modal-title {
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
 .btn_new_order {
   margin-right: 15px;
   position: relative;
@@ -35,10 +39,21 @@
   td {
     height: 85px;
   }
-  button {
-    margin-left: 15px;
-  }
+  // button {
+  //   margin-left: 15px;
+  // }
 }
+.order_table th:nth-child(2),
+.order_table td:nth-child(2),
+.order_table th:nth-child(3),
+.order_table td:nth-child(3) {
+  width: 200px !important;
+}
+.order_table th:nth-child(4),
+.order_table td:nth-child(4) {
+  width: 400px !important;
+}
+
 .modal_title {
   font-weight: 600;
   margin-bottom: 10px !important;
@@ -65,4 +80,13 @@
 .table_container {
   max-height: 200px !important;
   overflow-y: auto;
+}
+.reason-error {
+  color: rgb(222, 22, 22);
+}
+.btn-order {
+  padding: 0;
+  button {
+    margin: 0 !important;
+  }
 }

@@ -13,19 +13,24 @@ function OrderAdmin({ tab }) {
   useEffect(() => {
     onValue(ref(db, "order/"), (snapshot) => {
       const data1 = snapshot.val();
-
       if (!data1) return;
-
       dispatch(
         adminSlice.actions.changeOrderList(Object.values(data1).reverse())
       );
+      dispatch(
+        adminSlice.actions.changeQuantityOrder(Object.values(data1).length)
+      );
+
       setInitOrderData(data1);
     });
   }, []);
 
   return (
     <AdminContainer title={tab}>
-      <OrderTable initOrderData={initOrderData} />
+      <OrderTable
+        initOrderData={initOrderData}
+        setInitOrderData={setInitOrderData}
+      />
     </AdminContainer>
   );
 }

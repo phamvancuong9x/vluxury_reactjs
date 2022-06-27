@@ -1,6 +1,9 @@
 import React, { memo } from "react";
+import { useLocation } from "react-router-dom";
 import "./styles.scss";
 function Footer() {
+  const params = useLocation();
+  if (params.pathname === "/admin") return <></>;
   return (
     <footer>
       <div className="row">

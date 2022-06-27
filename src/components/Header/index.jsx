@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Success } from "../Alert";
 import ShowInfoLogin from "../ShowInfoLogin";
 import HeaderSlider from "./components/HeaderSlider";
 import NavDesktop from "./components/NavDesktop";
@@ -17,7 +16,7 @@ const Header = () => {
       sessionStorage.setItem("switchPage", "null");
     }
   }, [params]);
-
+  if (params.pathname === "/admin") return <></>;
   return (
     <header>
       <HeaderSlider />

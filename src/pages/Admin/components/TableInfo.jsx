@@ -1,14 +1,14 @@
 import { Button } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import categoryApi from "../../../api/categoryApi";
 import homeApi from "../../../api/homeApi";
 import newApi from "../../../api/newsApi";
 import Image from "../../../components/Image";
+import alertSlice from "../../../redux/slice/alertSlice";
 import BtnLoading from "./BtnLoading";
 import { Confirm } from "./Confirm";
 import { getListProduct } from "./constant";
-import { useDispatch } from "react-redux";
-import alertSlice from "../../../redux/slice/alertSlice";
 
 function TableInfo({ type, Data, isChange, setIsChange, children }) {
   const newData = getListProduct(Data);

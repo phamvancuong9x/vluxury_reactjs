@@ -15,9 +15,7 @@ function InterfaceHome({
   let renderData = [];
   const tabsData = ["Ảnh slider", "Ảnh sale"];
   const [tabs, setTabs] = useState(tabsData[0]);
-  const [idShowConfirm, setIdShowConfirm] = useState();
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
-  const [btnLoading, setBtnLoading] = useState(false);
+
   if (!sliderData) return <></>;
   if (tabs === tabsData[0]) {
     renderData = [...sliderData];

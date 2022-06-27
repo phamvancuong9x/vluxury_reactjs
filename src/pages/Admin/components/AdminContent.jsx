@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import homeApi from "../../../api/homeApi";
-import InterfaceHome from "../pages/InterfaceHome";
-import NewsAdmin from "../pages/NewsAdmin";
-import OrderAdmin from "../pages/OrderAdmin";
-import ProductAdmin from "../pages/ProductAdmin";
+import InterfaceHome from "../feature/InterfaceHome";
+import NewsAdmin from "../feature/NewsAdmin";
+import OrderAdmin from "../feature/OrderAdmin";
+import ProductAdmin from "../feature/ProductAdmin";
 import AdminMenu from "./AdminMenu";
 import { tabsTypeProduct } from "./data";
 

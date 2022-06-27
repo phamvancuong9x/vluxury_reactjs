@@ -1,5 +1,3 @@
-import React from "react";
-
 export function Confirm({ handleConfirmYes, handleConfirmNo, id }) {
   return (
     <div className="confirm">

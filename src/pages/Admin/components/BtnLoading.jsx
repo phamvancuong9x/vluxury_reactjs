@@ -1,6 +1,5 @@
-import { LoadingButton } from "@mui/lab";
-import React from "react";
 import SaveIcon from "@mui/icons-material/Save";
+import { LoadingButton } from "@mui/lab";
 
 function BtnLoading({ btnName }) {
   return (

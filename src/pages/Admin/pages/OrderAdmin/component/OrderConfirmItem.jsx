@@ -1,5 +1,3 @@
-import ModalOrder from "./ModalOrder";
-
 function OrderConfirmItem({ orderItem, children, text }) {
   return (
     <tr>

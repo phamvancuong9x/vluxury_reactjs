@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import { stringToNumberMoney } from "../../../../Cart/components/handleFunction";
 
 export function TypographyCustom({ tagName, text = false, children }) {
   return (
@@ -27,7 +28,12 @@ export function OrderTableProduct({ cart }) {
               <TypographyCustom tagName="td" text={i + 1} />
               <TypographyCustom tagName="td" text={cartItem.nameProduct} />
               <TypographyCustom tagName="td" text={cartItem.quantity} />
-              <TypographyCustom tagName="td" text={cartItem.price_product} />
+              <TypographyCustom
+                tagName="td"
+                text={stringToNumberMoney(
+                  cartItem.priceNumber * cartItem.quantity
+                )}
+              />
             </TypographyCustom>
           );
         })}

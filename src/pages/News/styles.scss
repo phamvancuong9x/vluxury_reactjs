@@ -69,11 +69,19 @@ h1 {
   padding: 0;
   line-height: 1.5;
 }
+
 .article-date {
   margin: 10px 0;
 }
+.news-detail .article-date {
+  border-bottom: 10px solid #ccc;
+  padding-bottom: 20px;
+}
 .article-date i {
   margin-right: 5px;
+}
+.news-detail {
+  margin-bottom: 30px;
 }
 .news-item {
   margin-bottom: 30px;

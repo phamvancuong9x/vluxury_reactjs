@@ -1,7 +1,6 @@
 import { Pagination } from "@mui/material";
-import axios from "axios";
 import queryString from "query-string";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import categoryApi from "../../api/categoryApi";
 import Breadcrumbs from "../../components/Breadcrumbs";

@@ -1,23 +1,40 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import queryString from "query-string";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import newApi from "../../api/newsApi";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import Loading from "../../components/Loading";
+import NewDetail from "./components/NewDetail";
 import NewsContent from "./components/NewsContent";
 import SellingProducts from "./components/SellingProducts";
 import "./styles.scss";
 
+function getNewDetail(newsList, idNewDetail) {
+  return newsList?.filter((newItem) => {
+    return newItem.id === idNewDetail[0];
+  });
+}
 function News() {
+  const location = useLocation();
+  const params = queryString.parse(location.search);
+
   const { newsLists, productLists } = JSON.parse(
     sessionStorage.getItem("news") || "{}"
   );
-
+  const [idNewDetail, setIdNewDetail] = useState(Object.values(params));
+  const [newDetail, setNewDetail] = useState();
+  console.log(newDetail);
   const [newsList, setNewsList] = useState(newsLists || []);
   const [productList, setProductList] = useState(productLists || []);
-
   const [loading, setLoading] = useState(!newsLists || false);
   useEffect(() => {
-    if (!!sessionStorage.getItem("news")) return;
+    setIdNewDetail(Object.values(params));
+  }, [params]);
+  useEffect(() => {
+    if (!!sessionStorage.getItem("news")) {
+      setNewDetail(getNewDetail(newsList, idNewDetail));
+      return;
+    }
 
     (async () => {
       try {
@@ -25,6 +42,7 @@ function News() {
         const newsListReverse = newsList.reverse();
         setNewsList(newsListReverse);
         setProductList(productList);
+        setNewDetail(getNewDetail(newsListReverse, idNewDetail));
         sessionStorage.setItem(
           "news",
           JSON.stringify({
@@ -53,7 +71,12 @@ function News() {
             )}
           </div>
           <div className="col-md-9">
-            {newsList.length !== 0 && <NewsContent newsList={newsList} />}
+            {idNewDetail.length === 0 && newsList.length !== 0 && (
+              <NewsContent newsList={newsList} />
+            )}
+            {idNewDetail.length !== 0 && (
+              <NewDetail newDetail={newDetail} idNewDetail={idNewDetail[0]} />
+            )}
           </div>
         </div>
       </div>

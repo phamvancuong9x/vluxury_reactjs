@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import newApi from "../../../api/newsApi";
 
 function NewItem({ newsItem }) {
   return (
     <div className="row">
       <div className="col-4 col-sm-4 col-md-3 col-lg-3">
-        <a className="collection-news__item-image" href="#0">
+        <Link
+          className="collection-news__item-image"
+          to={`/news?id=${newsItem.id}`}
+        >
           <img src={newsItem.image} alt={newsItem.name} />
-        </a>
+        </Link>
       </div>
       <div className="col-8 col-sm-7 col-md-7 col-lg-7">
-        <a href="#0">
+        <Link to={`/news?id=${newsItem.id}`}>
           <div className="collection-news__item-title">{newsItem.name}</div>
           <div className="article-all-info">
             <div className="article-date">
@@ -18,7 +22,7 @@ function NewItem({ newsItem }) {
               <span>{newsItem.article_date}</span>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -41,12 +45,12 @@ function CollectionNews() {
         <div className="section__title">TIN TỨC THỚI TRANG</div>
         <div className="row">
           {firstNewLists && (
-            <a
+            <Link
               className="col-12 col-sm-6 col-md-5 col-lg-6 collection-news__image"
-              href="#0"
+              to="/news?id=n6"
             >
               <img src={firstNewLists.image} alt={firstNewLists.name} />
-            </a>
+            </Link>
           )}
 
           <div className="col-sm-6 col-md-7 col-lg-6">

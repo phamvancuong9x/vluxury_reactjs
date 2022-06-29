@@ -14,7 +14,10 @@ function HeaderAdmin() {
     onValue(ref(db, "order/"), (snapshot) => {
       const data = snapshot.val();
       if (!data) return;
-      dispatch(adminSlice.actions.changeQuantityOrder(data?.length));
+
+      dispatch(
+        adminSlice.actions.changeQuantityOrder(Object.values(data)?.length)
+      );
     });
   }, []);
 

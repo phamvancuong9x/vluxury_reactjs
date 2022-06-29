@@ -23,7 +23,6 @@ function News() {
   );
   const [idNewDetail, setIdNewDetail] = useState(Object.values(params));
   const [newDetail, setNewDetail] = useState();
-
   const [newsList, setNewsList] = useState(newsLists || []);
   const [productList, setProductList] = useState(productLists || []);
   const [loading, setLoading] = useState(!newsLists || false);

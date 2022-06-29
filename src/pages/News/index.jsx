@@ -23,13 +23,13 @@ function News() {
   );
   const [idNewDetail, setIdNewDetail] = useState(Object.values(params));
   const [newDetail, setNewDetail] = useState();
-  console.log(newDetail);
+
   const [newsList, setNewsList] = useState(newsLists || []);
   const [productList, setProductList] = useState(productLists || []);
   const [loading, setLoading] = useState(!newsLists || false);
   useEffect(() => {
     setIdNewDetail(Object.values(params));
-  }, [params]);
+  }, [location]);
   useEffect(() => {
     if (!!sessionStorage.getItem("news")) {
       setNewDetail(getNewDetail(newsList, idNewDetail));

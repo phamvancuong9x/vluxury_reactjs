@@ -1,3 +1,4 @@
+import { Skeleton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 function DetailProductImage({ product }) {
@@ -31,9 +32,11 @@ function DetailProductImage({ product }) {
           })}
         </div>
         <div className="detailProduct__image-right col-10">
-          <div className="image">
-            <img src={`${urlImage}`} alt={`Ảnh ${product.name_product}`} />
-          </div>
+          {
+            <div className="image">
+              <img src={`${urlImage}`} alt={`Ảnh ${product.name_product}`} />
+            </div>
+          }
         </div>
       </div>
     </div>

@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import categoryApi from "../../api/categoryApi";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -17,24 +16,17 @@ function DetailProduct() {
 
   useEffect(() => {
     setLoading(true);
-    const ourRequest = axios.CancelToken.source();
     (async () => {
       try {
-        const product = await categoryApi.get(params.idProduct, {
-          cancelToken: ourRequest.token,
-        });
+        const product = await categoryApi.get(params.idProduct);
         setProduct(product);
-        setTimeout(() => {
-          setLoading(false);
-        }, 200);
+        setLoading(false);
       } catch (error) {
         console.log("Failed to fetch product ", error);
         setIsPage(false);
+        setLoading(false);
       }
     })();
-    return () => {
-      ourRequest.cancel(); // <-- 3rd step
-    };
   }, [params.idProduct]);
   return (
     <>
@@ -42,9 +34,9 @@ function DetailProduct() {
         <>
           <Breadcrumbs title={product?.name_product} />
           <div className="detail_content">
-            {loading && <Loading />}
-            {product && <DetailProductContent product={product} />}
-            {product && <SimilarProduct product={product} />}
+            <DetailProductContent product={product} loading={loading} />
+
+            <SimilarProduct product={product} loading={loading} />
           </div>
         </>
       ) : (

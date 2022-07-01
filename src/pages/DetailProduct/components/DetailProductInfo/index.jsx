@@ -68,7 +68,7 @@ function ProductSize({ size, setSize }) {
   );
 }
 
-function DetailProductInfo({ product }) {
+function DetailProductInfo({ product, loading }) {
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState("48");

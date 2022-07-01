@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import accountApi from "../../../api/userApi";
 import { Error } from "../../../components/Alert";
 import { LoadingBtn } from "../../../components/Loading";
+import { WriteUserData } from "../../Checkout/components/constant";
 import { NotifyError } from "./NotifyError";
 import { ViewPassWord } from "./ViewPassWord";
 
@@ -94,6 +95,10 @@ function Register({ setCheckAuth, setCheckRegister }) {
 
         (async () => {
           await accountApi.add({ name: userName, password: password });
+          WriteUserData(Math.floor(Math.random() * 100000), {
+            name: userName,
+            password: password,
+          });
           setCheckRegister(true);
           setCheckAuth("Đăng Nhập");
         })();

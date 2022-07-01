@@ -73,9 +73,7 @@
 .user__main {
   padding-top: 30px;
 }
-.container-fluid .data-item:first-child {
-  margin-bottom: 0;
-}
+
 .data-item {
   margin-bottom: 20px;
 }
@@ -88,7 +86,8 @@
   #email,
   #password,
   #name,
-  #phone {
+  #phone,
+  #address {
     border: none;
     border-bottom: 1px solid #333;
     padding: 10px 5px;

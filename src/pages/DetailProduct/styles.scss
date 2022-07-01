@@ -423,13 +423,13 @@ section#sizeSpecification {
 @media (min-width: 1024px) {
   .featured-products__item {
     margin-bottom: 0;
-    padding: 12px;
+    padding: 0 12px;
   }
 }
 @media (max-width: 1023px) {
   .featured-products__item {
     margin-bottom: 0;
-    padding: 8px;
+    padding: 0 8px;
   }
   .a-left {
     left: 10px;

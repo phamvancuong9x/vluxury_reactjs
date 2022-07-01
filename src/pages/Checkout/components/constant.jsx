@@ -37,6 +37,9 @@ export const tabs = ["infoShip", "payMethod", "modalActive"];
 
 // gui du lieu
 export function WriteUserData(id, data) {
+  set(ref(db, "user/" + id), data);
+}
+export function WriteOrderData(id, data) {
   set(ref(db, "order/" + id), data);
 }
 export function WriteOrderShow(data) {

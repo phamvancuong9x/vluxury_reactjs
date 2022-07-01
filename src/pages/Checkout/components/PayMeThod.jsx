@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import addToCartSlice from "../../../redux/slice/addToCartSlice";
 import infoShipSlice from "../../../redux/slice/infoShipSlice";
 import getTimeCurrent from "../../Admin/components/getTimeCurrent";
-import { WriteUserData, payMethodArray } from "./constant";
+import { WriteOrderData, payMethodArray } from "./constant";
 import { InputMethod } from "./InputMethod";
 
 export function PayMeThod({ setShowContent, total_price }) {
@@ -20,7 +20,7 @@ export function PayMeThod({ setShowContent, total_price }) {
     dispatch(action);
     setShowContent("modalActive");
     const newInfoShip = { ...InfoShip, totalPrice: total_price };
-    WriteUserData(id, {
+    WriteOrderData(id, {
       id,
       InfoShip: newInfoShip,
       cart,

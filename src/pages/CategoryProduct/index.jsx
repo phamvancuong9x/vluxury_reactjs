@@ -18,39 +18,41 @@ const collectionsTitle = {
 };
 function CategoryProduct() {
   const location = useLocation();
-  let navigate = useNavigate();
-
+  // let navigate = useNavigate();
   const params = queryString.parse(location.search);
   const { _page, _limit, ...newParams } = params;
+  const [loading, setLoading] = useState(true);
   const [totalPage, setTotalPage] = useState(1);
   const [priceRange, setPriceRange] = useState({});
   const [sortProduct, setSortProduct] = useState({});
-
-  const [filters, setFilters] = useState({
-    ...params,
-    ...priceRange,
-    ...sortProduct,
-    _page: params._page || 1,
-    _limit: 12,
-  });
+  const [productList, setProductList] = useState();
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
+    setPage(1);
+  }, [location]);
+  useEffect(() => {
+    setLoading(true);
     (async () => {
       try {
-        const productsArray = await categoryApi.getAll({
-          ...newParams,
-          ...priceRange,
-        });
-        setTotalPage(Math.ceil(productsArray.length / 12));
-        setFilters({
-          ...newParams,
+        const categoryProductList = await categoryApi.getAll({
+          ...params,
           ...priceRange,
           ...sortProduct,
-          _page: params._page || 1,
+          _page: page,
           _limit: 12,
         });
+        const totalPage = await categoryApi.getTotalPage({
+          ...newParams,
+          ...priceRange,
+        });
+
+        setProductList(categoryProductList);
+        setTotalPage(totalPage);
+        setLoading(false);
       } catch (error) {
         console.log("Failed to fetch product list ", error);
+        setLoading(false);
       }
     })();
   }, [
@@ -59,16 +61,16 @@ function CategoryProduct() {
     priceRange,
     sortProduct._sort,
     sortProduct._order,
+    page,
   ]);
-
-  // update url
+  //  update url
   // useEffect(() => {
   //   const newUrl = location.pathname + "?" + queryString.stringify(filters);
   //   navigate(newUrl);
   // }, [filters]);
   const handleChange = (e, page) => {
     document.documentElement.scrollTo(0, 0);
-    setFilters((prevFilters) => ({ ...prevFilters, _page: page }));
+    setPage(page);
   };
   return (
     <div className="category-main">
@@ -87,21 +89,13 @@ function CategoryProduct() {
               (params.isSale && "SẢN PHẨM KHUYẾN MÃI") ||
               "TẤT CẢ SẢN PHẨM"}
           </div>
-          <SortProduct
-            setSortProduct={setSortProduct}
-            params={params}
-            filters={filters}
-          />
+          <SortProduct setSortProduct={setSortProduct} params={params} />
         </div>
         <div className="collection__content">
-          <ProductList
-            filters={filters}
-            priceRange={priceRange}
-            params={params}
-          />
+          <ProductList productList={productList} loading={loading} />
           {totalPage >= 1 && (
             <Pagination
-              page={+filters._page}
+              page={page}
               count={totalPage}
               variant="outlined"
               shape="rounded"

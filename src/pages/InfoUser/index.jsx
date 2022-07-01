@@ -25,9 +25,6 @@ function InfoUser() {
             <img src="assets/image/image_home/icon1.png" alt="" />
             Tài khoản của tôi
           </li>
-          <li className="sidebar-item">
-            <img src="assets/image/image_home/icon.png" alt="" /> Đơn mua
-          </li>
         </ul>
         <div className="my-profile col-lg-10">
           <div className="user__title">
@@ -35,7 +32,7 @@ function InfoUser() {
               className="user__text"
               style={{ fontSize: "18px", fontWeight: "500" }}
             >
-              Hồ sơ của tôi{" "}
+              Hồ sơ của tôi
             </div>
             <div className="user__text">
               Quản lý thông tin hồ sơ để bảo mật tài khoản
@@ -79,71 +76,18 @@ function InfoUser() {
                       <input id="phone" type="text" name="" />
                     </div>
                   </div>
-                  <div className="data-item row gender">
-                    <div className="gender__title col-12 col-sm-4">
-                      <span> Giới tính</span>
-                    </div>
-                    <div className="gender__option col-12 col-sm-8">
-                      <label className="gender-item" htmlFor="male">
-                        <input id="male" type="radio" name="gender" />
-                        <span>Nam</span>
-                      </label>
-                      <label className="gender-item" htmlFor="female">
-                        <input id="female" type="radio" name="gender" />
-                        <span>Nữ</span>
-                      </label>
-                      <label className="gender-item" htmlFor="gender-other">
-                        <input id="gender-other" type="radio" name="gender" />
-                        <span>Khác</span>
-                      </label>
+                  <div className="data-item row">
+                    <label className="col-12 col-sm-4" htmlFor="address">
+                      <span className="address__title">Địa chỉ</span>
+                    </label>
+                    <div className="col-12 col-sm-8">
+                      <input id="address" type="text" name="address" />
                     </div>
                   </div>
-                  <div className="data-item dateOfBirth row">
-                    <div className="dateOfBirth__title col-12 col-sm-4">
-                      <span> Ngày sinh</span>
-                    </div>
-                    <div className="dateOfBirth__select col-12 col-sm-8">
-                      <select id="date" onChange={(e) => e.target.value}>
-                        <option value="">Ngày</option>
-                        {Array(30)
-                          .fill(null)
-                          .map((value, i) => {
-                            return (
-                              <option value={i + 1} key={i}>
-                                {i + 1}
-                              </option>
-                            );
-                          })}
-                      </select>
-                      <select id="month" onChange={(e) => e.target.value}>
-                        <option value="">Tháng</option>
-                        {Array(11)
-                          .fill(null)
-                          .map((value, i) => {
-                            return (
-                              <option value={i + 1} key={i}>
-                                {i + 1}
-                              </option>
-                            );
-                          })}
-                      </select>
-                      <select id="year" onChange={(e) => e.target.value}>
-                        <option value="">Năm</option>
-                        {Array(50)
-                          .fill(null)
-                          .map((value, i) => {
-                            return (
-                              <option value={2022 - i} key={i}>
-                                {2022 - i}
-                              </option>
-                            );
-                          })}
-                      </select>
-                    </div>
-                  </div>
+
                   <div className="data-item row">
                     <div className="col-lg-12">
-                      <div className="btn__save">Lưu</div>
+                      <div className="btn__save">Cập nhật</div>
                     </div>
                   </div>
                 </form>

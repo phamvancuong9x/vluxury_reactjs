@@ -3,8 +3,15 @@ import axiosClient from "./axiosClient";
 const categoryApi = {
   getAll(params) {
     const url = "/categoryProduct";
+
     return axiosClient.get(url, { params });
   },
+  async getTotalPage(params) {
+    const url = "/categoryProduct";
+    const totalPage = await axiosClient.get(url, { params });
+    return Math.ceil(totalPage.length / 12);
+  },
+
   get(id) {
     const url = `/categoryProduct/${id}`;
     return axiosClient.get(url);

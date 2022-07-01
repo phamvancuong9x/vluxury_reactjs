@@ -1,47 +1,51 @@
-import React, { useEffect, useRef, useState } from "react";
-import categoryApi from "../../../../api/categoryApi";
-import Loading from "../../../../components/Loading";
+import { Skeleton } from "@mui/material";
 import ProductItem from "../../../../components/ProductsSlider/components/ProductItem";
-
-function ProductList({ filters, priceRange }) {
-  const [loading, setLoading] = useState(true);
-  const [productList, setProductList] = useState(undefined);
-  const IdSetTimeout = useRef();
-  // lấy danh sách sản phẩm
-  useEffect(() => {
-    setLoading(true);
-    setProductList(undefined);
-    (async () => {
-      try {
-        const productsArray = await categoryApi.getAll(filters);
-
-        setProductList(productsArray);
-        IdSetTimeout.current = setTimeout(() => {
-          setLoading(false);
-        }, 200);
-      } catch (error) {
-        console.log("Failed to fetch product list ", error);
-      }
-    })();
-    return () => {
-      clearTimeout(IdSetTimeout.current);
-    };
-  }, [filters, priceRange]);
-
+function ProductList({ loading, productList }) {
   return (
     <ul className="row" id="category-products-list">
-      {loading && <Loading />}
+      {loading &&
+        Array(4)
+          .fill(null)
+          .map((item, i) => {
+            return (
+              <li
+                key={i}
+                className="category-products__item col-6 col-sm-4 col-lg-3 "
+              >
+                <div className=" category-products__item-skeleton">
+                  <Skeleton
+                    variant="rectangular"
+                    height={"83%"}
+                    style={{
+                      marginBottom: 10,
+                      marginLeft: 12,
+                      marginRight: 12,
+                    }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={"80%"}
+                    style={{ margin: "auto" }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width={"40%"}
+                    style={{ margin: "auto", marginTop: 10 }}
+                  />
+                </div>
+              </li>
+            );
+          })}
       {productList?.map((product) => {
         return (
           <li
             key={product.id}
-            className="category-products__item col-6 col-sm-4 col-lg-3 animate__fadeInUp animate__animated"
+            className="category-products__item col-6 col-sm-4 col-lg-3 "
           >
             <ProductItem product={product} key={product.id} />
           </li>
         );
       })}
-
       {productList?.length == 0 && (
         <li className="no_product" style={{ minHeight: "50vh" }}>
           <h3>Không có sản phẩm phù hợp !</h3>

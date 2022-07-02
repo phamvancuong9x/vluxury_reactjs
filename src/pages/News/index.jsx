@@ -16,22 +16,24 @@ function getNewDetail(newsList, idNewDetail) {
 }
 function News() {
   const location = useLocation();
+
   const params = queryString.parse(location.search);
 
   const { newsLists, productLists } = JSON.parse(
     sessionStorage.getItem("news") || "{}"
   );
   const [idNewDetail, setIdNewDetail] = useState(Object.values(params));
+
   const [newDetail, setNewDetail] = useState();
   const [newsList, setNewsList] = useState(newsLists || []);
   const [productList, setProductList] = useState(productLists || []);
   const [loading, setLoading] = useState(!newsLists || false);
   useEffect(() => {
-    setIdNewDetail(Object.values(params));
+    setIdNewDetail(() => Object.values(params));
+    setNewDetail(getNewDetail(newsList, Object.values(params)));
   }, [location]);
   useEffect(() => {
     if (!!sessionStorage.getItem("news")) {
-      setNewDetail(getNewDetail(newsList, idNewDetail));
       return;
     }
 
@@ -41,6 +43,7 @@ function News() {
         const newsListReverse = newsList.reverse();
         setNewsList(newsListReverse);
         setProductList(productList);
+
         setNewDetail(getNewDetail(newsListReverse, idNewDetail));
         sessionStorage.setItem(
           "news",
@@ -56,7 +59,7 @@ function News() {
         console.log(error);
       }
     })();
-  }, []);
+  }, [location]);
 
   return (
     <>
@@ -73,6 +76,7 @@ function News() {
             {idNewDetail.length === 0 && newsList.length !== 0 && (
               <NewsContent newsList={newsList} />
             )}
+            {console.log("idNewDetail", idNewDetail.length !== 0)}
             {idNewDetail.length !== 0 && (
               <NewDetail newDetail={newDetail} idNewDetail={idNewDetail[0]} />
             )}

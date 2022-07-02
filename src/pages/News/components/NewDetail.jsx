@@ -2,7 +2,8 @@ import { NewDescription1, NewDescription2 } from "./data";
 import TimeArticleDate from "./TimeArtcleDate";
 
 function NewDetail({ newDetail, idNewDetail }) {
-  if (!newDetail || newDetail.length === 0) return <></>;
+  console.log(newDetail);
+  if (newDetail?.length === 0 || newDetail === undefined) return <></>;
   return (
     <div className="news-detail">
       <h1 className="news-title">{newDetail[0].name}</h1>

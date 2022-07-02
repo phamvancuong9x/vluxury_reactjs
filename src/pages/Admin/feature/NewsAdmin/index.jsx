@@ -10,20 +10,20 @@ function NewsAdmin({ tab, isChange, setIsChange }) {
   const [loading, setLoading] = useState(true);
   let id;
   useEffect(() => {
-    try {
-      (async () => {
+    (async () => {
+      try {
         const list = await newApi.get();
         setNewsList(list);
         id = setTimeout(() => {
           setLoading(false);
         }, 1000);
-      })();
-      return () => {
-        clearTimeout(id);
-      };
-    } catch (error) {
-      console.log(error);
-    }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+    return () => {
+      clearTimeout(id);
+    };
   }, [isChange]);
   return (
     <AdminContainer title={tab}>

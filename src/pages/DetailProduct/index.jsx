@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import categoryApi from "../../api/categoryApi";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import Loading from "../../components/Loading";
-import NotFound from "../NotFound";
+import alertSlice from "../../redux/slice/alertSlice";
 import DetailProductContent from "./components/DetailProductContent";
 import SimilarProduct from "./components/SimilarProduct";
 import "./styles.scss";
@@ -12,7 +12,7 @@ function DetailProduct() {
   const params = useParams();
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState();
-  const [isPage, setIsPage] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);
@@ -22,26 +22,27 @@ function DetailProduct() {
         setProduct(product);
         setLoading(false);
       } catch (error) {
-        console.log("Failed to fetch product ", error);
-        setIsPage(false);
-        setLoading(false);
+        console.log("Failed to fetch product ", error.name);
+        setLoading(true);
+        dispatch(
+          alertSlice.actions.changeAlertError({
+            showAlertError: true,
+            alertContentError: "Mất kết nối internet .Vui lòng kiểm tra lại !",
+          })
+        );
       }
     })();
   }, [params.idProduct]);
   return (
     <>
-      {isPage ? (
-        <>
-          <Breadcrumbs title={product?.name_product} />
-          <div className="detail_content">
-            <DetailProductContent product={product} loading={loading} />
+      <>
+        <Breadcrumbs title={product?.name_product} />
+        <div className="detail_content">
+          <DetailProductContent product={product} loading={loading} />
 
-            <SimilarProduct product={product} loading={loading} />
-          </div>
-        </>
-      ) : (
-        <NotFound />
-      )}
+          <SimilarProduct product={product} loading={loading} />
+        </div>
+      </>
     </>
   );
 }

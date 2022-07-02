@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import homeApi from "../../../api/homeApi";
 import ProductsSlider from "../../../components/ProductsSlider";
+import { ProductsItemSkeleton } from "../../../components/Skeleton";
+import alertSlice from "../../../redux/slice/alertSlice";
 
 function TabItem({ tabActivity, tabName, setTapActivity }) {
   return (
@@ -21,22 +24,37 @@ function TabItem({ tabActivity, tabName, setTapActivity }) {
 }
 
 function FeaturedProducts() {
+  const dispatch = useDispatch();
   const tabs = ["Bộ Vest mới", "Bán chạy", "Khuyến mãi"];
   const [tabActivity, setTapActivity] = useState("Bộ Vest mới");
   const [collectionList, setCollectionList] = useState({});
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    (async () => {
-      const { NewProductData, HotProductData, SaleProductData } =
-        await homeApi.getCollectionList();
-      setCollectionList({ NewProductData, HotProductData, SaleProductData });
+    setLoading(true);
+
+    (async function () {
+      try {
+        const { NewProductData, HotProductData, SaleProductData } =
+          await homeApi.getCollectionList();
+        setCollectionList({ NewProductData, HotProductData, SaleProductData });
+        setLoading(false);
+      } catch (error) {
+        console.log("error", error.name);
+        setLoading(true);
+        dispatch(
+          alertSlice.actions.changeAlertError({
+            showAlertError: true,
+            alertContentError: "Mất kết nối internet .Vui lòng kiểm tra lại !",
+          })
+        );
+      }
     })();
   }, []);
 
   let productArray;
-  if (tabActivity == tabs[0]) {
+  if (tabActivity === tabs[0]) {
     productArray = collectionList.NewProductData;
-  } else if (tabActivity == tabs[1]) {
+  } else if (tabActivity === tabs[1]) {
     productArray = collectionList.HotProductData;
   } else {
     productArray = collectionList.SaleProductData;
@@ -57,7 +75,14 @@ function FeaturedProducts() {
             );
           })}
         </div>
-        {productArray && <ProductsSlider productArray={productArray} />}
+        {!loading && productArray && (
+          <ProductsSlider productArray={productArray} />
+        )}
+        {loading && (
+          <div className="row">
+            <ProductsItemSkeleton />
+          </div>
+        )}
       </div>
     </section>
   );

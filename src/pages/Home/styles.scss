@@ -762,9 +762,23 @@ div[class="featured-products__list"]::after {
 }
 
 /* resposive */
+
 /* destop */
+.featured-products .row {
+  max-height: 296px;
+
+  overflow: hidden;
+}
+@media (min-width: 414px) {
+  .featured-products .row {
+    max-height: 386px;
+  }
+}
 
 @media (min-width: 768px) {
+  .featured-products .row {
+    max-height: 500px;
+  }
   .slider2,
   .slider1 {
     width: 100%;

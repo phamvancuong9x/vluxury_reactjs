@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import newApi from "../../../api/newsApi";
+import CollectionNewsContentSkeleton from "../../../components/Skeleton/component/CollectionNewsContentSkeleton";
+import alertSlice from "../../../redux/slice/alertSlice";
 
 function NewItem({ newsItem }) {
   return (
@@ -27,14 +30,51 @@ function NewItem({ newsItem }) {
     </div>
   );
 }
+function CollectionNewsContent({ firstNewLists, NewListsArray }) {
+  return (
+    <div className="row">
+      {firstNewLists && (
+        <Link
+          className="col-12 col-sm-6 col-md-5 col-lg-6 collection-news__image"
+          to="/news?id=n6"
+        >
+          <img src={firstNewLists.image} alt={firstNewLists.name} />
+        </Link>
+      )}
 
+      <div className="col-sm-6 col-md-7 col-lg-6">
+        <div className="collection-news__item">
+          {NewListsArray?.map((newsItem, i) => {
+            if (i > 3) return;
+            return <NewItem newsItem={newsItem} key={newsItem.id} />;
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
 function CollectionNews() {
+  const dispatch = useDispatch();
   const [newsList, setNewsList] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    (async () => {
-      const newLists = await newApi.get();
-      setNewsList(newLists.reverse());
+    setLoading(true);
+    (async function () {
+      try {
+        const newLists = await newApi.get();
+        setNewsList(newLists.reverse());
+        setLoading(false);
+      } catch (error) {
+        setLoading(true);
+        console.log(error);
+
+        dispatch(
+          alertSlice.actions.changeAlertError({
+            showAlertError: true,
+            alertContentError: "Mất kết nối internet .Vui lòng kiểm tra lại !",
+          })
+        );
+      }
     })();
   }, []);
 
@@ -43,25 +83,13 @@ function CollectionNews() {
     <section className="collection-news">
       <div className="container">
         <div className="section__title">TIN TỨC THỚI TRANG</div>
-        <div className="row">
-          {firstNewLists && (
-            <Link
-              className="col-12 col-sm-6 col-md-5 col-lg-6 collection-news__image"
-              to="/news?id=n6"
-            >
-              <img src={firstNewLists.image} alt={firstNewLists.name} />
-            </Link>
-          )}
-
-          <div className="col-sm-6 col-md-7 col-lg-6">
-            <div className="collection-news__item">
-              {NewListsArray?.map((newsItem, i) => {
-                if (i > 3) return;
-                return <NewItem newsItem={newsItem} key={newsItem.id} />;
-              })}
-            </div>
-          </div>
-        </div>
+        {!loading && (
+          <CollectionNewsContent
+            firstNewLists={firstNewLists}
+            NewListsArray={NewListsArray}
+          />
+        )}
+        {loading && <CollectionNewsContentSkeleton />}
       </div>
     </section>
   );

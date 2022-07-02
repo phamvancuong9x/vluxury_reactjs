@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { totalTimeCurrent, totalTimeEnd } from "./constanst";
 
 function TimeSale() {
   const initTimeSale = totalTimeEnd(totalTimeCurrent(), 29, 2);
   const [timeSale, setTimeSale] = useState(initTimeSale);
-  const IdTimeout = useRef();
+
   useEffect(() => {
-    IdTimeout.current = setTimeout(() => {
+    const id = setTimeout(() => {
       setTimeSale(totalTimeEnd(totalTimeCurrent(), 26, 2));
     }, 1000);
     return () => {
-      clearTimeout(IdTimeout.current);
+      clearTimeout(id);
     };
   }, [timeSale]);
 

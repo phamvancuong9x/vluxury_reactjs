@@ -1,9 +1,11 @@
 import { Pagination } from "@mui/material";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import categoryApi from "../../api/categoryApi";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import alertSlice from "../../redux/slice/alertSlice";
 import FilterProduct from "./components/FilterProduct";
 import ProductList from "./components/ProductList";
 import SortProduct from "./components/SortProduct";
@@ -27,7 +29,7 @@ function CategoryProduct() {
   const [sortProduct, setSortProduct] = useState({});
   const [productList, setProductList] = useState();
   const [page, setPage] = useState(1);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     setPage(1);
   }, [location]);
@@ -52,7 +54,13 @@ function CategoryProduct() {
         setLoading(false);
       } catch (error) {
         console.log("Failed to fetch product list ", error);
-        setLoading(false);
+        setLoading(true);
+        dispatch(
+          alertSlice.actions.changeAlertError({
+            showAlertError: true,
+            alertContentError: "Mất kết nối internet .Vui lòng kiểm tra lại !",
+          })
+        );
       }
     })();
   }, [

@@ -8,7 +8,12 @@ function ShowAlertSuccess() {
   useEffect(() => {
     const id = setTimeout(() => {
       dispatch(
-        alertSlice.actions.changeAlert({ showAlert: false, alertContent: "" })
+        alertSlice.actions.changeAlert({
+          showAlert: false,
+          alertContent: "",
+          showAlertError: false,
+          alertContentError: "",
+        })
       );
     }, 2000);
 

@@ -433,6 +433,12 @@ section#sizeSpecification {
 
 /* responsive */
 
+#similarProduct .row {
+  max-height: 296px;
+
+  overflow: hidden;
+}
+
 @media (min-width: 414px) {
   .detailProduct__image-left .image {
     min-height: 74px;

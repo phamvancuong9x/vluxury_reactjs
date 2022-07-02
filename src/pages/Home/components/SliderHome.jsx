@@ -1,9 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import Image from "../../../components/Image";
 
-function SliderItem({ sliderData, index }) {
+function SliderItem({ sliderData }) {
   return (
     <div>
       <Image

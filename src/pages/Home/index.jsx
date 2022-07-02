@@ -1,7 +1,9 @@
 import { getDatabase, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import homeApi from "../../api/homeApi";
 import Loading from "../../components/Loading";
+import alertSlice from "../../redux/slice/alertSlice";
 import Banner from "./components/Banner";
 import CollectionList from "./components/CollectionList";
 import CollectionNews from "./components/CollectionNews";
@@ -11,6 +13,7 @@ import SliderHome from "./components/SliderHome";
 import "./styles.scss";
 
 function HomePage() {
+  const dispatch = useDispatch();
   const initHomeDate =
     (!!sessionStorage.getItem("homeData") &&
       JSON.parse(sessionStorage.getItem("homeData"))) ||
@@ -19,12 +22,12 @@ function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      if (!!sessionStorage.getItem("homeData")) {
-        setLoading(false);
-        return;
-      }
-      (async () => {
+    if (!!sessionStorage.getItem("homeData")) {
+      setLoading(false);
+      return;
+    }
+    (async function () {
+      try {
         const { slider, bannerSale, collectionList } = await homeApi.getAll();
         const newDataHome = { ...homeData, slider, bannerSale, collectionList };
         setHomeData(newDataHome);
@@ -33,11 +36,17 @@ function HomePage() {
         setTimeout(() => {
           setLoading(false);
         }, 200);
-      })();
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
+      } catch (error) {
+        console.log(error);
+        setLoading(true);
+        dispatch(
+          alertSlice.actions.changeAlertError({
+            showAlertError: true,
+            alertContentError: "Mất kết nối internet .Vui lòng kiểm tra lại !",
+          })
+        );
+      }
+    })();
   }, []);
 
   return (

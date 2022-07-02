@@ -13,18 +13,20 @@ function ProductAdmin({ tab, isChange, setIsChange }) {
   let id;
   useEffect(() => {
     setLoading(true);
-    try {
-      (async () => {
+
+    (async () => {
+      try {
         const list = await categoryApi.getAll(params);
 
         setProductList(list.reverse());
         id = setTimeout(() => {
           setLoading(false);
         }, 1000);
-      })();
-    } catch (error) {
-      console.log(error);
-    }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+
     return () => {
       clearTimeout(id);
     };

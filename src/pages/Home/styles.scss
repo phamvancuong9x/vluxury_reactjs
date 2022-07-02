@@ -773,9 +773,11 @@ div[class="featured-products__list"]::after {
   color: #fff;
   padding: 12px 40px;
   transition: all 0.4s linear;
+  opacity: 0;
 }
 .collection-news__image-hover:hover .new_right-info {
   bottom: 0;
+  opacity: 1;
 }
 .featured-products .row {
   max-height: 296px;

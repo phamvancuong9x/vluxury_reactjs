@@ -74,7 +74,7 @@ function HomePage() {
         <Banner bannerSale={homeData.bannerSale} />
         <CollectionList collectionList={homeData.collectionList} />
       </div>
-      <FeaturedProducts />
+      <FeaturedProducts checkDataChange={checkDataChange} />
 
       <CollectionNews checkDataChange={checkDataChange} />
       <MapHome />

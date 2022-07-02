@@ -1,3 +1,11 @@
+export const vender_value_imageObj = {
+  vest: "../assets/image/image_product-detail/vest/thongso_vest1.jpg",
+  somi: "../assets/image/image_product-detail/vendor_value_somi.jpg",
+  quanau: "../assets/image/image_product-detail/vendor_value_quanau.jpg",
+  giay: "../assets/image/image_product-detail/vendor_value_giay.jpg",
+  phukien: "null",
+};
+
 export function getListProduct(Data) {
   const newData = Data?.filter((data, i) => {
     return i < 8;

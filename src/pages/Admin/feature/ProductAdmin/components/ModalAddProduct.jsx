@@ -19,11 +19,13 @@ import BtnLoading from "../../../components/BtnLoading";
 import {
   DocTienBangChu,
   stringToNumberMoney,
+  vender_value_imageObj,
 } from "../../../components/constant";
 import { tabsTypeProduct } from "../../../components/data";
 import getTimeCurrent from "../../../components/getTimeCurrent";
 import { useDispatch } from "react-redux";
 import { WriteDataChange } from "../../../../Checkout/components/constant";
+import { TextAreaProduct } from "./TextAreaProduct";
 
 // Initialize Firebase
 
@@ -65,7 +67,12 @@ function SelectTypeProduct({ typeProduct, setTypeProduct }) {
   );
 }
 
-function TextAreaNew({ titleText, placeholder, onChange }) {
+function TextAreaNew({
+  titleText,
+  placeholder,
+  onChange,
+  className = "news-name",
+}) {
   return (
     <Typography component={"div"} className="col-4">
       <Typography component={"div"} className="news-name-title">
@@ -73,7 +80,7 @@ function TextAreaNew({ titleText, placeholder, onChange }) {
       </Typography>
       <Typography
         component={"textarea"}
-        className="news-name"
+        className={className}
         placeholder={placeholder}
         onChange={(e) => onChange(e)}
       ></Typography>
@@ -86,9 +93,13 @@ function ModalAddProduct({ isChange, setIsChange }) {
   const [loadingConfirm, setLoadingConfirm] = useState(false);
   const [checkUpload, setCheckUpload] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [files, setFiles] = useState();
-  const [urlImage, setUrlImage] = useState();
-  const [urlFirebase, setUrlFirebase] = useState();
+  const [files, setFiles] = useState({
+    file1: null,
+    file2: null,
+  });
+  const [urlImage, setUrlImage] = useState({ url1: null, url2: null });
+  const [urlFirebase1, setUrlFirebase1] = useState();
+  const [urlFirebase2, setUrlFirebase2] = useState();
   const [productDescription, setProductDescription] = useState("");
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
@@ -98,7 +109,8 @@ function ModalAddProduct({ isChange, setIsChange }) {
   const handleClose = () => {
     setProductPrice("");
     setCheckUpload(false);
-    setUrlFirebase(null);
+    setUrlFirebase1(null);
+    setUrlFirebase2(null);
     if (loadingUpload) return;
     setLoadingConfirm(false);
     setOpen(false);
@@ -107,36 +119,42 @@ function ModalAddProduct({ isChange, setIsChange }) {
   };
   const getUrlFirebase = (file, storage) => {
     const storageRef = ref(storage, file?.name);
+
     uploadBytes(storageRef, file).then((snapshot) => {
       getDownloadURL(storageRef).then((url) => {
-        setUrlFirebase(url);
+        if (file === files.file1) {
+          setUrlFirebase1(url);
+        } else {
+          setUrlFirebase2(url);
+        }
       });
     });
   };
   const handleConfirm = () => {
     setLoadingConfirm(true);
     const storage = getStorage();
-    getUrlFirebase(files, storage);
+    getUrlFirebase(files.file1, storage);
+    getUrlFirebase(files.file2, storage);
     setTimeout(() => {
       setLoadingConfirm(false);
     }, 2500);
   };
   const handleUploadImage = async () => {
     setLoadingUpload(true);
-    if (!urlFirebase) return;
+    if (!urlFirebase1 || !urlFirebase2) return;
 
     await categoryApi.add({
       typeProduct: typeProduct,
       name_product: productName,
       priceNumber: productPrice,
       price_product: stringToNumberMoney(productPrice),
-      imageProduct: [urlFirebase, urlFirebase],
+      imageProduct: [urlFirebase1, urlFirebase2],
       article_date: getTimeCurrent(),
       discount_sale: "null",
       describe: productDescription,
       isSale: "false",
       initialPrice: "null",
-      vender_value_image: "null",
+      vender_value_image: vender_value_imageObj[`${typeProduct}`],
     });
     setLoadingUpload(false);
     setCheckUpload(true);
@@ -155,11 +173,18 @@ function ModalAddProduct({ isChange, setIsChange }) {
 
   const handlePreviewAvatar = (e, i) => {
     const file = e.target.files[0];
+
     if (file) {
-      setFiles(file);
+      i === 0
+        ? setFiles({ ...files, file1: file })
+        : setFiles({ ...files, file2: file });
     }
     file.preview = URL.createObjectURL(file);
-    setUrlImage(file.preview);
+    if (i === 0) {
+      setUrlImage({ ...urlImage, url1: file.preview });
+    } else {
+      setUrlImage({ ...urlImage, url2: file.preview });
+    }
   };
   return (
     <div className="ModalAddProduct">
@@ -180,32 +205,39 @@ function ModalAddProduct({ isChange, setIsChange }) {
             sx={{ mt: 2 }}
             className="row "
           >
-            <Typography component={"div"} className="col-4">
-              <Typography component={"div"} className="image-title">
-                {"Ảnh sản phẩm"}
-              </Typography>
-              <Image
-                className={"modals-image"}
-                srcImage={urlImage || "assets/image/admin/NoImage.png"}
-              />
-              <Typography component={"span"} className="btn-add-image">
-                <Input
-                  type="file"
-                  variant="outlined"
-                  color="primary"
-                  onChange={(e) => handlePreviewAvatar(e)}
-                />
-              </Typography>
-              <Typography
-                component={"span"}
-                className="add-image-note"
-              ></Typography>
+            <Typography
+              component={"div"}
+              className="col-8 d-flex justify-content-around"
+            >
+              {Array(2)
+                .fill(null)
+                .map((value, i) => {
+                  return (
+                    <Typography component={"span"} className="col-5" key={i}>
+                      <Typography component={"span"} className="image-title">
+                        {i == 0 ? "Ảnh sản phẩm 1" : "Ảnh sản phẩm 2"}
+                      </Typography>
+                      <Image
+                        className={"modals-image"}
+                        srcImage={
+                          (i === 0 && urlImage?.url1) ||
+                          (i === 1 && urlImage?.url2) ||
+                          "assets/image/admin/NoImage.png"
+                        }
+                      />
+                      <Typography component={"span"} className="btn-add-image">
+                        <Input
+                          type="file"
+                          variant="outlined"
+                          color="primary"
+                          onChange={(e) => handlePreviewAvatar(e, i)}
+                        />
+                      </Typography>
+                    </Typography>
+                  );
+                })}
             </Typography>
-            <TextAreaNew
-              titleText="Mô tả sản phẩm"
-              placeholder={" Nhập mô tả sản phẩm..."}
-              onChange={(e) => setProductDescription(e.target.value)}
-            />
+
             <Typography component={"div"} className="form-field">
               <Typography component={"div"} className="input-container">
                 <TextField
@@ -222,7 +254,7 @@ function ModalAddProduct({ isChange, setIsChange }) {
                   variant="outlined"
                   onChange={(e) => setProductPrice(e.target.value)}
                 />
-                {console.log(productPrice.length)}
+
                 {productPrice.length != 0 && Number.isInteger(+productPrice) && (
                   <>
                     <p className="price-word">
@@ -241,15 +273,20 @@ function ModalAddProduct({ isChange, setIsChange }) {
                 typeProduct={typeProduct}
                 setTypeProduct={setTypeProduct}
               />
+              <TextAreaProduct
+                placeholder={" Nhập mô tả sản phẩm..."}
+                onChange={(e) => setProductDescription(e.target.value)}
+              />
             </Typography>
 
             <Typography component={"span"} className="modal-save">
               {(loadingConfirm && <BtnLoading btnName={"Xác nhận"} />) ||
-                (files &&
-                  productName.trim() != "" &&
-                  productPrice.trim() != "" &&
+                (files?.file1 &&
+                  files?.file2 &&
+                  productName.trim() !== "" &&
+                  productPrice.trim() !== "" &&
                   Number.isInteger(+productPrice) &&
-                  productDescription.trim() != "" && (
+                  productDescription.trim() !== "" && (
                     <Button variant="outlined" onClick={handleConfirm}>
                       Xác nhận
                     </Button>
@@ -259,7 +296,7 @@ function ModalAddProduct({ isChange, setIsChange }) {
                   </Button>
                 )}
               {(loadingUpload && <BtnLoading btnName={"Uploads"} />) ||
-                (urlFirebase && !checkUpload && (
+                (urlFirebase1 && urlFirebase2 && !checkUpload && (
                   <Button variant="outlined" onClick={handleUploadImage}>
                     Uploads
                   </Button>

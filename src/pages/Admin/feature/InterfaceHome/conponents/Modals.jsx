@@ -71,7 +71,7 @@ function Modals({ tabsData, tabs, isChange, setIsChange }) {
 
     uploadBytes(storageRef, file).then((snapshot) => {
       getDownloadURL(storageRef).then((url) => {
-        if (file == files.file1) {
+        if (file === files.file1) {
           setUrlFirebase1(url);
         } else {
           setUrlFirebase2(url);

@@ -798,6 +798,9 @@ div[class="featured-products__list"]::after {
     height: 300px;
     object-fit: cover;
   }
+  .collection-news__image-hover:hover .new_right-info {
+    bottom: 13px;
+  }
 }
 @media (min-width: 1024px) {
   .slider2,
@@ -808,6 +811,9 @@ div[class="featured-products__list"]::after {
   }
   .new_right-info {
     width: calc(100% - 24px);
+  }
+  .collection-news__image-hover:hover .new_right-info {
+    bottom: 22px;
   }
 }
 @media (min-width: 1200px) {

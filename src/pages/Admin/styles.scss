@@ -221,8 +221,9 @@
   position: absolute;
   top: 50%;
   left: -100%;
-  background-color: rgb(93, 92, 92);
+  background-color: #9d9d9d;
   padding-bottom: 15px;
+
   transform: translateY(-50%);
   .confirm-title {
     color: #fff;
@@ -234,6 +235,10 @@
   }
   .confirm-sellect {
     margin-left: 15px;
+  }
+  button:hover {
+    background-color: #1976d2;
+    color: #fff;
   }
 }
 

@@ -44,7 +44,8 @@ function FeaturedProducts() {
         dispatch(
           alertSlice.actions.changeAlertError({
             showAlertError: true,
-            alertContentError: "Mất kết nối internet .Vui lòng kiểm tra lại !",
+            alertContentError:
+              "Mất kết nối tới server .Vui lòng tải lại trang !",
           })
         );
       }

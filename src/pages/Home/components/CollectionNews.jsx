@@ -35,10 +35,21 @@ function CollectionNewsContent({ firstNewLists, NewListsArray }) {
     <div className="row">
       {firstNewLists && (
         <Link
-          className="col-12 col-sm-6 col-md-5 col-lg-6 collection-news__image"
+          className="col-12 col-sm-6 col-md-5 col-lg-6 collection-news__image  collection-news__image-hover"
           to="/news?id=n6"
         >
           <img src={firstNewLists.image} alt={firstNewLists.name} />
+          <div className="new_right-info">
+            <div className="collection-news__item-title">
+              {firstNewLists.name}
+            </div>
+            <div className="article-all-info">
+              <div className="article-date">
+                <i className="fas fa-calendar-alt"></i>
+                <span>{firstNewLists.article_date}</span>
+              </div>
+            </div>
+          </div>
         </Link>
       )}
 
@@ -53,7 +64,7 @@ function CollectionNewsContent({ firstNewLists, NewListsArray }) {
     </div>
   );
 }
-function CollectionNews() {
+function CollectionNews({ checkDataChange }) {
   const dispatch = useDispatch();
   const [newsList, setNewsList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -77,7 +88,7 @@ function CollectionNews() {
         );
       }
     })();
-  }, []);
+  }, [checkDataChange]);
 
   const [firstNewLists, ...NewListsArray] = newsList;
   return (

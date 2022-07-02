@@ -23,7 +23,7 @@ function TabItem({ tabActivity, tabName, setTapActivity }) {
   );
 }
 
-function FeaturedProducts() {
+function FeaturedProducts({ checkDataChange }) {
   const dispatch = useDispatch();
   const tabs = ["Bộ Vest mới", "Bán chạy", "Khuyến mãi"];
   const [tabActivity, setTapActivity] = useState("Bộ Vest mới");
@@ -50,7 +50,7 @@ function FeaturedProducts() {
         );
       }
     })();
-  }, []);
+  }, [checkDataChange]);
 
   let productArray;
   if (tabActivity === tabs[0]) {

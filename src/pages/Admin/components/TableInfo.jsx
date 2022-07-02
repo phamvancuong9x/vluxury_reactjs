@@ -6,6 +6,7 @@ import homeApi from "../../../api/homeApi";
 import newApi from "../../../api/newsApi";
 import Image from "../../../components/Image";
 import alertSlice from "../../../redux/slice/alertSlice";
+import { WriteDataChange } from "../../Checkout/components/constant";
 import BtnLoading from "./BtnLoading";
 import { Confirm } from "./Confirm";
 import { getListProduct } from "./constant";
@@ -31,6 +32,7 @@ function TableInfo({ type, Data, isChange, setIsChange, children }) {
             alertContent: "Xóa thành công",
           })
         );
+        WriteDataChange(true);
       }, 700);
     }
   };

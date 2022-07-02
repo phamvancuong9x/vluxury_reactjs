@@ -19,9 +19,9 @@ function CollectionNewsContentSkeleton() {
           <div className="row">
             {Array(4)
               .fill(null)
-              .map((newsItem, i) => {
+              .map((value, i) => {
                 return (
-                  <>
+                  <React.Fragment key={i}>
                     <div className="col-3">
                       <Skeleton
                         animation="wave"
@@ -40,7 +40,7 @@ function CollectionNewsContentSkeleton() {
                         style={{ marginTop: 20 }}
                       />
                     </div>
-                  </>
+                  </React.Fragment>
                 );
               })}
           </div>

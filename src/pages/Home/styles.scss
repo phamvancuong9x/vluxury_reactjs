@@ -764,6 +764,19 @@ div[class="featured-products__list"]::after {
 /* resposive */
 
 /* destop */
+.new_right-info {
+  position: absolute;
+  bottom: -200px;
+  z-index: 5;
+  background: #807676b8;
+  width: calc(100% - 16px);
+  color: #fff;
+  padding: 12px 40px;
+  transition: all 0.4s linear;
+}
+.collection-news__image-hover:hover .new_right-info {
+  bottom: 0;
+}
 .featured-products .row {
   max-height: 296px;
 
@@ -792,6 +805,9 @@ div[class="featured-products__list"]::after {
     width: 100%;
     height: 400px;
     object-fit: cover;
+  }
+  .new_right-info {
+    width: calc(100% - 24px);
   }
 }
 @media (min-width: 1200px) {
@@ -1063,7 +1079,7 @@ div[class="featured-products__list"]::after {
     min-height: 110px;
   }
   .collection-news__image {
-    padding-bottom: 16px;
+    margin-bottom: 16px;
   }
   .footer__contact,
   .footer__support,

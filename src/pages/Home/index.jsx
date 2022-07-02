@@ -4,6 +4,10 @@ import { useDispatch } from "react-redux";
 import homeApi from "../../api/homeApi";
 import Loading from "../../components/Loading";
 import alertSlice from "../../redux/slice/alertSlice";
+import {
+  WriteDataChange,
+  WriteUserData,
+} from "../Checkout/components/constant";
 import Banner from "./components/Banner";
 import CollectionList from "./components/CollectionList";
 import CollectionNews from "./components/CollectionNews";
@@ -13,6 +17,7 @@ import SliderHome from "./components/SliderHome";
 import "./styles.scss";
 
 function HomePage() {
+  const db = getDatabase();
   const dispatch = useDispatch();
   const initHomeDate =
     (!!sessionStorage.getItem("homeData") &&
@@ -20,9 +25,17 @@ function HomePage() {
     {};
   const [homeData, setHomeData] = useState(initHomeDate);
   const [loading, setLoading] = useState(true);
+  const [checkDataChange, setCheckDataChange] = useState(false);
+  useEffect(() => {
+    onValue(ref(db, "dataChange/"), (snapshot) => {
+      const data1 = snapshot.val();
+      if (!data1) return;
+      setCheckDataChange(data1);
+    });
+  }, []);
 
   useEffect(() => {
-    if (!!sessionStorage.getItem("homeData")) {
+    if (!!sessionStorage.getItem("homeData") && checkDataChange === false) {
       setLoading(false);
       return;
     }
@@ -32,7 +45,8 @@ function HomePage() {
         const newDataHome = { ...homeData, slider, bannerSale, collectionList };
         setHomeData(newDataHome);
         sessionStorage.setItem("homeData", JSON.stringify(newDataHome));
-
+        WriteDataChange(false);
+        setCheckDataChange(false);
         setTimeout(() => {
           setLoading(false);
         }, 200);
@@ -48,7 +62,7 @@ function HomePage() {
         );
       }
     })();
-  }, []);
+  }, [checkDataChange]);
 
   return (
     <div className="content">
@@ -62,7 +76,7 @@ function HomePage() {
       </div>
       <FeaturedProducts />
 
-      <CollectionNews />
+      <CollectionNews checkDataChange={checkDataChange} />
       <MapHome />
     </div>
   );

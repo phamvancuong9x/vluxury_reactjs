@@ -39,6 +39,9 @@ export const tabs = ["infoShip", "payMethod", "modalActive"];
 export function WriteUserData(id, data) {
   set(ref(db, "user/" + id), data);
 }
+export function WriteDataChange(data) {
+  set(ref(db, "dataChange/"), data);
+}
 export function WriteOrderData(id, data) {
   set(ref(db, "order/" + id), data);
 }

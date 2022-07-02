@@ -11,6 +11,7 @@ import alertSlice from "../../../../../redux/slice/alertSlice";
 import BtnLoading from "../../../components/BtnLoading";
 import getTimeCurrent from "../../../components/getTimeCurrent";
 import { useDispatch } from "react-redux";
+import { WriteDataChange } from "../../../../Checkout/components/constant";
 
 // Initialize Firebase
 
@@ -94,7 +95,7 @@ function ModalNews({ isChange, setIsChange }) {
     setLoadingUpload(false);
     setCheckUpload(true);
     setIsChange(!isChange);
-
+    WriteDataChange(true);
     if (!loadingConfirm) {
       handleClose();
       dispatch(

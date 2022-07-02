@@ -23,6 +23,7 @@ import {
 import { tabsTypeProduct } from "../../../components/data";
 import getTimeCurrent from "../../../components/getTimeCurrent";
 import { useDispatch } from "react-redux";
+import { WriteDataChange } from "../../../../Checkout/components/constant";
 
 // Initialize Firebase
 
@@ -114,7 +115,6 @@ function ModalAddProduct({ isChange, setIsChange }) {
   };
   const handleConfirm = () => {
     setLoadingConfirm(true);
-    // const files = file.current.file[0];
     const storage = getStorage();
     getUrlFirebase(files, storage);
     setTimeout(() => {
@@ -141,6 +141,7 @@ function ModalAddProduct({ isChange, setIsChange }) {
     setLoadingUpload(false);
     setCheckUpload(true);
     setIsChange(!isChange);
+    WriteDataChange(true);
     setTimeout(() => {
       handleClose();
       dispatch(

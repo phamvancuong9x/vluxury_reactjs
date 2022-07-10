@@ -8,6 +8,8 @@
 .slider_desktop {
   min-height: 470px;
   object-fit: cover;
+  width: 100%;
+  height: calc(100vw / 2.54);
 }
 .banner__image > img {
   min-height: 300px;
@@ -1108,7 +1110,10 @@ div[class="featured-products__list"]::after {
     display: none !important;
   }
   .slider_mobile {
+    min-height: 296px;
     display: block !important;
+    width: 100%;
+    height: calc(100vw / 1.081);
   }
 
   .textslider {

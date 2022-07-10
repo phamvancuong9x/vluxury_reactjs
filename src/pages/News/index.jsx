@@ -22,8 +22,8 @@ function News() {
   const { newsLists, productLists } = JSON.parse(
     sessionStorage.getItem("news") || "{}"
   );
+  
   const [idNewDetail, setIdNewDetail] = useState(Object.values(params));
-
   const [newDetail, setNewDetail] = useState();
   const [newsList, setNewsList] = useState(newsLists || []);
   const [productList, setProductList] = useState(productLists || []);

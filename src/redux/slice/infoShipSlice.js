@@ -7,7 +7,7 @@ const infoShipSlice = createSlice({
     nameUser: userInfo?.nameUser || "",
     email: userInfo?.email || "",
     phone: userInfo?.phone || "",
-    address: "",
+    address: userInfo?.address || "",
     payMethod: "Thanh toán khi giao hàng (COD)",
     totalPrice: "",
   },

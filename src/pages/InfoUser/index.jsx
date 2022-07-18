@@ -1,11 +1,32 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import alertSlice from "../../redux/slice/alertSlice";
+import infoShipSlice from "../../redux/slice/infoShipSlice";
+import userSlice from "../../redux/slice/userSlice";
 import "./styles.scss";
 
 function InfoUser() {
   const UserInfo = useSelector((state) => state.users);
-
   const [email, setEmail] = useState(UserInfo.email);
+  const [phone, setPhone] = useState(UserInfo.phone);
+  const [address, setAddress] = useState(UserInfo.address);
+  const dispatch = useDispatch();
+  const handleUpdate = () => {
+    dispatch(
+      infoShipSlice.actions.changeInfoShip({
+        email,
+        phone,
+        address,
+      })
+    );
+    dispatch(userSlice.actions.changeUserInfo({ email, phone, address }));
+    dispatch(
+      alertSlice.actions.changeAlert({
+        showAlert: true,
+        alertContent: "Cập nhật thành công !",
+      })
+    );
+  };
   return (
     <div className="container container-userInfo">
       <div className="row">
@@ -73,7 +94,13 @@ function InfoUser() {
                       <span className="phone__title">Số điện thoại</span>
                     </label>
                     <div className="col-12 col-sm-8">
-                      <input id="phone" type="text" name="" />
+                      <input
+                        id="phone"
+                        type="text"
+                        name=""
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
                     </div>
                   </div>
                   <div className="data-item row">
@@ -81,13 +108,21 @@ function InfoUser() {
                       <span className="address__title">Địa chỉ</span>
                     </label>
                     <div className="col-12 col-sm-8">
-                      <input id="address" type="text" name="address" />
+                      <input
+                        id="address"
+                        type="text"
+                        name="address"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
                     </div>
                   </div>
 
                   <div className="data-item row">
                     <div className="col-lg-12">
-                      <div className="btn__save">Cập nhật</div>
+                      <div className="btn__save" onClick={handleUpdate}>
+                        Cập nhật
+                      </div>
                     </div>
                   </div>
                 </form>

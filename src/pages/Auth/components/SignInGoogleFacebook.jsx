@@ -49,7 +49,14 @@ function SignInGoogleFaceBook({ switchPage }) {
           const nameUser = await user.displayName;
           const imageUser = await user.photoURL;
           const email = await user.email;
-          const userInfo = { id, nameUser, imageUser, email };
+          const userInfo = {
+            id,
+            nameUser,
+            imageUser,
+            email,
+            phone: "",
+            address: "",
+          };
           sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
           sessionStorage.setItem("showInfoLogin", true);
           if (switchPage === null) {

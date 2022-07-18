@@ -95,6 +95,8 @@ function Login({ switchPage, setCheckAuth, setCheckLogin }) {
           id: accounts.id,
           nameUser: accounts.name,
           email: accounts.email,
+          phone: "",
+          address: "",
         };
         sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
         setLoading(false);

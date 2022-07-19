@@ -187,8 +187,10 @@
   img {
     padding: 15px 0;
     min-height: 130px;
+    max-width: 220px;
     max-height: 250px;
-    object-fit: contain;
+    object-fit: cover;
+    margin: auto;
   }
   th:first-child,
   td:first-child {

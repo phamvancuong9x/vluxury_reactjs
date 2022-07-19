@@ -13,6 +13,9 @@
 }
 .banner__image > img {
   min-height: 300px;
+  max-height: 420px;
+  width: 100% !important;
+  object-fit: cover;
 }
 .textslider {
   min-height: 0px;

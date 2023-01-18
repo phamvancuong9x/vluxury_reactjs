@@ -1,11 +1,13 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "https://api-json-sever3.herokuapp.com/api/",
+  baseURL: "https://json-server-vluxury.vercel.app/",
   headers: {
     "content-Type": "application/json",
   },
 });
+
+// https://api-json-sever3.herokuapp.com/api/
 
 // Interceptors
 
